@@ -1124,51 +1124,47 @@ static void CreateAddressBookAsync(TGAddressBookCreated createdBlock)
     });
 }
 
-#pragma mark -
-
+#pragma mark - 上传联系人列表到服务器
 - (void)processRemoveAndExportActions{
     
-    
-    NSMutableArray *removeUids = [[NSMutableArray alloc] init];
+    NSMutableArray *removeUids    = [[NSMutableArray alloc] init];
     NSArray *removeContactActions = [TGDatabaseInstance() loadFutureActionsWithType:TGRemoveContactFutureActionType];
+    
     for (TGRemoveContactFutureAction *action in removeContactActions){
         
         [removeUids addObject:[[NSNumber alloc] initWithInt:[action uid]]];
     }
     
-    if (removeUids.count != 0)
-    {
-        _currentActionIds = removeUids;
+    if (removeUids.count != 0){
         
+        _currentActionIds = removeUids;
         self.cancelToken = [TGTelegraphInstance doDeleteContacts:removeUids actor:self];
-    }
-    else
-    {
+        
+    }else{
+        
         NSArray *exportContactActions = [TGDatabaseInstance() loadFutureActionsWithType:TGExportContactFutureActionType];
-        if (exportContactActions.count == 0)
-        {
-            [self completeAction:true];
+        if (exportContactActions.count == 0){
             
+            [self completeAction:true];
             return;
         }
         
         const int maxExportCount = 300;
-        
         NSMutableArray *contactsToExport = [[NSMutableArray alloc] init];
         NSMutableArray *exportActionIds  = [[NSMutableArray alloc] init];
-        
         int currentNumberOfExportActions = 0;
-        
-        for (TGExportContactFutureAction *action in exportContactActions)
-        {
+        for (TGExportContactFutureAction *action in exportContactActions){
+            
             TGContactBinding *binding = [TGDatabaseInstance() contactBindingWithId:[action contactId]];
+            
             if (binding == nil)
+                
                 [TGDatabaseInstance() removeFutureAction:action.uniqueId type:action.type randomId:action.randomId];
-            else
-            {
+            
+            else{
+                
                 [exportActionIds addObject:[[NSNumber alloc] initWithInt:binding.phoneId]];
                 [contactsToExport addObject:binding];
-                
                 currentNumberOfExportActions++;
                 
                 if (currentNumberOfExportActions > maxExportCount)
@@ -1177,15 +1173,13 @@ static void CreateAddressBookAsync(TGAddressBookCreated createdBlock)
         }
         
         _currentActionIds = exportActionIds;
-        
-        if (contactsToExport.count == 0)
-        {
-            [self completeAction:true];
+        if (contactsToExport.count == 0){
             
+            [self completeAction:true];
             return;
-        }
-        else
-        {
+            
+        }else{
+            
             self.cancelToken = [TGTelegraphInstance doExportContacts:contactsToExport requestBuilder:self];
         }
     }
