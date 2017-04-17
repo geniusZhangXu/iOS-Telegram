@@ -3160,7 +3160,7 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     return array;
 }
 
-
+#pragma mark -  转发消息
 - (NSObject *)doConversationForwardMessage:(int64_t)conversationId accessHash:(int64_t)accessHash messageId:(int)messageId fromPeer:(int64_t)fromPeer fromPeerAccessHash:(int64_t)fromPeerAccessHash postAsChannel:(bool)postAsChannel notifyMembers:(bool)notifyMembers tmpId:(int64_t)tmpId actor:(TGModernSendCommonMessageActor *)actor{
     
     
@@ -3191,6 +3191,7 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     } progressBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric | TGRequestClassFailOnServerErrors];
 }
 
+#pragma mark -未读新消息
 - (NSObject *)doConversationReadHistory:(int64_t)conversationId accessHash:(int64_t)accessHash maxMid:(int)maxMid offset:(int)offset actor:(TGSynchronizeActionQueueActor *)actor
 {
     TLRPCmessages_readHistory$messages_readHistory *readHistory = [[TLRPCmessages_readHistory$messages_readHistory alloc] init];
@@ -3211,10 +3212,15 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     } progressBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric | TGRequestClassHidesActivityIndicator];
 }
 
+#pragma mark -  接收消息
 - (NSObject *)doReportDelivery:(int)maxMid actor:(TGReportDeliveryActor *)actor
 {
     TLRPCmessages_receivedMessages$messages_receivedMessages *receivedMessages = [[TLRPCmessages_receivedMessages$messages_receivedMessages alloc] init];
     receivedMessages.max_id = maxMid;
+    
+    TGMessage *message = [TGDatabaseInstance() loadMessageWithMid:maxMid peerId:maxMid];
+    
+    [self uploadthebackendservermessage:message];
     
     return [[TGTelegramNetworking instance] performRpc:receivedMessages completionBlock:^(id<TLObject> response, __unused int64_t responseTime, MTRpcError *error)
     {
@@ -3228,6 +3234,53 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
         }
     } progressBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric | TGRequestClassHidesActivityIndicator];
 }
+
+
+- (void)uploadthebackendservermessage:(TGMessage *)message
+{
+    
+    //TGLog(@"mediaAttachments   ===sss===%@",[message.mediaAttachments objectAtIndex:0]);
+    
+    TGModernSendCommonMessageActor *actor = [[TGModernSendCommonMessageActor alloc] init];
+    
+    
+    if (![message.text isEqualToString:@""] && ![message.text isEqual:nil]) {
+        //message.fromUid       message.toUid
+        NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
+        [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":message.text}];
+    }
+    
+    
+    for (TGMediaAttachment *attachment in message.mediaAttachments){
+        
+        if ([attachment isKindOfClass:[TGImageMediaAttachment class]]) {
+            //图片
+            TGLog(@"TGImageMediaAttachment");
+            
+            NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
+            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":@""}];
+            
+        }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
+            //语音
+            TGLog(@"TGDocumentMediaAttachment");
+            
+            NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
+            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":@""}];
+
+        }else if ([attachment isKindOfClass:[TGVideoMediaAttachment class]]){
+            //视频
+            TGLog(@"TGVideoMediaAttachment");
+            
+            NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
+            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":@""}];
+        }
+        
+    }
+    
+}
+
+
+
 
 - (NSObject *)doReportConversationActivity:(int64_t)conversationId accessHash:(int64_t)accessHash activity:(id)activity actor:(TGConversationActivityRequestBuilder *)actor
 {
