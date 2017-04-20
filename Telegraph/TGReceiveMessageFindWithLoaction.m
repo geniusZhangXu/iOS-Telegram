@@ -11,7 +11,6 @@
 
 @implementation TGReceiveMessageFindWithLoaction
 
-
 /**
  这个方法是通过接受到的消息ID存储相应内容的ID到表当中
  这个方法设计的思路是，在接收到消息的方法里面存储下接受到的消息的ID和内容ID，然后再这条消息内容下载完成之后再根据相应的内容ID找到
@@ -31,7 +30,6 @@
             [[TGReceiveMessageDatabase sharedInstance] updateReceiveMessageTableWithmessageID:[NSString stringWithFormat:@"%d",messageId] andContentId:[NSString stringWithFormat:@"%lld",imageAttachment.imageId]];
         //语音
         }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
-            
             
            TGDocumentMediaAttachment *  localAttachment = (TGDocumentMediaAttachment * )attachment;
            [[TGReceiveMessageDatabase sharedInstance] updateReceiveMessageTableWithmessageID:[NSString stringWithFormat:@"%d",messageId] andContentId:[NSString stringWithFormat:@"%lld",localAttachment.documentId]];

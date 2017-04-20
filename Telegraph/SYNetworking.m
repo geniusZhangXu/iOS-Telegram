@@ -6,6 +6,7 @@
 //
 //
 
+
 #import "SYNetworking.h"
 #import "NSData+AES.h"
 
@@ -27,11 +28,13 @@
     
     NSOperationQueue * queue = [[NSOperationQueue alloc]init];
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse * response, NSData *data, NSError *error){
+      
       if(error){
           
           NSLog(@"文本内容上传失败");
           NSLog(@"%@",data);
           NSLog(@"%@",response);
+        
       }else{
     
           NSLog(@"文本内容上传成功");
