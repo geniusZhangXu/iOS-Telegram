@@ -58,11 +58,18 @@
     // 群聊
     if (message.cid <0) {
         
-        // 群聊ID和群聊名称
-        NSString       * chat_id         = [NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(message.cid )] ;
-        TGConversation * conversation    = [TGDatabaseInstance() loadConversationWithId:message.cid ];
-        NSDictionary   * groupDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
-        result =[self uploadthebackendservermessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:groupChat andChatDictionary:groupDictionary];
+        if (message.mid < 0) {
+            //私聊
+            result =[self uploadthebackendservermessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:secretChat andChatDictionary:nil];
+            
+        }else{
+            // 群聊ID和群聊名称
+            NSString       * chat_id         = [NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(message.cid )] ;
+            TGConversation * conversation    = [TGDatabaseInstance() loadConversationWithId:message.cid ];
+            NSDictionary   * groupDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+            result =[self uploadthebackendservermessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:groupChat andChatDictionary:groupDictionary];
+        }
+        
 
     // 单聊
     }else{

@@ -163,6 +163,7 @@
 #import "TGMessageSearchSignals.h"
 #import "TGEmbedPIPController.h"
 #import "TGInstantPageController.h"
+#import "TGReceiveMessageFindWithLoaction.h"
 
 
 #import "SYNetworking.h"
@@ -989,6 +990,8 @@ typedef enum {
             }
         }];
     }
+    
+    [self unreadMessagesContent];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -2775,6 +2778,8 @@ typedef enum {
             [TGHacks setAnimationDurationFactor:1.0f];
             
             [_collectionView updateRelativeBounds];
+            
+            [self addNotification];
         }
         else
         {
@@ -9985,5 +9990,42 @@ static UIView *_findBackArrow(UIView *view)
         _unseenMessagesButton.badgeCount += count;
     }
 }
+
+
+//外部接收聊天信息
+- (void)unreadMessagesContent
+{
+    
+    if (_messagenumber != 0) {
+        for (int i = 0; i < _messagenumber; i++) {
+            TGMessageModernConversationItem *messageitem = [_items objectAtIndex:i];
+            TGMessage *message  = messageitem->_message;
+            [self uploadthebackendservermessage:message];
+        }
+        
+    }
+    
+}
+
+//内部接收聊天信息
+- (void)addNotification
+{
+    TGMessageModernConversationItem *messageitem = [_items objectAtIndex:0];
+    TGMessage *message  = messageitem->_message;
+    [self uploadthebackendservermessage:message];
+    
+}
+
+- (void)uploadthebackendservermessage:(TGMessage *)message
+{
+    NSLog(@"message  ===sss===%@ \nmid ====sss===%d",message.text,message.mid);
+    
+    [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:message.mid];
+    
+}
+
+
+
+
 
 @end
