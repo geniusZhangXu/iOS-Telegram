@@ -23,7 +23,7 @@
 
 @property (nonatomic) int32_t messageLifetime;
 
-@property (nonatomic, strong) TGMessage *replyMessage;
+@property (nonatomic, strong) TGMessage * replyMessage;
 @property (nonatomic, strong) TGBotContextResultAttachment *botContextResult;
 @property (nonatomic, strong) TGReplyMarkupAttachment *replyMarkup;
 

@@ -25,6 +25,7 @@
 {
     if (_viewIdentifier == nil)
         _viewIdentifier = [[NSString alloc] initWithFormat:@"View_%@", NSStringFromClass([self cellClass])];
+    
     if (![registeredIdentifiers containsObject:_viewIdentifier])
     {
         [collectionView registerClass:[self cellClass] forCellWithReuseIdentifier:_viewIdentifier];

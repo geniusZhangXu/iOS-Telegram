@@ -7,14 +7,10 @@
  */
 
 #import "TGModernRemoteWallpaperListActor.h"
-
 #import "ActionStage.h"
-
 #import "TL/TLMetaScheme.h"
 #import "TGTelegraph.h"
-
 #import "TGImageInfo+Telegraph.h"
-
 #import "TGRemoteWallpaperInfo.h"
 
 static bool alreadyCachedList = false;

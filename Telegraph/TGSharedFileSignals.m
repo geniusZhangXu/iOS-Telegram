@@ -75,13 +75,17 @@
 }
 
 - (void)dealloc {
+    
     [_actionHandle reset];
     [ActionStageInstance() removeWatcher:self];
 }
 
 - (void)actorMessageReceived:(NSString *)__unused path messageType:(NSString *)messageType message:(id)message {
+    
     if ([messageType isEqualToString:@"progress"]) {
+        
         _progress([message floatValue]);
+        
     }
 }
 

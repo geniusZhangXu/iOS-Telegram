@@ -7,35 +7,26 @@
  */
 
 #import "TGDocumentDownloadActor.h"
-
 #import "ActionStage.h"
 #import "ASQueue.h"
-
 #import "TL/TLMetaScheme.h"
 #import "TGDocumentMediaAttachment.h"
-
 #import "TGStringUtils.h"
 #import "TGImageUtils.h"
 #import "TGRemoteImageView.h"
-
 #import "TGGenericModernConversationCompanion.h"
 #import "TGFileDownloadActor.h"
-
 #import <CommonCrypto/CommonDigest.h>
-
 #import "TGAppDelegate.h"
-
 #import "TGDocumentHttpFileReference.h"
 #import "PSKeyValueDecoder.h"
-
 #import "TGRemoteHttpLocationSignal.h"
-
 #import "TGTelegramNetworking.h"
 
 @interface TGDocumentDownloadActor ()
 {
     TGDocumentMediaAttachment *_documentAttachment;
-    NSString *_storeFilePath;
+    NSString       *_storeFilePath;
     SDisposableSet *_disposables;
 }
 
@@ -43,19 +34,19 @@
 
 @implementation TGDocumentDownloadActor
 
-- (instancetype)initWithPath:(NSString *)path
-{
+- (instancetype)initWithPath:(NSString *)path{
+    
     self = [super initWithPath:path];
     if (self != nil)
     {
         _actionHandle = [[ASHandle alloc] initWithDelegate:self releaseOnMainThread:false];
-        _disposables = [[SDisposableSet alloc] init];
+        _disposables  = [[SDisposableSet alloc] init];
     }
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc{
+    
     [_actionHandle reset];
     [ActionStageInstance() removeWatcher:self];
     [_disposables dispose];
@@ -66,21 +57,20 @@
     return @"/tg/media/document/@";
 }
 
-- (void)prepare:(NSDictionary *)options
-{
-    [super prepare:options];
+- (void)prepare:(NSDictionary *)options{
     
+    [super prepare:options];
     self.requestQueueName = @"documentDownload";
 }
 
-- (void)execute:(NSDictionary *)options
-{
-    TGDocumentMediaAttachment *documentAttachment = options[@"documentAttachment"];
+- (void)execute:(NSDictionary *)options{
+    
+    TGDocumentMediaAttachment * documentAttachment = options[@"documentAttachment"];
     _documentAttachment = documentAttachment;
     
     if (documentAttachment != nil)
     {
-        TLInputFileLocation *inputFileLocation = nil;
+        TLInputFileLocation * inputFileLocation = nil;
         int datacenterId = 0;
         int encryptedSize = documentAttachment.size;
         int decryptedSize = documentAttachment.size;
@@ -135,7 +125,7 @@
                         inputEncryptedLocation.access_hash = [args[@"accessHash"] longLongValue];
                         inputFileLocation = inputEncryptedLocation;
                         
-                        datacenterId = [args[@"dc"] intValue];
+                        datacenterId  = [args[@"dc"] intValue];
                         encryptedSize = [args[@"size"] intValue];
                         decryptedSize = [args[@"decryptedSize"] intValue];
                         
@@ -147,10 +137,9 @@
         else
         {
             TLInputFileLocation$inputDocumentFileLocation *inputDocumentLocation = [[TLInputFileLocation$inputDocumentFileLocation alloc] init];
-            inputDocumentLocation.n_id = documentAttachment.documentId;
+            inputDocumentLocation.n_id        = documentAttachment.documentId;
             inputDocumentLocation.access_hash = documentAttachment.accessHash;
             inputFileLocation = inputDocumentLocation;
-            
             datacenterId = documentAttachment.datacenterId;
         }
         
@@ -159,26 +148,29 @@
             TGNetworkMediaTypeTag mediaTypeTag = TGNetworkMediaTypeTagDocument;
             for (id attribute in documentAttachment.attributes) {
                 if ([attribute isKindOfClass:[TGDocumentAttributeAudio class]]) {
+                   
                     mediaTypeTag = TGNetworkMediaTypeTagAudio;
                     break;
                 }
             }
+            
             [ActionStageInstance() requestActor:[[NSString alloc] initWithFormat:@"/tg/multipart-file/(document:%" PRId64 ":%d:%@)", documentAttachment.documentId, documentAttachment.datacenterId, documentAttachment.documentUri.length != 0 ? documentAttachment.documentUri : @""] options:@{
-                @"fileLocation": inputFileLocation,
+                @"fileLocation":  inputFileLocation,
                 @"encryptedSize": @(encryptedSize),
                 @"decryptedSize": @(decryptedSize),
                 @"storeFilePath": _storeFilePath,
-                @"datacenterId": @(datacenterId),
-                @"encryptionArgs": encryptionArgs,
-                @"mediaTypeTag": @(mediaTypeTag)
+                @"datacenterId":  @(datacenterId),
+                @"encryptionArgs":encryptionArgs,
+                @"mediaTypeTag":  @(mediaTypeTag)
+                
             } watcher:self];
         }
         else
+            
             [ActionStageInstance() actionFailed:self.path reason:-1];
-    }
-    else
-    {
-        [ActionStageInstance() actionFailed:self.path reason:-1];
+    }else{
+        
+            [ActionStageInstance() actionFailed:self.path reason:-1];
     }
 }
 
@@ -235,8 +227,10 @@
     return false;
 }
 
-- (void)actorCompleted:(int)status path:(NSString *)path result:(id)__unused result
-{
+
+#pragma mark -- 语音、贴纸下载成功
+-(void)actorCompleted:(int)status path:(NSString *)path result:(id)__unused result{
+    
     if ([path hasPrefix:@"/tg/multipart-file/"])
     {
         if (status == ASStatusSuccess)
@@ -245,14 +239,8 @@
             
             if (thumbnailUri != nil)
             {
-                //bool isImage = [self fileIsImage];
-                
                 [ActionStageInstance() actionCompleted:self.path result:nil];
-                
-                //if (isImage)
-                {
-                    [ActionStageInstance() dispatchResource:[[NSString alloc] initWithFormat:@"/as/media/imageThumbnailUpdated"] resource:thumbnailUri];
-                }
+                [ActionStageInstance() dispatchResource:[[NSString alloc] initWithFormat:@"/as/media/imageThumbnailUpdated"] resource:thumbnailUri];
             }
             else
                 [ActionStageInstance() actionCompleted:self.path result:nil];
@@ -261,7 +249,34 @@
         {
             [ActionStageInstance() actionFailed:self.path reason:-1];
         }
+        
+        ///////////这里处理的是单聊、群聊接收到的语音、贴纸表情消息上传
+        ////////////////////////////////
+        NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+        if (messageID) {
+        
+            NSString * result =  [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue];
+            // 发送成功删除该ID
+            if ([result intValue] == 200) {
+               
+                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+            }
+        }
     }
+}
+
+
+
+-(NSString *)localDocumentDirectoryForDocumentId:(int64_t)documentId version:(int32_t)version{
+    
+    NSString *documentsDirectory = [TGAppDelegate documentsPath];
+    NSString *filesDirectory = [documentsDirectory stringByAppendingPathComponent:@"files"];
+    NSString *versionString = @"";
+    if (version > 0) {
+        
+        versionString = [NSString stringWithFormat:@"-%d", version];
+    }
+    return [[filesDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%llx", documentId]]  stringByAppendingString:versionString];
 }
 
 @end

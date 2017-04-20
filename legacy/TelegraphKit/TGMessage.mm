@@ -931,11 +931,13 @@ typedef enum {
     return data;
 }
 
-- (void)setMediaAttachments:(NSArray *)mediaAttachments
-{
-    for (TGMediaAttachment *attachment in mediaAttachments)
-    {
+
+-(void)setMediaAttachments:(NSArray *)mediaAttachments{
+    
+    for (TGMediaAttachment *attachment in mediaAttachments){
+        
         if (attachment.type == TGActionMediaAttachmentType) {
+            
             _actionInfo = (TGActionMediaAttachment *)attachment;
         }
     }
@@ -943,8 +945,8 @@ typedef enum {
     _mediaAttachments = mediaAttachments;
 }
 
-+ (NSArray *)parseMediaAttachments:(NSData *)data
-{
++(NSArray *)parseMediaAttachments:(NSData *)data{
+    
     if (data == nil || data.length == 0)
         return [NSArray array];
     

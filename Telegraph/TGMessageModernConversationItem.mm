@@ -1,9 +1,6 @@
 #import "TGMessageModernConversationItem.h"
-
 #import "NSObject+TGLock.h"
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGUser.h"
 #import "TGMessage.h"
 #import "TGMessageViewModel.h"
@@ -19,19 +16,13 @@
 #import "TGStickerMessageViewModel.h"
 #import "TGMusicAudioMessageModel.h"
 #import "TGHoleMessageViewModel.h"
-
 #import "TGPreparedLocalDocumentMessage.h"
-
 #import "TGTextMessageModernViewModel.h"
-
 #import "TGModernCollectionCell.h"
-
 #import "TGInterfaceAssets.h"
 #import "TGImageUtils.h"
-
 #import <map>
 #import <CommonCrypto/CommonDigest.h>
-
 #import "TGConversation.h"
 #import "TGModernViewContext.h"
 

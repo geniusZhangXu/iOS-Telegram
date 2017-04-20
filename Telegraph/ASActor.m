@@ -108,12 +108,13 @@ static int instanceCount = 0;
     [_multipleCancelTokens addObject:token];
 }
 
-- (void)handleRequestProblem
-{
+- (void)handleRequestProblem{
+    
 }
 
-- (void)watcherJoined:(ASHandle *)__unused watcherHandle options:(NSDictionary *)__unused options waitingInActorQueue:(bool)__unused waitingInActorQueue
-{
+- (void)watcherJoined:(ASHandle *)__unused watcherHandle options:(NSDictionary *)__unused options waitingInActorQueue:(bool)__unused waitingInActorQueue{
+    
+    
 }
 
 @end

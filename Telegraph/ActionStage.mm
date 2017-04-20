@@ -23,10 +23,8 @@ static volatile OSSpinLock removeWatcherFromPathRequestsLock = OS_SPINLOCK_INIT;
 }
 
 @property (nonatomic, strong) NSMutableDictionary *requestQueues;
-
 @property (nonatomic, strong) NSMutableDictionary *activeRequests;
 @property (nonatomic, strong) NSMutableDictionary *cancelRequestTimers;
-
 @property (nonatomic, strong) NSMutableDictionary *liveNodeWatchers;
 @property (nonatomic, strong) NSMutableDictionary *actorMessagesWatchers;
 
@@ -50,12 +48,10 @@ ActionStage *ActionStageInstance()
 
 #pragma mark - Implemetation
 
-@synthesize requestQueues = _requestQueues;
-
-@synthesize activeRequests = _activeRequests;
-@synthesize cancelRequestTimers = _cancelRequestTimers;
-
-@synthesize liveNodeWatchers = _liveNodeWatchers;
+@synthesize requestQueues         = _requestQueues;
+@synthesize activeRequests        = _activeRequests;
+@synthesize cancelRequestTimers   = _cancelRequestTimers;
+@synthesize liveNodeWatchers      = _liveNodeWatchers;
 @synthesize actorMessagesWatchers = _actorMessagesWatchers;
 
 - (id)init
@@ -278,6 +274,7 @@ ActionStage *ActionStageInstance()
     NSString *genericPath = [[NSString alloc] initWithCharacters:newPath length:newLength];
     return genericPath;
 }
+
 
 - (void)_requestGeneric:(bool)joinOnly inCurrentQueue:(bool)inCurrentQueue path:(NSString *)path options:(NSDictionary *)options flags:(int)flags watcher:(id<ASWatcher>)watcher{
     
@@ -976,8 +973,8 @@ ActionStage *ActionStageInstance()
     [self dispatchResource:path resource:resource arguments:nil];
 }
 
-- (void)dispatchResource:(NSString *)path resource:(id)resource arguments:(id)arguments
-{
+- (void)dispatchResource:(NSString *)path resource:(id)resource arguments:(id)arguments{
+    
     [self dispatchOnStageQueue:^
     {
         NSString *genericPath = [self genericStringForParametrizedPath:path];
@@ -1040,9 +1037,11 @@ ActionStage *ActionStageInstance()
                 if (watcher != nil)
                 {
                     if ([watcher respondsToSelector:@selector(actorCompleted:path:result:)])
+                       
                         [watcher actorCompleted:ASStatusSuccess path:action result:result];
                     
                     if (handle.releaseOnMainThread)
+                        
                         dispatch_async(dispatch_get_main_queue(), ^ { [watcher class]; });
                     watcher = nil;
                 }

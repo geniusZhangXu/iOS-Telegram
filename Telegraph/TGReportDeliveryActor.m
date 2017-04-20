@@ -4,6 +4,9 @@
 #import "TGDatabase.h"
 #import "TGApplyUpdatesActor.h"
 
+#import "TGReceiveMessageFindWithLoaction.h"
+#import "TGReceiveMessageDatabase.h"
+
 @interface TGReportDeliveryActor ()
 {
     bool _isQts;
@@ -23,6 +26,7 @@
 
 - (void)execute:(NSDictionary *)options
 {
+    
     if ([self.path hasSuffix:@"(qts)"])
     {
         _isQts = true;
@@ -48,13 +52,15 @@
 
 - (void)watcherJoined:(ASHandle *)watcherHandle options:(NSDictionary *)options waitingInActorQueue:(bool)waitingInActorQueue
 {
+    
     [self maybeReportValue:_isQts ? [options[@"qts"] intValue] : [options[@"mid"] intValue]];
     
     [super watcherJoined:watcherHandle options:options waitingInActorQueue:waitingInActorQueue];
 }
 
-- (void)maybeReportValue:(int)reportValue
-{
+- (void)maybeReportValue:(int)reportValue{
+  
+    
     if (_value == 0)
     {
         _value = reportValue;
@@ -70,39 +76,49 @@
     }
 }
 
-- (void)reportDeliverySuccess:(int)maxMid deliveredMessages:(NSArray *)deliveredMessages
-{
+
+-(void)reportDeliverySuccess:(int)maxMid deliveredMessages:(NSArray *)deliveredMessages{
+    
     NSMutableArray *mids = [[NSMutableArray alloc] init];
     NSMutableSet   *midsWithoutSound = [[NSMutableSet alloc] init];
     
-    for (TLReceivedNotifyMessage *receivedMessage in deliveredMessages)
-    {
+    for (TLReceivedNotifyMessage * receivedMessage in deliveredMessages){
+        
         [mids addObject:@(receivedMessage.n_id)];
+        
         if (receivedMessage.flags & (1 << 0))
         {
             [midsWithoutSound addObject:@(receivedMessage.n_id)];
         }
     }
     
-    TGLog(@"receivedMessages: maxId: %d, mids: %@, withoutSound: %@", maxMid, mids, midsWithoutSound);
-    
+    // 处理本地通知展示
     [TGApplyUpdatesActor applyDelayedNotifications:maxMid mids:mids midsWithoutSound:midsWithoutSound maxQts:0 randomIds:nil];
     
-    if (maxMid == _value)
-    {
-        [TGDatabaseInstance() updateLatestMessageId:_value applied:true completion:nil];
+    if(maxMid == _value){
         
+        // 先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
+        [TGReceiveMessageFindWithLoaction receiveMessageID:maxMid];
+        NSString * result =[TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:maxMid];
+        if (result.intValue == 200) {
+            
+            [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",maxMid]];
+        }
+        
+        // 更新最新一条消息
+        [TGDatabaseInstance() updateLatestMessageId:_value applied:true completion:nil];
         _value = 0;
         
-        if (_nextValue != 0)
-        {
+        if (_nextValue != 0){
+            
             _value = _nextValue;
             _nextValue = 0;
-            
             self.cancelToken = [TGTelegraphInstance doReportDelivery:_value actor:self];
         }
         else
+        {   
             [ActionStageInstance() actionCompleted:self.path result:nil];
+        }
     }
 }
 

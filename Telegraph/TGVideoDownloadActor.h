@@ -7,8 +7,10 @@
  */
 
 #import "ASActor.h"
-
 #import "ASWatcher.h"
+#import "TGReceiveMessageFindWithLoaction.h"
+#import "TGReceiveMessageDatabase.h"
+
 
 @interface TGVideoDownloadActor : ASActor <ASWatcher>
 

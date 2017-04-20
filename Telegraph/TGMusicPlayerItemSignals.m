@@ -199,8 +199,11 @@ static int64_t TGMusicPlayerItemAvailabilityPack(TGMusicPlayerItemAvailability v
 }
 
 - (void)actorMessageReceived:(NSString *)path messageType:(NSString *)messageType message:(id)message {
+   
     if ([messageType isEqualToString:@"progress"]) {
+      
         if ([path isEqualToString:_downloadPath]) {
+           
             TGMusicPlayerItemAvailability availability = {.downloaded = false, .downloading = true, .progress = (CGFloat)[message floatValue]};
             if (_updated)
                 _updated(availability);

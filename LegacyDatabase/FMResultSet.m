@@ -322,12 +322,14 @@
 
 
 - (NSData*)dataForColumn:(NSString*)columnName {
+    
     return [self dataForColumnIndex:[self columnIndexForName:columnName]];
 }
 
 - (NSData*)dataForColumnIndex:(int)columnIdx {
     
     if (sqlite3_column_type([_statement statement], columnIdx) == SQLITE_NULL || (columnIdx < 0)) {
+        
         return nil;
     }
     

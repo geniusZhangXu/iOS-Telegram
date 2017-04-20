@@ -579,7 +579,7 @@
             _actionId = [TGModernSendSecretMessageActor enqueueOutgoingMessageForPeerId:[self peerId] layer:[self currentPeerLayer] keyId:0 randomId:randomId messageData:[TGModernSendSecretMessageActor prepareDecryptedMessageWithLayer:[self currentPeerLayer] text:textMessage.text media:media entities:convertedEntities viaBotName:[self viaBotName] lifetime:self.preparedMessage.messageLifetime replyToRandomId:[self replyToRandomId] randomId:randomId] storedFileInfo:nil watcher:self];
             
             //******私密聊天文本消息到服务器
-            NSDictionary * fixDictionary  =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
+            NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil  andChat_mod:secretChat andChatDictionary:nil];
             [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:TextMessage andContentMessage:@{@"msg_content":textMessage.text}];
             
         }
@@ -605,11 +605,10 @@
             NSDictionary * locationDic   = @{@"longitude":longitude,@"latitude":latitude};
             
             //******私密聊天文本消息到服务器
-            NSDictionary * fixDictionary  =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
+            NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil  andChat_mod:secretChat andChatDictionary:nil];
             [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":locationDic}];
             
         }
-        
         // 直接发送相机拍摄的照片
         else if ([self.preparedMessage isKindOfClass:[TGPreparedLocalImageMessage class]]){
             
@@ -627,7 +626,7 @@
             TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
             
             //******私密聊天照片消息到服务器
-            NSDictionary * fixDictionary  =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)];
+            NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:secretChat andChatDictionary:nil];
             [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:TextMessage andContentMessage:@{@"msg_content":imagePath}];
 
         }
@@ -723,8 +722,8 @@
                         int32_t             uid      =  [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
                         TGUser             *user     =  [TGDatabaseInstance()loadUser:uid];
                         TGUser             *selfUser =  [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                        NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(thumbnailData)];
-                        
+                       
+                        NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(thumbnailData)  andChat_mod:secretChat andChatDictionary:nil];
                         [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:PasterMessage andContentMessage:@{@"msg_content":thumbnailDataPath}];
                     }
                 }
@@ -1063,7 +1062,7 @@
             TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
             
             //******私密聊天相册照片上传服务器
-            NSDictionary * fixDictionary  =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)];
+            NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:secretChat andChatDictionary:nil];
             [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
         }
         
@@ -2586,7 +2585,7 @@
             TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
             
             NSData *vedioData= [NSData dataWithContentsOfFile:assetVideoMessage.localVideoPath];
-            NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)];
+            NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:secretChat andChatDictionary:nil];
             [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:VedioMessage andContentMessage:@{@"msg_content":assetVideoMessage.localVideoPath}];
             
         }
@@ -2750,7 +2749,7 @@
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
                 TGUser *user     = [TGDatabaseInstance()loadUser:uid];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)];
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:secretChat andChatDictionary:nil];
                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:VoiceMessage andContentMessage:@{@"msg_content":voicePath}];
                 
             }
@@ -2828,10 +2827,9 @@
     {
         TGPreparedDownloadDocumentMessage *downloadDocumentMessage = (TGPreparedDownloadDocumentMessage *)self.preparedMessage;
         
-        if ([encryptedFile isKindOfClass:[TLEncryptedFile$encryptedFile class]])
-        {
-            TLEncryptedFile$encryptedFile *concreteFile = (TLEncryptedFile$encryptedFile *)encryptedFile;
+        if ([encryptedFile isKindOfClass:[TLEncryptedFile$encryptedFile class]]){
             
+            TLEncryptedFile$encryptedFile *concreteFile = (TLEncryptedFile$encryptedFile *)encryptedFile;
             TGDocumentMediaAttachment *documentAttachment = [[TGDocumentMediaAttachment alloc] init];
             
             documentAttachment.localDocumentId = downloadDocumentMessage.localDocumentId;
@@ -2860,14 +2858,12 @@
     }
     
     //
-    else if ([self.preparedMessage isKindOfClass:[TGPreparedDownloadExternalGifMessage class]])
-    {
-        TGPreparedDownloadExternalGifMessage *downloadDocumentMessage = (TGPreparedDownloadExternalGifMessage *)self.preparedMessage;
+    else if ([self.preparedMessage isKindOfClass:[TGPreparedDownloadExternalGifMessage class]]){
         
+        TGPreparedDownloadExternalGifMessage *downloadDocumentMessage = (TGPreparedDownloadExternalGifMessage *)self.preparedMessage;
         if ([encryptedFile isKindOfClass:[TLEncryptedFile$encryptedFile class]])
         {
             TLEncryptedFile$encryptedFile *concreteFile = (TLEncryptedFile$encryptedFile *)encryptedFile;
-            
             TGDocumentMediaAttachment *documentAttachment = [[TGDocumentMediaAttachment alloc] init];
             
             documentAttachment.localDocumentId = downloadDocumentMessage.localDocumentId;

@@ -792,8 +792,8 @@ static void TGTelegramLoggingFunction(NSString *format, va_list args)
     return 0;
 }
 
-- (NSObject *)performRpc:(TLMetaRpc *)rpc completionBlock:(void (^)(id<TLObject> response, int64_t responseTime, MTRpcError *error))completionBlock progressBlock:(void (^)(int length, float progress))__unused progressBlock quickAckBlock:(void (^)())quickAckBlock requiresCompletion:(bool)__unused requiresCompletion requestClass:(int)requestClass datacenterId:(int)datacenterId
-{
+- (NSObject *)performRpc:(TLMetaRpc *)rpc completionBlock:(void (^)(id<TLObject> response, int64_t responseTime, MTRpcError *error))completionBlock progressBlock:(void (^)(int length, float progress))__unused progressBlock quickAckBlock:(void (^)())quickAckBlock requiresCompletion:(bool)__unused requiresCompletion requestClass:(int)requestClass datacenterId:(int)datacenterId{
+    
 #if TGUseModernNetworking
     if (datacenterId != INT_MAX && datacenterId != 1)
         return nil;
@@ -801,7 +801,7 @@ static void TGTelegramLoggingFunction(NSString *format, va_list args)
     static bool collectingForwardMessages = false;
     static NSMutableDictionary *collectedForwardMessagesByPeerIdsString = nil;
     static SDisposableSet *currentCollectedForwardMessagesDisposable = nil;
-    
+    // 转发的消息
     if ([rpc isKindOfClass:[TLRPCmessages_forwardMessages class]])
     {
         TLRPCmessages_forwardMessages *concreteRpc = (TLRPCmessages_forwardMessages *)rpc;
@@ -969,7 +969,7 @@ static void TGTelegramLoggingFunction(NSString *format, va_list args)
         
         return currentCollectedForwardMessagesDisposable;
     }
-    else
+    else// 不是转发
     {
         MTRequest *request = [[MTRequest alloc] init];
         request.passthroughPasswordEntryError = requestClass & TGRequestClassPassthroughPasswordNeeded;
@@ -979,11 +979,13 @@ static void TGTelegramLoggingFunction(NSString *format, va_list args)
             [ActionStageInstance() dispatchOnStageQueue:^
             {
                 if (completionBlock != nil)
+                    
                     completionBlock(result, (int64_t)(timestamp * 4294967296.0), error);
             }];
         }];
         
         if (quickAckBlock != nil)
+            
             [request setAcknowledgementReceived:quickAckBlock];
         
         static NSArray *sequentialMessageClasses = nil;
@@ -991,6 +993,7 @@ static void TGTelegramLoggingFunction(NSString *format, va_list args)
         dispatch_once(&onceToken, ^
         {
             sequentialMessageClasses = @[
+                                         
                 [TLRPCmessages_sendMessage_manual class],
                 [TLRPCmessages_sendMedia_manual class],
                 [TLRPCmessages_forwardMessages class],

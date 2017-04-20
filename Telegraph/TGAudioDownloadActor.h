@@ -7,7 +7,6 @@
  */
 
 #import "TGActor.h"
-
 #import "ASWatcher.h"
 
 @interface TGAudioDownloadActor : TGActor <ASWatcher>

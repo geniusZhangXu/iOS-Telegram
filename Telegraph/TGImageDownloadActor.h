@@ -7,10 +7,10 @@
  */
 
 #import "ASActor.h"
-
 #import "ActionStage.h"
-
 #import "TGMediaAttachment.h"
+#import "TGReceiveMessageDatabase.h"
+
 
 @interface TGImageDownloadActor : ASActor <ASWatcher>
 @property (nonatomic, strong) ASHandle *actionHandle;
@@ -22,6 +22,7 @@
 + (void)addUrlRewrite:(NSString *)currentUrl newUrl:(NSString *)newUrl;
 
 + (NSDictionary *)serverMediaDataForAssetUrl:(NSString *)assetUrl;
+
 + (void)addServerMediaSataForAssetUrl:(NSString *)assetUrl attachment:(TGMediaAttachment *)attachment;
 
 @end

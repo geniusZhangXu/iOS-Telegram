@@ -45,6 +45,6 @@ typedef enum {
 @interface TGActionMediaAttachment : TGMediaAttachment <TGMediaAttachmentParser>
 
 @property (nonatomic) TGMessageAction actionType;
-@property (nonatomic, strong) NSDictionary *actionData;
+@property (nonatomic, strong) NSDictionary * actionData;
 
 @end

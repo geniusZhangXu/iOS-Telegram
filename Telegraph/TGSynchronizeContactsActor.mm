@@ -1082,8 +1082,8 @@ static void CreateAddressBookAsync(TGAddressBookCreated createdBlock)
         
         TGLog(@"Contacts processed in %f ms", (CFAbsoluteTimeGetCurrent() - startTime) * 1000.0);
         
-        [ActionStageInstance() dispatchOnStageQueue:^
-        {
+        [ActionStageInstance() dispatchOnStageQueue:^{
+            
             if (userDataToDispatch.count != 0)
                 [TGContactListRequestBuilder clearCache];
             

@@ -96,6 +96,7 @@
 {
     __strong id<ASWatcher> delegate = self.delegate;
     if (delegate != nil && [delegate respondsToSelector:@selector(actorMessageReceived:messageType:message:)])
+       
         [delegate actorMessageReceived:path messageType:messageType message:message];
     
     if (_releaseOnMainThread && ![NSThread isMainThread])

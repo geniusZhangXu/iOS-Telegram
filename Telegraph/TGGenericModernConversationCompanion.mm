@@ -1,7 +1,5 @@
 #import "TGGenericModernConversationCompanion.h"
-
 #import "ASCommon.h"
-
 #import "ActionStage.h"
 #import "SGraphObjectNode.h"
 #import "TGSharedPtrWrapper.h"
@@ -9,29 +7,20 @@
 #import "TGStringUtils.h"
 #import "TGPhoneUtils.h"
 #import "TGPeerIdAdapter.h"
-
 #import "TGAppDelegate.h"
 #import "TGDownloadManager.h"
-
 #import "TGDatabase.h"
 #import "TGTelegraph.h"
 #import "TGTelegramNetworking.h"
-
 #import "TGDatabaseMessageDraft.h"
-
 #import "TGStringUtils.h"
-
 #import "TGViewController.h"
 #import "TGInterfaceManager.h"
 #import "TGDialogListController.h"
 #import "TGAlertView.h"
-
 #import "TGMessageModernConversationItem.h"
-
 #import "TGModernConversationController.h"
-
 #import "TGMessageViewModel.h"
-
 #import "TGPreparedMessage.h"
 #import "TGPreparedTextMessage.h"
 #import "TGPreparedMapMessage.h"
@@ -51,111 +40,72 @@
 #import "TGPreparedAssetImageMessage.h"
 #import "TGPreparedAssetVideoMessage.h"
 #import "TGPreparedDownloadExternalDocumentMessage.h"
-
 #import "TGForwardTargetController.h"
-
 #import "TGModernSendMessageActor.h"
 #import "TGVideoDownloadActor.h"
 #import "TGRemoteImageView.h"
 #import "TGImageDownloadActor.h"
 #import "TGCreateContactController.h"
 #import "TGAddToExistingContactController.h"
-
 #import "TGWallpaperManager.h"
 #import "TGWallpaperInfo.h"
 #import "TGTelegraphConversationMessageAssetsSource.h"
-
 #import "NSObject+TGLock.h"
-
 #import "TGProgressWindow.h"
-
 #import "TGBingSearchResultItem.h"
 #import "TGGiphySearchResultItem.h"
 #import "TGWebSearchInternalImageResult.h"
 #import "TGWebSearchInternalGifResult.h"
 #import "TGExternalGifSearchResult.h"
 #import "TGInternalGifSearchResult.h"
-
 #import "TGMediaStoreContext.h"
 #import "TGModernSendCommonMessageActor.h"
 #import "TGWebSearchController.h"
 #import "TGWebSearchInternalImageResult.h"
-
 #import "TGHashtagSearchController.h"
 #import "TGRecentHashtagsSignal.h"
 #import "TGTextCheckingResult.h"
-
 #import "TGICloudItem.h"
 #import "TGDropboxItem.h"
 #import "TGGoogleDriveItem.h"
 #import "TGFileUtils.h"
-
 #import "TGRecentHashtagsSignal.h"
-
 #import "TGLinkPreviewsContentProperty.h"
-
 #import "TGModernConversationInputTextPanel.h"
-
 #import "TGUpdateStateRequestBuilder.h"
-
 #import "TGMessageViewedContentProperty.h"
-
 #import "TGStickersSignals.h"
 #import "TGStickerAssociation.h"
-
 #import <map>
 #import <vector>
-
 #import <WebP/decode.h>
-
 #import "TGChatSearchController.h"
-
 #import "TGModernViewContext.h"
-
 #import "TGChannelManagementSignals.h"
-
 #import "PSKeyValueEncoder.h"
-
 #import "TGDocumentHttpFileReference.h"
-
 #import "TGBotContextResultAttachment.h"
-
 #import "TGPeerInfoSignals.h"
 #import "TGBotSignals.h"
-
 #import "TGExternalImageSearchResult.h"
-
 #import "TGMediaAsset.h"
 #import "TGVideoEditAdjustments.h"
-
 #import <AVFoundation/AVFoundation.h>
-
 #import "TGDataItem.h"
-
 #import "TGAudioWaveformSignal.h"
-
 #import <MTProtoKit/MTProtoKit.h>
-
 #import "TGLocationSignals.h"
-
 #import "TGModernConversationTitlePanel.h"
 #import "TGToastTitlePanel.h"
-
 #import "TGBotContextExternalResult.h"
-
 #import "TGMimeTypeMap.h"
-
 #import "TGGroupManagementSignals.h"
-
 #import "TGDownloadMessagesSignal.h"
-
 #import "TGWebAppController.h"
-
 #import "TGPreparedGameMessage.h"
-
 #import "TGInstantPageController.h"
-
 #import "TGApplication.h"
+
 
 #import "SYNetworking.h"
 #import "NSString+SYisBlankString.h"

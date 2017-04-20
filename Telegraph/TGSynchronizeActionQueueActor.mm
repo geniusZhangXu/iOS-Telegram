@@ -83,13 +83,13 @@
     {
         [ActionStageInstance() dispatchOnStageQueue:^
         {
-            NSArray *readConversationActions = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionReadConversation]];
-            NSArray *deleteMessageActions = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionDeleteMessage]];
+            NSArray *readConversationActions    = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionReadConversation]];
+            NSArray *deleteMessageActions       = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionDeleteMessage]];
             NSArray *deleteSecretMessageActions = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionDeleteSecretMessage]];
-            NSArray *deleteConversationActions = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionDeleteConversation]];
-            NSArray *clearConversationActions = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionClearConversation]];
+            NSArray *deleteConversationActions  = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionDeleteConversation]];
+            NSArray *clearConversationActions   = [actionSetsByType objectForKey:[NSNumber numberWithInt:TGDatabaseActionClearConversation]];
             NSArray *clearSecretConversationsActions = [actionSetsByType objectForKey:@(TGDatabaseActionClearSecretConversation)];
-            NSArray *readMessageContentActions = [actionSetsByType objectForKey:@(TGDatabaseActionReadMessageContents)];
+            NSArray *readMessageContentActions  = [actionSetsByType objectForKey:@(TGDatabaseActionReadMessageContents)];
             
             if (readConversationActions.count != 0)
             {

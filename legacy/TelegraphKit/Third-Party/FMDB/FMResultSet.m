@@ -322,6 +322,7 @@
 
 
 - (NSData*)dataForColumn:(NSString*)columnName {
+    
     return [self dataForColumnIndex:[self columnIndexForName:columnName]];
 }
 

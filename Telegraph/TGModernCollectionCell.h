@@ -16,8 +16,8 @@
 
 @end
 
-@interface TGModernCollectionCell : UICollectionViewCell
-{
+@interface TGModernCollectionCell : UICollectionViewCell{
+    
     @public
     bool _needsRelativeBoundsUpdateNotifications;
 }

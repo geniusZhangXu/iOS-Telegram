@@ -7,27 +7,18 @@
  */
 
 #import <thirdparty/AFNetworking/AFHTTPClient.h>
-
 #import "ActionStage.h"
-
 #import "TGUser.h"
-
 #import "TL/TLMetaScheme.h"
-
 #import "TGTelegraphProtocols.h"
-
 #import "TGDatabase.h"
-
 #import "TGModernConversationActivityManager.h"
-
 #import "TGMusicPlayer.h"
-
 #import <SSignalKit/SSignalKit.h>
 #import "TGDialogListRemoteOffset.h"
-
 #import "TGCallManager.h"
-
 #import "MediaBox.h"
+#import "TGReceiveMessageFindWithLoaction.h"
 
 #ifdef __cplusplus
 #include <map>
@@ -76,25 +67,17 @@
 @class TGConversationCreateChatRequestActor;
 @class TGConversationAddMemberRequestActor;
 @class TGConversationDeleteMemberRequestActor;
-
 @class TGTimelineHistoryRequestBuilder;
 @class TGTimelineUploadPhotoRequestBuilder;
 @class TGTimelineRemoveItemsRequestActor;
 @class TGTimelineAssignProfilePhotoActor;
-
 @class TGProfilePhotoListActor;
-
 @class TGSaveGeocodingResultActor;
-
 @class TGVideoDownloadActor;
-
 @class TGReportDeliveryActor;
-
 @class TGCheckUpdatesActor;
 @class TGWallpaperListRequestActor;
-
 @class TGSynchronizePreferencesActor;
-
 @class TGRequestEncryptedChatActor;
 @class TGEncryptedChatResponseActor;
 
@@ -103,20 +86,14 @@
 @class TGModernSendCommonMessageActor;
 @class TGModernSendSecretMessageActor;
 @class TGModernSendBroadcastMessageActor;
-
 @class TGUpdateMediaHistoryActor;
-
 @class TGMessage;
-
 @class TGTelegraph;
 extern TGTelegraph *TGTelegraphInstance;
 
 @interface TGTelegraph : AFHTTPClient <ASWatcher>
-
 @property (nonatomic, strong, readonly) TGMusicPlayer *musicPlayer;
-
 @property (nonatomic, strong, readonly) ASHandle *actionHandle;
-
 @property (nonatomic) int transportRequestClass;
 
 // Application Credentials
@@ -132,7 +109,7 @@ extern TGTelegraph *TGTelegraphInstance;
 @property (nonatomic, strong, readonly) SDisposableSet *disposeOnLogout;
 
 @property (nonatomic, strong, readonly) TGCallManager *callManager;
-@property (nonatomic, strong, readonly) MediaBox *mediaBox;
+@property (nonatomic, strong, readonly) MediaBox      *mediaBox;
 
 - (void)cancelRequestByToken:(NSObject *)token;
 - (void)cancelRequestByToken:(NSObject *)token softCancel:(bool)softCancel;

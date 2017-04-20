@@ -189,6 +189,7 @@ static int workerCount = 0;
 
 - (void)requestMessageServiceDidCompleteAllRequests:(MTRequestMessageService *)__unused requestMessageService
 {
+    
 }
 
 - (void)requestMessageServiceAuthorizationRequired:(MTRequestMessageService *)__unused requestMessageService

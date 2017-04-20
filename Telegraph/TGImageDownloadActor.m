@@ -1,37 +1,24 @@
 #import "TGImageDownloadActor.h"
-
 #import "TGAppDelegate.h"
-
 #import "ActionStage.h"
 #import "SGraphObjectNode.h"
 #import "TGRemoteImageView.h"
-
 #import "TGImageUtils.h"
 #import "TGStringUtils.h"
-
 #import "TGTelegraph.h"
 #import "TGTelegraphProtocols.h"
-
 #import "TGFileDownloadActor.h"
-
 #import "TGGenericModernConversationCompanion.h"
-
 #import "TGDownloadManager.h"
-
 #import "TGDatabase.h"
-
 #import "TGInterfaceAssets.h"
-
 #import "TGImageManager.h"
-
 #import "TGImagePickerController.h"
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGTelegramNetworking.h"
 
-static NSMutableDictionary *urlRewrites()
-{
+static NSMutableDictionary *urlRewrites(){
+    
     static NSMutableDictionary *dict = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
@@ -54,6 +41,8 @@ static NSMutableDictionary *serverAssetData()
 
 typedef void (^TGRemoteImageDownloadCompletionBlock)(NSData *data);
 
+
+
 @interface TGImageDownloadActor ()
 {
     bool _updateMediaAccessTimeOnRelease;
@@ -62,9 +51,8 @@ typedef void (^TGRemoteImageDownloadCompletionBlock)(NSData *data);
 }
 
 @property (nonatomic, copy) TGRemoteImageDownloadCompletionBlock downloadCompletionBlock;
-
-@property (nonatomic) float progress;
-@property (nonatomic) bool requestedActors;
+@property (nonatomic) float  progress;
+@property (nonatomic) bool   requestedActors;
 
 @end
 
@@ -95,8 +83,8 @@ typedef void (^TGRemoteImageDownloadCompletionBlock)(NSData *data);
     return url;
 }
 
-+ (NSDictionary *)serverMediaDataForAssetUrl:(NSString *)assetUrl
-{
++ (NSDictionary *)serverMediaDataForAssetUrl:(NSString *)assetUrl{
+    
     if (assetUrl.length == 0)
         return nil;
     
@@ -204,8 +192,8 @@ static inline double imageProcessingPriority()
     return !TGIsRetina() ? 0.12 : (cpuCoreCount() > 1 ? 0.4 : 0.1);
 }
 
-- (void)execute:(NSDictionary *)options
-{
+- (void)execute:(NSDictionary *)options{
+    
     static CFAbsoluteTime lastCompletionTime = 0;
     static bool delayFastCompletion = false;
     /*static dispatch_once_t onceToken;
@@ -242,7 +230,7 @@ static inline double imageProcessingPriority()
         if (nUseCache != nil)
             allowMemoryCache = [nUseCache boolValue];
         
-        userProperties = [options objectForKey:@"userProperties"];
+        userProperties   = [options objectForKey:@"userProperties"];
         
         forceMemoryCache = [options objectForKey:@"forceMemoryCache"];
     }
@@ -356,30 +344,32 @@ static inline double imageProcessingPriority()
         url2 = url;
     }
     
-    [cache diskCacheContains:url1 orUrl:url2 completion:^(bool firstInDiskCache, bool secondInDiskCache)
-    {
-        [ActionStageInstance() dispatchOnStageQueue:^
-        {
-            if (firstInDiskCache || secondInDiskCache)
-            {
+    [cache diskCacheContains:url1 orUrl:url2 completion:^(bool firstInDiskCache, bool secondInDiskCache){
+        
+        [ActionStageInstance() dispatchOnStageQueue:^{
+            
+            if (firstInDiskCache || secondInDiskCache){
+                
                 NSBlockOperation *operation = [[NSBlockOperation alloc] init];
                 
                 __weak NSOperation *blockOperation = operation;
-                [operation addExecutionBlock:^
-                {
-                    @autoreleasepool
-                    {
+                [operation addExecutionBlock:^{
+                    
+                    @autoreleasepool{
+                        
                         NSOperation *strongBlockOperation = blockOperation;
                         if (strongBlockOperation.isCancelled)
                             return;
+                        
                         strongBlockOperation = nil;
                         
                         NSString *cachedUrl = (firstInDiskCache ? url1 : url2);
                         
                         UIImage *cachedImage = nil;//[cache cachedImage:storeUrl availability:TGCacheMemory];
                         bool imageFromDisc = false;
-                        if (cachedImage == nil)
-                        {
+                        
+                        if (cachedImage == nil){
+                            
                             cachedImage = [cache cachedImage:cachedUrl availability:TGCacheDisk];
                             imageFromDisc = true;
                         }
@@ -389,17 +379,17 @@ static inline double imageProcessingPriority()
                             return;
                         strongBlockOperation = nil;
                         
-                        if (cachedImage != nil)
-                        {
-                            if (cacheFiltered && cachedImage != nil && processor != nil && firstInDiskCache)
-                            {
+                        if (cachedImage != nil){
+                            
+                            if (cacheFiltered && cachedImage != nil && processor != nil && firstInDiskCache){
+                                
                                 [cachedImage tgPreload];
-                            }
-                            else
-                            {
+                                
+                            }else{
+                                
                                 UIImage *originalImage = cachedImage;
-                                if (processor != nil)
-                                {
+                                if (processor != nil){
+                                    
                                     cachedImage = processor(cachedImage);
                                     
                                     if (cacheFiltered && !firstInDiskCache)
@@ -411,7 +401,9 @@ static inline double imageProcessingPriority()
                                     if (cachedImage == originalImage && imageFromDisc)
                                         cachedImage = [cachedImage preloadedImage];
                                 }
+                                
                                 else if (imageFromDisc)
+                                    
                                     cachedImage = [cachedImage preloadedImage];
                             }
                             
@@ -434,8 +426,8 @@ static inline double imageProcessingPriority()
                                 return;
                             strongBlockOperation = nil;
                             
-                            [ActionStageInstance() dispatchOnStageQueue:^
-                            {
+                            [ActionStageInstance() dispatchOnStageQueue:^{
+                                
                                 if (delayFastCompletion && cachedImage.size.width * cachedImage.size.height > 200 * 200)
                                 {
                                     CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
@@ -466,203 +458,208 @@ static inline double imageProcessingPriority()
                 operation.threadPriority = imageProcessingPriority();
                 self.cancelToken = operation;
                 [[TGImageDownloadActor operationQueue] addOperation:operation];
-            }
-            else
-            {
+                
+            }else{
+                
                 if ([url1 hasPrefix:@"video-thumbnail-"])
                 {
                     [ActionStageInstance() nodeRetrieveFailed:path];
                     return;
                 }
                 
-                if ([self.path hasPrefix:@"/img/(download:"])
-                {
-                    NSBlockOperation *processingOperation = [[NSBlockOperation alloc] init];
-                    self.cancelToken = processingOperation;
-                    self.downloadCompletionBlock = ^(NSData *imageData)
-                    {
-                        if (imageData != nil)
-                        {
-                            __weak NSOperation *weakBlockOperation = processingOperation;
-                            [processingOperation addExecutionBlock:^
-                            {
-                                @autoreleasepool
-                                {
-                                    NSOperation *blockOperation = weakBlockOperation;
-                                    if (blockOperation.isCancelled)
-                                        return;
-                                    
-                                    UIImage *image = nil;
-                                    NSData *data = nil;
-                                    
-                                    image = [[UIImage alloc] initWithData:imageData];
-                                    data = imageData;
-                                    
-                                    if (image == nil || data == nil)
-                                        [ActionStageInstance() actionFailed:path reason:-1];
-                                    else
-                                    {
-                                        UIImage *imageForThumbnail = nil;
-                                        
-                                        TGImageInfo *imageInfo = [userProperties objectForKey:@"imageInfo"];
-                                        if (imageInfo != nil)
-                                            imageForThumbnail = image;
-                                        
-                                        if (image != nil)
-                                        {
-                                            [cache cacheImage:nil withData:data url:url availability:TGCacheDisk];
-                                            
-                                            if (processor != nil)
-                                            {   
-                                                UIImage *originalImage = image;
-                                                image = processor(image);
-                                                if (image == originalImage)
-                                                    image = [image preloadedImage];
-                                                
-                                                if (allowMemoryCache && (!TG_CACHE_INPLACE || forceMemoryCache))
-                                                    [cache cacheImage:image withData:nil url:storeUrl availability:TGCacheMemory];
-                                                
-                                                if (allowThumbnailCache)
-                                                    [cache cacheThumbnail:image url:storeUrl];
-                                            }
-                                            else
-                                            {
-                                                image = [image preloadedImage];
-                                                
-                                                if (allowMemoryCache && (!TG_CACHE_INPLACE || forceMemoryCache))
-                                                    [cache cacheImage:image withData:nil url:storeUrl availability:TGCacheMemory];
-                                                
-                                                if (allowThumbnailCache)
-                                                    [cache cacheThumbnail:image url:storeUrl];
-                                            }
-                                            
-                                            if (delayFastCompletion)
-                                            {
-                                                CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
-                                                CFAbsoluteTime threshold = image.size.width * image.size.height <= 180 * 180 ? minimalThreshold : fastDelayThresold;
-                                                if (currentTime - lastCompletionTime < threshold)
-                                                {
-                                                    CFTimeInterval delay = threshold - (currentTime - lastCompletionTime);
-                                                    TGLog(@"Delay image operation for %f ms", delay * 1000.0);
-                                                    lastCompletionTime = currentTime;
-                                                    usleep((int32_t)(delay * 1000 * 1000));
-                                                }
-                                                else
-                                                    lastCompletionTime = currentTime;
-                                            }
-                                            
-                                            [ActionStageInstance() dispatchOnStageQueue:^
-                                            {
-                                                [ActionStageInstance() nodeRetrieved:path node:[[SGraphObjectNode alloc] initWithObject:image]];
-                                                
-                                                if (imageInfo != nil && imageForThumbnail != nil && ![url hasPrefix:@"upload"])
-                                                {
-                                                    CGSize thumbnailSize = CGSizeZero;
-                                                    NSString *thumbnailUrl = [imageInfo closestImageUrlWithSize:CGSizeMake(90, 90) resultingSize:&thumbnailSize];
-                                                    if (thumbnailUrl != nil)
-                                                    {
-                                                        thumbnailSize = TGFitSize(CGSizeMake(imageForThumbnail.size.width * imageForThumbnail.scale, imageForThumbnail.size.height * imageForThumbnail.scale), [TGGenericModernConversationCompanion preferredInlineThumbnailSize]);
-                                                        
-                                                        UIImage *thumbnailImage = TGScaleImageToPixelSize(imageForThumbnail, thumbnailSize);
-                                                        if (thumbnailImage != nil)
-                                                        {
-                                                            NSData *thumbnailData = UIImageJPEGRepresentation(thumbnailImage, 0.85f);
-                                                            if (thumbnailData != nil)
-                                                            {
-                                                                [cache removeFromMemoryCache:thumbnailUrl matchEnd:true];
-                                                                
-                                                                //TGLog(@"url: %@", url);
-                                                                //TGLog(@"thumbnail url: %@", thumbnailUrl);
-                                                                
-                                                                [cache cacheImage:nil withData:thumbnailData url:thumbnailUrl availability:TGCacheDisk];
-                                                                
-                                                                TGFileDownloadActor *fileActor = (TGFileDownloadActor *)[ActionStageInstance() executingActorWithPath:[[NSString alloc] initWithFormat:@"/tg/file/(%@)", thumbnailUrl]];
-                                                                if (fileActor != nil)
-                                                                {
-                                                                    [fileActor completeWithData:thumbnailData];
-                                                                }
-                                                                else
-                                                                {
-                                                                    TGDispatchAfter(0.08, [ActionStageInstance() globalStageDispatchQueue], ^
-                                                                    {
-                                                                        [ActionStageInstance() dispatchResource:[[NSString alloc] initWithFormat:@"/as/media/imageThumbnailUpdated"] resource:thumbnailUrl];
-                                                                    });
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                
-                                                if ([[userProperties objectForKey:@"storeAsAsset"] boolValue] && TGAppDelegateInstance.autosavePhotos)
-                                                {
-                                                    bool shouldSave = true;
-                                                    
-                                                    if (![userProperties[@"forceSave"] boolValue])
-                                                    {
-                                                        int mid = [userProperties[@"messageId"] intValue];
-                                                        int64_t conversationId = [userProperties[@"conversationId"] longLongValue];
-                                                        if (mid != 0 && conversationId != 0)
-                                                        {
-                                                            int minAutosaveMid = [TGDatabaseInstance() minAutosaveMessageIdForConversation:conversationId];
-                                                            //if (mid < minAutosaveMid)
-                                                            //    shouldSave = false;
-                                                        }
-                                                        
-                                                        if (TGPeerIdIsChannel(conversationId)) {
-                                                            shouldSave = false;
-                                                        }
-                                                    }
-                                                    
-                                                    if (shouldSave)
-                                                    {
-                                                        [ActionStageInstance() requestActor:[[NSString alloc] initWithFormat:@"/tg/checkImageStored/(%lu)", (unsigned long)[url hash]] options:[[NSDictionary alloc] initWithObjectsAndKeys:url, @"url", nil] watcher:TGTelegraphInstance];
-                                                    }
-                                                }
-                                            }];
-                                        }
-                                        else
-                                        {
-                                            [ActionStageInstance() nodeRetrieveFailed:path];
-                                        }
-                                    }
-                                }
-                            }];
-                            
-                            processingOperation.threadPriority = imageProcessingPriority();
-                            [[TGImageDownloadActor operationQueue] addOperation:processingOperation];
-                        }
-                        else
-                        {
-                            [ActionStageInstance() nodeRetrieveFailed:path];
-                        }
-                    };
+                if ([self.path hasPrefix:@"/img/(download:"]){
                     
-                    if (contentHints & TGRemoteImageContentHintLargeFile && userProperties != nil && [[userProperties objectForKey:@"messageId"] intValue] != 0 && [userProperties objectForKey:@"mediaId"] != nil)
-                    {
-                        int64_t conversationId = [userProperties[@"conversationId"] longLongValue];
-                        int32_t messageId = [[userProperties objectForKey:@"messageId"] intValue];
-                        [[TGDownloadManager instance] enqueueItem:self.path messageId:[[userProperties objectForKey:@"messageId"] intValue] itemId:[userProperties objectForKey:@"mediaId"] groupId:conversationId itemClass:TGDownloadItemClassImage];
+                NSBlockOperation * processingOperation = [[NSBlockOperation alloc] init];
+                self.cancelToken = processingOperation;
+                
+                self.downloadCompletionBlock = ^(NSData *imageData){
+                    
+                if (imageData != nil){
                         
-                        _updateMediaAccessTimeOnRelease = true;
-                        _messageId = messageId;
-                        TGMediaId *mediaId = [userProperties objectForKey:@"mediaId"];
-                        _imageId = mediaId.itemId;
+                __weak NSOperation *weakBlockOperation = processingOperation;
+                [processingOperation addExecutionBlock:^{
+                    
+                @autoreleasepool{
+                NSOperation *blockOperation = weakBlockOperation;
+                if (blockOperation.isCancelled)
+                    return;
+                
+                UIImage *image = nil;
+                NSData *data = nil;
+                
+                image = [[UIImage alloc] initWithData:imageData];
+                data = imageData;
+                
+                if (image == nil || data == nil)
+                    [ActionStageInstance() actionFailed:path reason:-1];
+                else{
+                
+                UIImage *imageForThumbnail = nil;
+                
+                TGImageInfo *imageInfo = [userProperties objectForKey:@"imageInfo"];
+                if (imageInfo != nil)
+                    imageForThumbnail = image;
+                
+                if (image != nil)
+                {
+                    [cache cacheImage:nil withData:data url:url availability:TGCacheDisk];
+                    
+                    if (processor != nil)
+                    {   
+                        UIImage *originalImage = image;
+                        image = processor(image);
+                        if (image == originalImage)
+                            image = [image preloadedImage];
+                        
+                        if (allowMemoryCache && (!TG_CACHE_INPLACE || forceMemoryCache))
+                            [cache cacheImage:image withData:nil url:storeUrl availability:TGCacheMemory];
+                        
+                        if (allowThumbnailCache)
+                            [cache cacheThumbnail:image url:storeUrl];
+                    }
+                    else
+                    {
+                        image = [image preloadedImage];
+                        
+                        if (allowMemoryCache && (!TG_CACHE_INPLACE || forceMemoryCache))
+                            [cache cacheImage:image withData:nil url:storeUrl availability:TGCacheMemory];
+                        
+                        if (allowThumbnailCache)
+                            [cache cacheThumbnail:image url:storeUrl];
                     }
                     
-                    _requestedActors = true;
-                    [ActionStageInstance() requestActor:[NSString stringWithFormat:@"/tg/file/(%@)", url] options:[NSDictionary dictionaryWithObjectsAndKeys:url, @"url", @(TGNetworkMediaTypeTagImage), @"mediaTypeTag", nil] watcher:self];
+                    if (delayFastCompletion)
+                    {
+                        CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+                        CFAbsoluteTime threshold = image.size.width * image.size.height <= 180 * 180 ? minimalThreshold : fastDelayThresold;
+                        if (currentTime - lastCompletionTime < threshold)
+                        {
+                            CFTimeInterval delay = threshold - (currentTime - lastCompletionTime);
+                            TGLog(@"Delay image operation for %f ms", delay * 1000.0);
+                            lastCompletionTime = currentTime;
+                            usleep((int32_t)(delay * 1000 * 1000));
+                        }
+                        else
+                            lastCompletionTime = currentTime;
+                    }
+                    
+                    [ActionStageInstance() dispatchOnStageQueue:^{
+                        
+                    [ActionStageInstance() nodeRetrieved:path node:[[SGraphObjectNode alloc] initWithObject:image]];
+                    
+                    if (imageInfo != nil && imageForThumbnail != nil && ![url hasPrefix:@"upload"])
+                    {
+                        CGSize thumbnailSize = CGSizeZero;
+                        NSString *thumbnailUrl = [imageInfo closestImageUrlWithSize:CGSizeMake(90, 90) resultingSize:&thumbnailSize];
+                        if (thumbnailUrl != nil)
+                        {
+                            thumbnailSize = TGFitSize(CGSizeMake(imageForThumbnail.size.width * imageForThumbnail.scale, imageForThumbnail.size.height * imageForThumbnail.scale), [TGGenericModernConversationCompanion preferredInlineThumbnailSize]);
+                            
+                            UIImage *thumbnailImage = TGScaleImageToPixelSize(imageForThumbnail, thumbnailSize);
+                            if (thumbnailImage != nil)
+                            {
+                                NSData *thumbnailData = UIImageJPEGRepresentation(thumbnailImage, 0.85f);
+                                if (thumbnailData != nil)
+                                {
+                                    [cache removeFromMemoryCache:thumbnailUrl matchEnd:true];
+                                    
+                                    //TGLog(@"url: %@", url);
+                                    //TGLog(@"thumbnail url: %@", thumbnailUrl);
+                                    
+                                    [cache cacheImage:nil withData:thumbnailData url:thumbnailUrl availability:TGCacheDisk];
+                                    
+                                    TGFileDownloadActor *fileActor = (TGFileDownloadActor *)[ActionStageInstance() executingActorWithPath:[[NSString alloc] initWithFormat:@"/tg/file/(%@)", thumbnailUrl]];
+                                    if (fileActor != nil)
+                                    {
+                                        [fileActor completeWithData:thumbnailData];
+                                    }
+                                    else
+                                    {
+                                        TGDispatchAfter(0.08, [ActionStageInstance() globalStageDispatchQueue], ^
+                                        {
+                                            [ActionStageInstance() dispatchResource:[[NSString alloc] initWithFormat:@"/as/media/imageThumbnailUpdated"] resource:thumbnailUrl];
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        }
+                        
+                        if ([[userProperties objectForKey:@"storeAsAsset"] boolValue] && TGAppDelegateInstance.autosavePhotos)
+                        {
+                            bool shouldSave = true;
+                            
+                            if (![userProperties[@"forceSave"] boolValue])
+                            {
+                                int mid = [userProperties[@"messageId"] intValue];
+                                int64_t conversationId = [userProperties[@"conversationId"] longLongValue];
+                                if (mid != 0 && conversationId != 0)
+                                {
+                                    int minAutosaveMid = [TGDatabaseInstance() minAutosaveMessageIdForConversation:conversationId];
+                                    //if (mid < minAutosaveMid)
+                                    //    shouldSave = false;
+                                }
+                                
+                                if (TGPeerIdIsChannel(conversationId)) {
+                                    shouldSave = false;
+                                }
+                            }
+                            
+                            if (shouldSave)
+                            {
+                                [ActionStageInstance() requestActor:[[NSString alloc] initWithFormat:@"/tg/checkImageStored/(%lu)", (unsigned long)[url hash]] options:[[NSDictionary alloc] initWithObjectsAndKeys:url, @"url", nil] watcher:TGTelegraphInstance];
+                            }
+                        }
+                    }];
                 }
                 else
                 {
-                    if (![url hasPrefix:@"upload"])
-                        [ActionStageInstance() dispatchMessageToWatchers:self.path messageType:@"progress" message:[[NSNumber alloc] initWithFloat:0.0f]];
-                    
-                    _requestedActors = true;
-                    [ActionStageInstance() requestActor:[self.path stringByReplacingOccurrencesOfString:@"/img/(" withString:@"/img/(download:"] options:options flags:([[userProperties objectForKey:@"changePriority"] boolValue] ? TGActorRequestChangePriority : 0) watcher:self];
+                    [ActionStageInstance() nodeRetrieveFailed:path];
                 }
-            }
-        }];
-    }];
+                }
+                        }
+                    }];
+                    
+                    processingOperation.threadPriority = imageProcessingPriority();
+                    [[TGImageDownloadActor operationQueue] addOperation:processingOperation];
+                }
+                else
+                {
+                    [ActionStageInstance() nodeRetrieveFailed:path];
+                }
+            };
+            
+            if (contentHints & TGRemoteImageContentHintLargeFile && userProperties != nil && [[userProperties objectForKey:@"messageId"] intValue] != 0 && [userProperties objectForKey:@"mediaId"] != nil){
+                
+                int64_t conversationId = [userProperties[@"conversationId"] longLongValue];
+                int32_t messageId = [[userProperties objectForKey:@"messageId"] intValue];
+                [[TGDownloadManager instance] enqueueItem:self.path messageId:[[userProperties objectForKey:@"messageId"] intValue] itemId:[userProperties objectForKey:@"mediaId"] groupId:conversationId itemClass:TGDownloadItemClassImage];
+                
+                _updateMediaAccessTimeOnRelease = true;
+                _messageId = messageId;
+                TGMediaId  * mediaId = [userProperties objectForKey:@"mediaId"];
+                _imageId   = mediaId.itemId;
+                
+                ///
+                
+                
+                ///
+                
+        }
+            
+            _requestedActors = true;
+            [ActionStageInstance() requestActor:[NSString stringWithFormat:@"/tg/file/(%@)", url] options:[NSDictionary dictionaryWithObjectsAndKeys:url, @"url", @(TGNetworkMediaTypeTagImage), @"mediaTypeTag", nil] watcher:self];
+        }
+        else
+        {
+            if (![url hasPrefix:@"upload"])
+                [ActionStageInstance() dispatchMessageToWatchers:self.path messageType:@"progress" message:[[NSNumber alloc] initWithFloat:0.0f]];
+            
+            _requestedActors = true;
+            [ActionStageInstance() requestActor:[self.path stringByReplacingOccurrencesOfString:@"/img/(" withString:@"/img/(download:"] options:options flags:([[userProperties objectForKey:@"changePriority"] boolValue] ? TGActorRequestChangePriority : 0) watcher:self];
+        }
+    }}];
+  }];
 }
 
 - (void)actorReportedProgress:(NSString *)path progress:(float)progress
@@ -699,13 +696,27 @@ static inline double imageProcessingPriority()
     [super watcherJoined:watcherHandle options:options waitingInActorQueue:waitingInActorQueue];
 }
 
-- (void)actorCompleted:(int)resultCode path:(NSString *)path result:(id)result
-{
+-(void)actorCompleted:(int)resultCode path:(NSString *)path result:(id)result{
+    
+    /////// 这里是图片下载完成上传服务器的操作
+    ///////////////
+    NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
+    if (messageID) {
+        
+        NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue];
+        // 发送成功删除该ID
+        if ([resultCode intValue] == 200) {
+            
+            [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
+        }
+    }
+    //
     if ([path hasPrefix:@"/tg/file/"])
     {
         if (resultCode == ASStatusSuccess)
         {
             if (self.downloadCompletionBlock)
+                
                 self.downloadCompletionBlock(((SGraphObjectNode *)result).object);
         }
         else
@@ -727,13 +738,15 @@ static inline double imageProcessingPriority()
     }
 }
 
-- (void)cancel
-{
-    if (self.cancelToken != nil)
-    {
+- (void)cancel{
+    
+    if (self.cancelToken != nil){
+        
         if ([self.cancelToken isKindOfClass:[NSOperation class]])
+        
             [((NSOperation *)self.cancelToken) cancel];
         else
+            
             [TGTelegraphInstance cancelRequestByToken:self.cancelToken];
         
         self.cancelToken = nil;

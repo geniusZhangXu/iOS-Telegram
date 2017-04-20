@@ -150,24 +150,28 @@ static inline int32_t TGMessageSortKeyTimestamp(TGMessageSortKey key) {
 }
 
 static inline int32_t TGMessageTransparentSortKeyTimestamp(TGMessageTransparentSortKey key) {
+    
     int32_t timestamp = 0;
     memcpy(&timestamp, key.key + 8, 4);
     return NSSwapInt(timestamp);
 }
 
 static inline int32_t TGMessageSortKeyMid(TGMessageSortKey key) {
+    
     int32_t mid = 0;
     memcpy(&mid, key.key + 8 + 1 + 4, 4);
     return NSSwapInt(mid);
 }
 
 static inline int32_t TGMessageTransparentSortKeyMid(TGMessageTransparentSortKey key) {
+    
     int32_t mid = 0;
     memcpy(&mid, key.key + 8 + 4, 4);
     return NSSwapInt(mid);
 }
 
 static inline NSData *TGTaggedMessageSortKeyData(int32_t tag, TGMessageSortKey key) {
+    
     uint8_t data[4 + 8 + 1 + 4 + 4];
     memcpy(data, &tag, 4);
     memcpy(data + 4, key.key, 8 + 1 + 4 + 4);
@@ -175,7 +179,9 @@ static inline NSData *TGTaggedMessageSortKeyData(int32_t tag, TGMessageSortKey k
 }
 
 static inline TGMessageSortKey TGTaggedMessageSortKeyExtract(NSData *data, int32_t *outTag) {
+    
     if (outTag != NULL) {
+        
         [data getBytes:(void *)outTag range:NSMakeRange(0, 4)];
     }
     
@@ -187,57 +193,41 @@ static inline TGMessageSortKey TGTaggedMessageSortKeyExtract(NSData *data, int32
 @interface TGMessage : NSObject <NSCopying, PSCoding>
 
 @property (nonatomic) int mid;
-
 @property (nonatomic) TGMessageSortKey sortKey;
 @property (nonatomic, readonly) TGMessageTransparentSortKey transparentSortKey;
-
 @property (nonatomic) int32_t pts;
-
-//@property (nonatomic, readonly) bool unread;
 @property (nonatomic) bool hintUnread;
 @property (nonatomic) bool outgoing;
 @property (nonatomic) TGMessageDeliveryState deliveryState;
 @property (nonatomic) int64_t fromUid;
 @property (nonatomic) int64_t toUid;
 @property (nonatomic) int64_t cid;
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic) NSTimeInterval date;
-@property (nonatomic, strong) NSArray *mediaAttachments;
-
+@property (nonatomic, copy) NSString  * text;
+@property (nonatomic) NSTimeInterval    date;
+@property (nonatomic, strong) NSArray * mediaAttachments;
 @property (nonatomic) int32_t realDate;
 @property (nonatomic) int64_t randomId;
-
 @property (nonatomic, readonly) int64_t forwardPeerId;
-
-@property (nonatomic) bool containsMention;
-
+@property (nonatomic) bool    containsMention;
 @property (nonatomic, strong) TGActionMediaAttachment *actionInfo;
-
 @property (nonatomic, strong) NSArray *textCheckingResults;
-
 @property (nonatomic) int32_t messageLifetime;
 @property (nonatomic) int64_t flags;
 @property (nonatomic) int32_t seqIn;
 @property (nonatomic) int32_t seqOut;
-
-@property (nonatomic) bool isBroadcast;
+@property (nonatomic) bool    isBroadcast;
 @property (nonatomic) NSUInteger layer;
-
 @property (nonatomic, strong) TGBotReplyMarkup *replyMarkup;
-@property (nonatomic) bool hideReplyMarkup;
-@property (nonatomic) bool forceReply;
+@property (nonatomic) bool    hideReplyMarkup;
+@property (nonatomic) bool    forceReply;
+@property (nonatomic) bool    isSilent;
+@property (nonatomic) bool    isEdited;
+@property (nonatomic, strong) TGMessageViewCountContentProperty * viewCount;
+@property (nonatomic, strong) NSArray        * entities;
+@property (nonatomic, strong) NSDictionary   * contentProperties;
+@property (nonatomic, strong) TGMessageHole  * hole;
+@property (nonatomic, strong) TGMessageGroup * group;
 
-@property (nonatomic) bool isSilent;
-@property (nonatomic) bool isEdited;
-
-@property (nonatomic, strong) TGMessageViewCountContentProperty *viewCount;
-
-@property (nonatomic, strong) NSArray *entities;
-
-@property (nonatomic, strong) NSDictionary *contentProperties;
-
-@property (nonatomic, strong) TGMessageHole *hole;
-@property (nonatomic, strong) TGMessageGroup *group;
 
 - (bool)local;
 

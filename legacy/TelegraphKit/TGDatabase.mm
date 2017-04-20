@@ -1,74 +1,47 @@
 #import "TGDatabase.h"
-
 #import "FMDatabase.h"
-
 #import "ATQueue.h"
-
 #import "ASCommon.h"
-
 #import "TGUser.h"
 #import "TGMessage.h"
 #import "TGPeerIdAdapter.h"
-
 #import "TGTelegraph.h"
 #import "TGAppDelegate.h"
-
 #import "NSObject+TGLock.h"
-
 #import "TGStringUtils.h"
 #import "TGPhoneUtils.h"
-
 #import "ActionStage.h"
 #import "SGraphObjectNode.h"
-
 #import "TGCache.h"
 #import "TGRemoteImageView.h"
-
 #import "TGPreparedLocalDocumentMessage.h"
-
 #import "PSKeyValueEncoder.h"
 #import "PSKeyValueDecoder.h"
-
 #import "TGGlobalMessageSearchSignals.h"
-
 #import "TGSpotlightIndexData.h"
-
 #include <map>
 #include <set>
 #include <tr1/unordered_map>
 #include <tr1/memory>
-
 #include <fcntl.h>
 #import <sys/mman.h>
-
 #import <CommonCrypto/CommonDigest.h>
-
 #import <MTProtoKit/MTEncryption.h>
-
 #include <inttypes.h>
-
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-
 #import "TGModernSendSecretMessageActor.h"
-
 #import "TGTelegramNetworking.h"
 #import "TGConversationAddMessagesActor.h"
-
 #import "TGChannelList.h"
-
 #import "TGMediaCacheIndexData.h"
-
 #import <sys/stat.h>
 #import <dirent.h>
 #import <stdio.h>
-
 #import "TGRemoteRecentPeer.h"
 #import "TGRemoteRecentPeerSet.h"
 #import "TGRemoteRecentPeerCategories.h"
-
 #import "TGMessageViewedContentProperty.h"
-
 #import "TGInterfaceManager.h"
 #import "TGRecentGifsSignal.h"
 #import "TGRecentStickersSignal.h"
@@ -76,6 +49,7 @@
 #import "TGGroupManagementSignals.h"
 
 @interface TGDatabaseIndexHolder : NSObject {
+    
     @public std::set<int32_t> _messageIds;
 }
 
@@ -2712,8 +2686,8 @@ inline static TGUser *loadUserFromDatabase(FMResultSet *result, PSKeyValueDecode
 /**
  更具用户id查找用户
 
- @param uid <#uid description#>
- @return <#return value description#>
+ @param uid uid description
+ @return return value description
  */
 - (TGUser *)loadUser:(int)uid
 {
@@ -3414,7 +3388,7 @@ static inline TGConversation *loadConversationFromDatabase(FMResultSet *result)
     return _conversationListTableName;
 }
 
-- (TGConversation *)loadConversationWithId:(int64_t)conversationId
+-(TGConversation *)loadConversationWithId:(int64_t)conversationId
 {
     __block TGConversation *conversation = nil;
     
@@ -5529,41 +5503,37 @@ static inline TGMessage *loadMessageFromQueryResult(FMResultSet *result, int64_t
     return message;
 }
 
-static inline TGMessage *loadMessageFromQueryResult(FMResultSet *result)
-{
-    TGMessage *message = [[TGMessage alloc] init];
+static inline TGMessage *loadMessageFromQueryResult(FMResultSet * result){
     
-    message.mid = [result intForColumn:@"mid"];
-    message.cid = [result longLongIntForColumn:@"cid"];
+    
+    TGMessage * message = [[TGMessage alloc] init];
+    message.mid  = [result intForColumn:@"mid"];
+    message.cid  = [result longLongIntForColumn:@"cid"];
     message.text = [result stringForColumn:@"message"];
-    message.mediaAttachments = [TGMessage parseMediaAttachments:[result dataForColumn:@"media"]];
+    message.mediaAttachments  = [TGMessage parseMediaAttachments: [result dataForColumn:@"media"]];
     message.contentProperties = [TGMessage parseContentProperties:[result dataForColumn:@"content_properties"]];
-    message.fromUid = [result longLongIntForColumn:@"from_id"];
-    message.toUid = [result longLongIntForColumn:@"to_id"];
+    message.fromUid  = [result longLongIntForColumn:@"from_id"];
+    message.toUid    = [result longLongIntForColumn:@"to_id"];
     message.outgoing = [result intForColumn:@"outgoing"];
     message.deliveryState = (TGMessageDeliveryState)[result intForColumn:@"dstate"];
-    message.date = [result intForColumn:@"date"];
-    
+    message.date   = [result intForColumn:@"date"];
     message.messageLifetime = [result intForColumn:@"localMid"];
-    
-    message.flags = (int64_t)[result longLongIntForColumn:@"flags"];
-    message.seqIn = [result intForColumn:@"seq_in"];
+    message.flags  = (int64_t)[result longLongIntForColumn:@"flags"];
+    message.seqIn  = [result intForColumn:@"seq_in"];
     message.seqOut = [result intForColumn:@"seq_out"];
-    
     return message;
 }
 
-- (TGMessage *)loadMediaMessageWithMid:(int)mid
-{
-    __block TGMessage *message = nil;
+-(TGMessage *)loadMediaMessageWithMid:(int)mid{
     
-    [self dispatchOnDatabaseThread:^
-    {
+    __block TGMessage *message = nil;
+    [self dispatchOnDatabaseThread:^{
+        
         FMResultSet *result = [_database executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE mid=?", _conversationMediaTableName], [[NSNumber alloc] initWithInt:mid]];
         
-        int dateIndex = [result columnIndexForName:@"date"];
-        int midIndex = [result columnIndexForName:@"mid"];
-        int mediaIndex = [result columnIndexForName:@"media"];
+        int dateIndex   = [result columnIndexForName:@"date"];
+        int midIndex    = [result columnIndexForName:@"mid"];
+        int mediaIndex  = [result columnIndexForName:@"media"];
         int fromIdIndex = [result columnIndexForName:@"from_id"];
         
         if ([result next])
@@ -5578,17 +5548,29 @@ static inline TGMessage *loadMessageFromQueryResult(FMResultSet *result)
     return message;
 }
 
-- (TGMessage *)loadMessageWithMid:(int)mid peerId:(int64_t)peerId
-{
-    __block TGMessage *message = nil;
+
+/**
+ 本地查询消息根据 mid 和 peerId
+ 
+ @param mid       mid    description
+ @param peerId    peerId description
+ @return return value description
+ */
+- (TGMessage *)loadMessageWithMid:(int)mid peerId:(int64_t)peerId{
     
+    __block TGMessage *message = nil;
     [self dispatchOnDatabaseThread:^
     {
+        // 判断peerId是不是频道ID  ？？？
         if (TGPeerIdIsChannel(peerId)) {
+            
             message = [self _loadChannelMessage:peerId messageId:mid];
-        } else {
-            FMResultSet *result = [_database executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE mid=?", _messagesTableName], [[NSNumber alloc] initWithInt:mid]];
+            
+        }else{
+            
+            FMResultSet * result = [_database executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE mid=?", _messagesTableName], [[NSNumber alloc] initWithInt:mid]];
             if ([result next])
+                
                 message = loadMessageFromQueryResult(result);
         }
     } synchronous:true];
@@ -5596,6 +5578,14 @@ static inline TGMessage *loadMessageFromQueryResult(FMResultSet *result)
     return message;
 }
 
+
+/**
+ 获取未读消息
+
+ @param conversationId 会话ID
+ @param limit          限制多少条
+ @param completion completion description
+ */
 - (void)loadUnreadMessagesHeadFromConversation:(int64_t)conversationId limit:(int)limit completion:(void (^)(NSArray *messages, bool isAtBottom))completion
 {
     [self dispatchOnDatabaseThread:^
@@ -6728,15 +6718,14 @@ static inline TGMessage *loadMessageFromQueryResult(FMResultSet *result)
     }
 }
 
-inline TGMessage *loadMessageMediaFromQueryResult(FMResultSet *result, int const &dateIndex, int const &fromIdIndex, int const &midIndex, int const &mediaIndex)
-{
-    int mid = [result intForColumnIndex:midIndex];
-    int date = [result intForColumnIndex:dateIndex];
+inline TGMessage *loadMessageMediaFromQueryResult(FMResultSet *result, int const &dateIndex, int const &fromIdIndex, int const &midIndex, int const &mediaIndex){
+    
+    int mid    = [result intForColumnIndex:midIndex];
+    int date   = [result intForColumnIndex:dateIndex];
     int fromId = [result intForColumnIndex:fromIdIndex];
     
     TGMessage *message = [[TGMessage alloc] init];
-    
-    NSData *mediaData = [result dataForColumnIndex:mediaIndex];
+    NSData  *mediaData = [result dataForColumnIndex:mediaIndex];
     NSArray *mediaAttachments = [TGMessage parseMediaAttachments:mediaData];
     message.mid = mid;
     message.fromUid = fromId;
@@ -8369,6 +8358,14 @@ static inline TGFutureAction *loadFutureActionFromQueryResult(FMResultSet *resul
      } synchronous:false];
 }
 
+
+/**
+ 更新最新的一条消息
+
+ @param mid mid    description
+ @param applied    applied description
+ @param completion completion description
+ */
 - (void)updateLatestMessageId:(int)mid applied:(bool)applied completion:(void (^)(int greaterMidForSynchronization))completion
 {
     [self dispatchOnDatabaseThread:^
@@ -11621,6 +11618,7 @@ typedef struct {
         }
         return currentConversation;
     } else if (!conversation.isMin) {
+        
         conversation = [conversation copy];
         conversation.pts = MAX(1, conversation.pts);
         [self _renderConversations:@[conversation]];
@@ -11637,13 +11635,27 @@ typedef struct {
     }
 }
 
+
+/**
+ 本地查询频道消息
+
+ @param peerId    peerId description
+ @param messageId messageId description
+ @return <#return value description#>
+ */
 - (TGMessage *)_loadChannelMessage:(int64_t)peerId messageId:(int32_t)messageId {
+    
     FMResultSet *result = [_database executeQuery:[[NSString alloc] initWithFormat:@"SELECT data FROM %@ WHERE cid=? AND mid=?", _channelMessagesTableName], @(peerId), @(messageId)];
     if ([result next]) {
+        
         TGMessage *message = [[TGMessage alloc] initWithKeyValueCoder:[[PSKeyValueDecoder alloc] initWithData:[result dataForColumnIndex:0]]];
+        
         if (message.mid == messageId && message.cid == peerId) {
+            
             return message;
+            
         } else {
+            
             TGLog(@"(TGDatabase _loadChannelMessage: unexpexted message properties (peerId = %lld, messageId = %d))", (long long)message.cid, (int)message.mid);
         }
     }

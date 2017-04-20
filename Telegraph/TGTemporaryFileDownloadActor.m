@@ -1,10 +1,7 @@
 #import "TGTemporaryFileDownloadActor.h"
-
 #import "TGModernCache.h"
-
 #import "TGTelegraph.h"
 #import "ActionStage.h"
-
 #import "TGRemoteFileSignal.h"
 
 @interface TGTemporaryFileDownloadActor () <TGRawHttpActor>

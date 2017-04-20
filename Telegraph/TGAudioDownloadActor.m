@@ -7,22 +7,16 @@
  */
 
 #import "TGAudioDownloadActor.h"
-
 #import "ActionStage.h"
-
 #import "TL/TLMetaScheme.h"
-
 #import "TGAudioMediaAttachment.h"
-
 #import "TGStringUtils.h"
-
 #import <CommonCrypto/CommonDigest.h>
-
 #import "TGTelegramNetworking.h"
-
 @implementation TGAudioDownloadActor
 
 + (void)load {
+    
     [ASActor registerActorClass:self];
 }
 

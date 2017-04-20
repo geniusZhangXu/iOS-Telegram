@@ -1,24 +1,17 @@
 #import "TGLegacyCameraController.h"
-
 #import "TGHacks.h"
-
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <CommonCrypto/CommonDigest.h>
-
 #import "TGImageDownloadActor.h"
-
 #import "TGImageUtils.h"
 #import "TGProgressWindow.h"
-
 #import "TGLegacyMediaPickerTipView.h"
-
 #import "TGImagePickerController.h"
-
 #import "TGAppDelegate.h"
 
-@interface TGLegacyCameraController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-{
+@interface TGLegacyCameraController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
+    
     TGProgressWindow *_progressWindow;
     bool _didShowTip;
 }
@@ -133,8 +126,6 @@
     {
         //if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
         //    defaultFlashMode = picker.cameraFlashMode;
-        
-     
         if (_avatarMode)
         {
             CGRect cropRect = [[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];

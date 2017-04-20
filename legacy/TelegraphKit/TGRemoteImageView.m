@@ -469,6 +469,7 @@ static TGCache *sharedCache = nil;
     dispatch_async(dispatch_get_main_queue(), ^
     {
         if (_progressHandler == nil)
+            
             return;
         
         if (self.path != nil && [path isEqualToString:self.path])

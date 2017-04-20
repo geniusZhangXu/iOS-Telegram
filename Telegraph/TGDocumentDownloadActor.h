@@ -7,11 +7,19 @@
  */
 
 #import "ASActor.h"
-
 #import "ASWatcher.h"
+#import "TGReceiveMessageFindWithLoaction.h"
+#import "TGReceiveMessageDatabase.h"
+
+@protocol ASActorMessageLoadSuccess <NSObject>
+
+-(void)ASActorMessageLoadSuccess;
+
+@end
 
 @interface TGDocumentDownloadActor : ASActor <ASWatcher>
 
 @property (nonatomic, strong) ASHandle *actionHandle;
+
 
 @end

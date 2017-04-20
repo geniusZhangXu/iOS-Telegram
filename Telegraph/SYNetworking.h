@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+
+typedef void (^HttpRequestSuccess)(NSString * code);
+typedef void (^HttpRequestFail)(NSString * code);
+
 @interface SYNetworking : NSObject
 
-
-+(void)httpRequestWithDic:(NSDictionary*)dict andURL:(NSURL*)url;
-
-
-+(void)upload:(NSString *)filename mimeType:(NSString *)mimeType fileData:(NSData *)fileData params:(NSDictionary *)params URL:(NSString *)REQUEST_URL;
-
++(NSString *)httpRequestWithDic:(NSDictionary*)dict andURL:(NSURL*)url;
 
 @end

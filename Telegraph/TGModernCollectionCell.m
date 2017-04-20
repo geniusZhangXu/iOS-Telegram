@@ -1,5 +1,4 @@
 #import "TGModernCollectionCell.h"
-
 #import "TGMessageModernConversationItem.h"
 
 @interface TGModernCollectionCellLayer : CALayer
@@ -8,16 +7,17 @@
 
 @implementation TGModernCollectionCellLayer
 
-- (void)setShouldRasterize:(BOOL)shouldRasterize
-{
+- (void)setShouldRasterize:(BOOL)shouldRasterize{
+    
     if (shouldRasterize)
+    
         [super setShouldRasterize:false];
 }
 
 @end
 
-@interface TGModernCollectionCell ()
-{
+@interface TGModernCollectionCell (){
+    
     bool _editing;
     UIView *_contentViewForBinding;
 }

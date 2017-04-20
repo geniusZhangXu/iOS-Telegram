@@ -859,22 +859,28 @@ static int64_t extractMessageConversationId(T concreteMessage, int &outFromUid)
             
             if (([message isKindOfClass:[TLMessage$modernMessage class]] || [message isKindOfClass:[TLMessage$modernMessageService class]]) && !(((TLMessage$modernMessage *)message).flags & 2))
             {
-                TGMessage *parsedMessage = [[TGMessage alloc] initWithTelegraphMessageDesc:message];
+                TGMessage * parsedMessage = [[TGMessage alloc] initWithTelegraphMessageDesc:message];
                 if (!parsedMessage.outgoing && !parsedMessage.isSilent)
                 {
                     auto maxIt = maxInboxReadMessageIdByPeerId.find(parsedMessage.cid);
                     if (maxIt == maxInboxReadMessageIdByPeerId.end()) {
+                        
                         TGConversation *conversation = [TGDatabaseInstance() loadConversationWithId:parsedMessage.cid];
                         maxInboxReadMessageIdByPeerId[parsedMessage.cid] = conversation.maxReadMessageId;
+                        
                     }
                     
                     if (!(maxIt != maxInboxReadMessageIdByPeerId.end() && parsedMessage.mid <= maxIt->second))
+                        
                         [messagesForLocalNotification addObject:newMessage.message];
                 }
                 
-                TGLog(@"message date: %d", (int32_t)parsedMessage.date);
+                TGLog(@"message date时间111111111: %d", (int32_t)parsedMessage.date);
+                TGLog(@"message dateMessageID1111111: %d", parsedMessage.mid);
+                
             }
             else
+                
                 TGLog(@"Message %d does not match for local notification", (int)message.n_id);
             
             int64_t conversationId = 0;
@@ -1183,21 +1189,25 @@ static int64_t extractMessageConversationId(T concreteMessage, int &outFromUid)
     [super cancel];
 }
 
-+ (void)applyDelayedNotifications:(int)maxMid mids:(NSArray *)mids midsWithoutSound:(NSSet *)midsWithoutSound maxQts:(int)maxQts randomIds:(NSArray *)randomIds
+
+#pragma mark -- 通知
++(void)applyDelayedNotifications:(int)maxMid mids:(NSArray *)mids midsWithoutSound:(NSSet *)midsWithoutSound maxQts:(int)maxQts randomIds:(NSArray *)randomIds
 {
     dispatch_async(dispatch_get_main_queue(), ^
     {
         UIApplicationState applicationState = [UIApplication sharedApplication].applicationState;
         if ([UIApplication sharedApplication] == nil)
+            
             applicationState = UIApplicationStateBackground;
         
         [ActionStageInstance() dispatchOnStageQueue:^
         {
+            // 如果不是活跃状态
             if (applicationState != UIApplicationStateActive)
             {
-                int globalMessageSoundId = 1;
+                int  globalMessageSoundId = 1;
                 bool globalMessagePreviewText = true;
-                int globalMessageMuteUntil = 0;
+                int  globalMessageMuteUntil = 0;
                 bool notFound = false;
                 [TGDatabaseInstance() loadPeerNotificationSettings:INT_MAX - 1 soundId:&globalMessageSoundId muteUntil:&globalMessageMuteUntil previewText:&globalMessagePreviewText messagesMuted:NULL notFound:&notFound];
                 if (notFound)
@@ -1640,6 +1650,7 @@ static int64_t extractMessageConversationId(T concreteMessage, int &outFromUid)
                             }
                             else if (attachment.type == TGImageMediaAttachmentType)
                             {
+                                
                                 if (((TGImageMediaAttachment *)attachment).caption.length != 0) {
                                     if (message.cid > 0) {
                                         text = [[NSString alloc] initWithFormat:@"%@: 🖼 %@", user.displayName, ((TGImageMediaAttachment *)attachment).caption];
@@ -1659,6 +1670,8 @@ static int64_t extractMessageConversationId(T concreteMessage, int &outFromUid)
                             }
                             else if (attachment.type == TGVideoMediaAttachmentType)
                             {
+                                
+                                
                                 if (((TGVideoMediaAttachment *)attachment).caption.length != 0) {
                                     if (message.cid > 0) {
                                         text = [[NSString alloc] initWithFormat:@"%@: 📹 %@", user.displayName, ((TGVideoMediaAttachment *)attachment).caption];
@@ -1780,6 +1793,7 @@ static int64_t extractMessageConversationId(T concreteMessage, int &outFromUid)
                                 break;
                             }
                             else if (attachment.type == TGGameAttachmentType) {
+                                
                                 NSString *gameTitle = ((TGGameMediaAttachment *)attachment).title;
                                 
                                 if (message.cid > 0) {
@@ -1871,6 +1885,7 @@ static int64_t extractMessageConversationId(T concreteMessage, int &outFromUid)
                         }
                         
                         if (text != nil)
+                            
                             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
                     }
                 }

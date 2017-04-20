@@ -7,9 +7,7 @@
  */
 
 #import "TGMediaAttachment.h"
-
 #import "TGImageInfo.h"
-
 #import "TGDocumentAttributeFilename.h"
 #import "TGDocumentAttributeAnimated.h"
 #import "TGDocumentAttributeSticker.h"
@@ -32,9 +30,9 @@
 @property (nonatomic) int32_t   version;
 @property (nonatomic, strong)   TGImageInfo *thumbnailInfo;
 @property (nonatomic, strong)   NSString *documentUri;
-@property (nonatomic, strong)   NSArray *attributes;
+@property (nonatomic, strong)   NSArray  *attributes;
 @property (nonatomic, strong)   NSString *caption;
-@property (nonatomic, readonly) NSArray *textCheckingResults;
+@property (nonatomic, readonly) NSArray  *textCheckingResults;
 
 - (NSString *)safeFileName;
 + (NSString *)safeFileNameForFileName:(NSString *)fileName;

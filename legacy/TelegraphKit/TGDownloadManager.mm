@@ -299,6 +299,7 @@
                 [TGDatabaseInstance() updateLastUseDateForMediaType:mediaId.type mediaId:mediaId.itemId messageId:item.messageId];
             }
         }
+        //TGLog(@"下载的消息============%@",item.messageId);
     }
 }
 

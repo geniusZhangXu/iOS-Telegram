@@ -1,14 +1,9 @@
 #import "TGDownloadMessagesSignal.h"
-
 #import "TGTelegramNetworking.h"
 #import "TL/TLMetaScheme.h"
-
 #import "TGUserDataRequestBuilder.h"
-
 #import "TGMessage+Telegraph.h"
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGStickersSignals.h"
 
 @implementation TGDownloadMessage

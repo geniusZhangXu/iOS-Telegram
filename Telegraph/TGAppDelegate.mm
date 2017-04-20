@@ -1,112 +1,67 @@
 #import "TGAppDelegate.h"
-
 #import "TGCommon.h"
-
 #import "Freedom.h"
 #import "FreedomUIKit.h"
-
 #import "TGTelegraph.h"
 #import "TGTelegramNetworking.h"
-
 #import <MTProtoKit/MTDatacenterAddress.h>
-
 #import "TGDatabase.h"
 #import "TGMessage+Telegraph.h"
-
 #import "TGDateUtils.h"
 #import "TGStringUtils.h"
-
 #import "TGInterfaceManager.h"
 #import "TGInterfaceAssets.h"
-
 #import "TGSchema.h"
-
 #import "TGImageManager.h"
-
 #import "TGCache.h"
 #import "TGRemoteImageView.h"
 #import "TGImageUtils.h"
-
 #import "TGViewController.h"
-
 #import "TGTelegraphDialogListCompanion.h"
-
 #import "TGNavigationBar.h"
-
 #import "SGraphListNode.h"
 #import "TGImageDownloadActor.h"
-
 #import "TGHacks.h"
-
 #import "TGTelegraphConversationMessageAssetsSource.h"
 #import "TGReusableLabel.h"
-
 #import "TGFont.h"
-
 #import <QuartzCore/QuartzCore.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <ImageIO/ImageIO.h>
-
 #import "RMIntroViewController.h"
-
 #import "TGLoginWelcomeController.h"
 #import "TGLoginPhoneController.h"
 #import "TGLoginCodeController.h"
 #import "TGLoginProfileController.h"
 #import "TGLoginInactiveUserController.h"
-
 #import "TGApplication.h"
-
 #import "TGPasscodeWindow.h"
-
 #import "TGContentViewController.h"
-
 #import "TGModernConversationController.h"
 #import "TGGenericModernConversationCompanion.h"
-
 #import "TGOverlayControllerWindow.h"
 #import "TGModernGalleryController.h"
-
 #import "TGSecretModernConversationCompanion.h"
-
 #import "TGForwardTargetController.h"
-
 #import "TGTimerTarget.h"
-
 #import "TGAlertView.h"
-
 #import "TGModernGalleryModel.h"
-
 #import "TGConversationAddMessagesActor.h"
-
 #import <pthread.h>
-
 #import <objc/runtime.h>
-
 #import <AVFoundation/AVFoundation.h>
-
 #include <inttypes.h>
-
 #import "TGProgressWindow.h"
-
 #import "TGPasscodeSettingsController.h"
 #import "TGPasscodeEntryController.h"
-
 #import "TGDropboxHelper.h"
-
 #import "TGStickersSignals.h"
-
 #import <LocalAuthentication/LocalAuthentication.h>
-
 #import "TGStickerPackPreviewWindow.h"
-
 #import "TGBotSignals.h"
-
 #import "TGBridgeServer.h"
 #import "TGBridgeRemoteHandler.h"
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGAccountSignals.h"
 
 #define TG_SYNCHRONIZED_DEFINE(lock) pthread_mutex_t TG_SYNCHRONIZED_##lock
@@ -155,6 +110,7 @@ TGAppDelegate *TGAppDelegateInstance = nil;
 TGTelegraph *telegraph = nil;
 
 @interface CMGestureManager : NSObject {
+    
     id _internal;
 }
 
@@ -202,35 +158,30 @@ TGTelegraph *telegraph = nil;
     PKPushRegistry *_pushRegistry;
 }
 
-@property (nonatomic) bool tokenAlreadyRequested;
+@property (nonatomic) bool    tokenAlreadyRequested;
 @property (nonatomic, strong) id<TGDeviceTokenListener> deviceTokenListener;
-
-@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (nonatomic, strong) NSTimer *backgroundTaskExpirationTimer;
-
-@property (nonatomic, strong) NSMutableDictionary *loadedSoundSamples;
-
-@property (nonatomic, strong) UIWebView *callingWebView;
-
-@property (nonatomic, strong) AVAudioPlayer *currentAudioPlayer;
+@property (nonatomic, strong) NSTimer * backgroundTaskExpirationTimer;
+@property (nonatomic, strong) NSMutableDictionary * loadedSoundSamples;
+@property (nonatomic, strong) UIWebView * callingWebView;
+@property (nonatomic, strong) AVAudioPlayer   *currentAudioPlayer;
 @property (nonatomic, strong) SMetaDisposable *currentAudioPlayerSession;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 @end
 
 @implementation TGAppDelegate
 
-- (instancetype)init
-{
+- (instancetype)init{
+    
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil){
+        
         [[TGBridgeServer instanceSignal] startWithNext:nil];
     }
     return self;
 }
 
 - (TGNavigationController *)loginNavigationController{
-    
     
     if (_loginNavigationController == nil){
         

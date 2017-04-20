@@ -1,24 +1,15 @@
 #import "TGModernConversationController.h"
-
 #import "ASCommon.h"
-
 #import "FreedomUIKit.h"
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGUpdateStateRequestBuilder.h"
-
 #import "TGModernConversationCompanion.h"
-
 #import "TGImagePickerController.h"
-
 #import "TGModernConversationCollectionView.h"
 #import "TGModernConversationViewLayout.h"
-
 #import "TGModernConversationItem.h"
 #import "TGModernFlatteningViewModel.h"
 #import "TGModernTemporaryView.h"
-
 #import "TGImageUtils.h"
 #import "TGPhoneUtils.h"
 #import "TGStringUtils.h"
@@ -27,25 +18,19 @@
 #import "TGHacks.h"
 #import "TGObserverProxy.h"
 #import "TGActionSheet.h"
-
 #import "HPGrowingTextView.h"
 #import "HPTextViewInternal.h"
-
 #import "TGMessageModernConversationItem.h"
 #import "TGMessage.h"
-
 #import "TGAppDelegate.h"
 #import "TGApplication.h"
-
 #import "TGInterfaceManager.h"
-
 #import "TGModernConversationTitleView.h"
 #import "TGModernConversationAvatarButton.h"
 #import "TGModernConversationInputTextPanel.h"
 #import "TGModernConversationEditingPanel.h"
 #import "TGModernConversationTitlePanel.h"
 #import "TGModernConversationEmptyListPlaceholderView.h"
-
 #import "TGOverlayControllerWindow.h"
 #import "TGModernGalleryController.h"
 #import "TGGenericPeerMediaGalleryModel.h"
@@ -53,18 +38,15 @@
 #import "TGGroupAvatarGalleryItem.h"
 #import "TGSecretPeerMediaGalleryModel.h"
 #import "TGSecretInfiniteLifetimePeerMediaGalleryModel.h"
-
 #import "TGGenericPeerGalleryItem.h"
 #import "TGGenericPeerMediaGalleryImageItem.h"
 #import "TGGenericPeerMediaGalleryVideoItem.h"
 #import "TGModernGalleryVideoItemView.h"
 #import "TGModernGalleryNewVideoItemView.h"
 #import "TGGenericPeerMediaGalleryVideoItemView.h"
-
 #import "TGDropboxHelper.h"
 #import "TGICloudItem.h"
 #import "TGGoogleDriveController.h"
-
 #import "TGLocationViewController.h"
 #import "TGLocationPickerController.h"
 #import "TGWebSearchController.h"
@@ -73,173 +55,112 @@
 #import "TGForwardContactPickerController.h"
 #import "TGAudioRecorder.h"
 #import "TGModernConversationAudioPlayer.h"
-
 #import "PGCamera.h"
 #import "TGCameraPreviewView.h"
 #import "TGCameraController.h"
 #import "TGAccessChecker.h"
 #import "UIDevice+PlatformInfo.h"
-
 #import "TGMediaItem.h"
 #import "TGDatabase.h"
 #import "TGTelegraph.h"
 #import "TGGenericModernConversationCompanion.h"
 #import "TGPrivateModernConversationCompanion.h"
-
 #import "TGModernConversationEmptyListPlaceholderView.h"
-
 #import "TGRemoteImageView.h"
-
 #import "TGMenuView.h"
 #import "TGAlertView.h"
-
 #import "TGWallpaperManager.h"
-
 #import <CommonCrypto/CommonDigest.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-
 #import "TGVideoConverter.h"
-
 #import "TGGiphySearchResultItem.h"
 #import "TGBingSearchResultItem.h"
 #import "TGWebSearchInternalImageResult.h"
 #import "TGWebSearchInternalGifResult.h"
-
 #import "TGExternalGifSearchResultItem.h"
 #import "TGInternalGifSearchResultItem.h"
-
 #import "TGAttachmentSheetWindow.h"
 #import "TGAttachmentSheetButtonItemView.h"
-
 #import "ATQueue.h"
-
 #import "TGProgressWindow.h"
-
 #import "TGModernConversationControllerDynamicTypeSignals.h"
 #import "TGMessageViewModel.h"
 #import "TGNotificationMessageViewModel.h"
-
 #import "TGModenConcersationReplyAssociatedPanel.h"
 #import "TGStickerAssociatedInputPanel.h"
 #import "TGModernConversationMentionsAssociatedPanel.h"
 #import "TGModernConversationHashtagsAssociatedPanel.h"
 #import "TGModernConversationForwardInputPanel.h"
 #import "TGModernConversationWebPreviewInputPanel.h"
-
 #import "TGExternalGalleryModel.h"
 #import "TGGifGalleryModel.h"
-
 #import "TGStickersSignals.h"
 #import "TGMaskStickersSignals.h"
-
 #import "TGCommandKeyboardView.h"
-
 #import "TGModernConversationCommandsAssociatedPanel.h"
-
 #import "TGEmbedPreviewController.h"
-
 #import "TGSearchBar.h"
-
 #import "TGGlobalMessageSearchSignals.h"
-
 #import "TGModernConversationSearchInputPanel.h"
-
 #import "TGAttachmentSheetEmbedItemView.h"
-
 #import "TGModernDateHeaderView.h"
-
 #import "TGModernConversationControllerView.h"
-
 #import "TGMenuSheetController.h"
 #import "TGAttachmentCameraView.h"
 #import "TGAttachmentCarouselItemView.h"
 #import "TGAttachmentFileTipView.h"
 #import "TGMediaAssetsController.h"
 #import "TGTelegramNetworking.h"
-
 #import <SafariServices/SafariServices.h>
-
 #import "TGSendMessageSignals.h"
-
 #import "TGShareSheetView.h"
 #import "TGShareSheetWindow.h"
 #import "TGShareSheetSharePeersItemView.h"
-
 #import "TGPreparedForwardedMessage.h"
-
 #import "TGRecentGifsSignal.h"
 #import "TGRecentStickersSignal.h"
-
 #import "TGBotContextResults.h"
-
 #import "TGModernConversationGenericContextResultsAssociatedPanel.h"
 #import "TGModernConversationMediaContextResultsAssociatedPanel.h"
-
 #import "TGBotContextResultAttachment.h"
-
 #import "TGRecentContextBotsSignal.h"
-
 #import "TGStickerKeyboardView.h"
-
 #import "TGExternalImageSearchResult.h"
 #import "TGExternalGifSearchResult.h"
-
 #import "TGProgressAlert.h"
-
 #import "TGBotContextMediaResult.h"
 #import "TGBotContextExternalResult.h"
-
 #import "TGBotContextResultSendMessageAuto.h"
 #import "TGBotContextResultSendMessageText.h"
 #import "TGBotContextResultSendMessageGeo.h"
 #import "TGBotContextResultSendMessageContact.h"
-
 #import "TGRaiseToListenActivator.h"
-
 #import "TGModernConversationAudioPreviewInputPanel.h"
-
 #import "TGKeyCommandController.h"
 #import "TGPopoverController.h"
-
 #import "TGMessageSearchSignals.h"
-
 #import "TGChannelConversationCompanion.h"
-
 #import "TGShareSheetWindow.h"
 #import "TGShareSheetButtonItemView.h"
 #import "TGAttachmentSheetCheckmarkVariantItemView.h"
-
 #import "TGEmbedMenu.h"
 #import "TGStickersMenu.h"
 #import "TGShareMenu.h"
 #import "TGOpenInMenu.h"
-
 #import "TGPreviewMenu.h"
-
 #import "TGConversationScrollMessageStack.h"
-
 #import "TGModernConversationMediaContextResultsAssociatedPanel.h"
 #import "TGModernConversationComplexMediaContextResultsAssociatedPanel.h"
-
 #import "TGNavigationBar.h"
-
 #import "TGFastCameraController.h"
-
 #import "TGModernConversationEditingMessageInputPanel.h"
-
 #import "TGConversationScrollButton.h"
-
 #import "TGRecentPeersSignals.h"
-
 #import "TGBotSignals.h"
-
 #import "TGWebAppController.h"
-
 #import "TGPickerSheet.h"
-
 #import "TGMessageSearchSignals.h"
-
 #import "TGEmbedPIPController.h"
 #import "TGInstantPageController.h"
 
@@ -257,16 +178,20 @@ NSInteger TGModernConversationControllerUnloadHistoryThreshold = 200;
 #define TGModernConversationControllerLogCellOperations false
 
 typedef enum {
+    
     TGModernConversationActivityChangeAuto = 0,
     TGModernConversationActivityChangeActive = 1,
     TGModernConversationActivityChangeInactive = 2
+    
 } TGModernConversationActivityChange;
 
 typedef enum {
+    
     TGModernConversationPanelAnimationNone = 0,
     TGModernConversationPanelAnimationSlide = 1,
     TGModernConversationPanelAnimationFade = 2,
     TGModernConversationPanelAnimationSlideFar = 3
+    
 } TGModernConversationPanelAnimation;
 
 @interface TGModernConversationController () <UICollectionViewDataSource, TGModernConversationViewLayoutDelegate, UIViewControllerTransitioningDelegate, HPGrowingTextViewDelegate, UIGestureRecognizerDelegate, TGLegacyCameraControllerDelegate, TGModernConversationInputTextPanelDelegate, TGModernConversationEditingPanelDelegate, TGModernConversationTitleViewDelegate, TGForwardContactPickerControllerDelegate, TGAudioRecorderDelegate, NSUserActivityDelegate, UIDocumentInteractionControllerDelegate, UIDocumentPickerDelegate, TGImagePickerControllerDelegate, TGSearchBarDelegate, TGKeyCommandResponder>
@@ -280,18 +205,12 @@ typedef enum {
     NSRange _initialSelectRange;
     NSArray *_initialForwardMessages;
     TGMessageEditingContext *_initialMessageEdigingContext;
-    
     bool _shouldHaveTitlePanelLoaded;
-    
     bool _editingMode;
-    
     NSMutableArray *_items;
-    
     NSMutableSet *_collectionRegisteredIdentifiers;
-    
     TGModernConversationControllerView *_view;
-    
-    TGModernConversationCollectionView *_collectionView;
+    TGModernConversationCollectionView *_collectionView;   //_collectionView
     TGModernConversationViewLayout *_collectionLayout;
     UIScrollView *_collectionViewScrollToTopProxy;
     
@@ -302,7 +221,6 @@ typedef enum {
     CGImageRef _snapshotImage;
     TGModernTemporaryView *_snapshotBackgroundView;
     UIView *_snapshotImageView;
-    
     UIImageView *_backgroundView;
     
     TGModernConversationInputTextPanel *_inputTextPanel;
@@ -327,9 +245,7 @@ typedef enum {
     TGObserverProxy *_applicationWillResignActiveProxy;
     TGObserverProxy *_applicationDidEnterBackgroundProxy;
     TGObserverProxy *_applicationDidBecomeActiveProxy;
-    
     TGObserverProxy *_screenshotProxy;
-    
     TGObserverProxy *_dropboxProxy;
     
     CGPoint _collectionPanTouchContentOffset;
@@ -347,36 +263,25 @@ typedef enum {
     TGConversationScrollButton *_unseenMessagesButton;
     
     bool _disableScrollProcessing;
-    
     bool _enableAboveHistoryRequests;
     bool _enableBelowHistoryRequests;
-    
     bool _enableUnloadHistoryRequests;
-    
     bool _canReadHistory;
     
     TGAudioRecorder *_currentAudioRecorder;
     bool _currentAudioRecorderIsTouchInitiated;
-    
     NSUserActivity *_currentActivity;
-    
     TGShareSheetWindow *_shareSheetWindow;
     UIDocumentInteractionController *_interactionController;
-    
     TGICloudItemRequest *_currentICloudItemRequest;
-    
     SDisposableSet *_disposable;
-    
     int32_t _temporaryHighlightMessageIdUponDisplay;
     bool _hasUnseenMessagesBelow;
-    
     int32_t _openMediaForMessageIdUponDisplay;
     bool _openedMediaIsEmbed;
     bool _cancelPIPForOpenedMedia;
-    
     NSString *_currentLinkParseLink;
     SMetaDisposable *_currentLinkParseDisposable;
-    
     bool _disableLinkPreviewsForMessage;
     
     TGBotReplyMarkup *_replyMarkup;
@@ -388,9 +293,7 @@ typedef enum {
     bool _isChannel;
     
     UIView *_conversationHeader;
-    
     NSNumber *_scrollingToBottom;
-    
     TGSearchBar *_searchBar;
     TGModernConversationSearchInputPanel *_searchPanel;
     
@@ -400,7 +303,6 @@ typedef enum {
     NSUInteger _searchResultsOffset;
     
     int32_t _messageIdForVisibleHoleDirection;
-    
     bool _loadingMessages;
     UIActivityIndicatorView *_loadingMessagesIndicator;
     
@@ -412,9 +314,9 @@ typedef enum {
     SMetaDisposable *_processMediaDisposable;
     TGProgressAlert *_progressAlert;
     
-    TGAttachmentSheetWindow *_attachmentSheetWindow;
+    TGAttachmentSheetWindow * _attachmentSheetWindow;
     
-    SMetaDisposable *_inputPlaceholderForTextDisposable;
+    SMetaDisposable * _inputPlaceholderForTextDisposable;
     __weak TGMenuSheetController *_menuController;
     
     TGRaiseToListenActivator *_raiseToListenActivator;
@@ -1496,7 +1398,7 @@ typedef enum {
     [self updateRaiseToListen];
 }
 
-#pragma mark -
+#pragma mark --  collectionView代理
 
 - (NSArray *)items
 {
@@ -1506,6 +1408,7 @@ typedef enum {
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     if (collectionView == _collectionView)
+        
         return 1;
     
     return 0;
@@ -1521,6 +1424,7 @@ typedef enum {
 - (void)_updateVisibleItemIndices:(TGModernCollectionCell *)additionalCell
 {
     if (!_disableScrollProcessing) {
+        
         if (_messageIdForVisibleHoleDirection != 0 && !_enableBelowHistoryRequests && _collectionView.contentOffset.y <= -_collectionView.contentInset.top + 10.0f && [_collectionView visibleCells].count != 0) {
             _messageIdForVisibleHoleDirection = 0;
         }
@@ -1707,8 +1611,9 @@ typedef enum {
     [self _updateVisibleItemIndices:(TGModernCollectionCell *)cell];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+
     if (indexPath.section == 0)
     {
         TGModernConversationItem *item = indexPath.row < (NSInteger)_items.count ? [_items objectAtIndex:indexPath.row] : nil;
@@ -1721,11 +1626,12 @@ typedef enum {
                 cell = [item dequeueCollectionCell:collectionView registeredIdentifiers:_collectionRegisteredIdentifiers forIndexPath:indexPath];
                 if (cell.boundItem != nil)
                 {
-                    TGModernConversationItem *item = cell.boundItem;
+                    TGModernConversationItem * item = cell.boundItem;
                     [item unbindCell:_viewStorage];
                 }
-                
+                // 判断系统版本
                 if (!_disableItemBinding && iosMajorVersion() <= 7) {
+                    
                     [self _bindItem:item toCell:cell atIndexPath:indexPath];
                 }
             }];
@@ -1879,6 +1785,7 @@ typedef enum {
 #pragma mark -
 
 - (NSArray *)_currentItems {
+    
     return _items;
 }
 
@@ -1897,6 +1804,7 @@ typedef enum {
 }
 
 - (void)addScaleAnimation:(CALayer *)layer delay:(NSTimeInterval)delay {
+    
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     animation.fromValue = @(0.95f);
     animation.toValue = @(1.0f);
@@ -10054,7 +9962,8 @@ static UIView *_findBackArrow(UIView *view)
     [_shareSheetWindow showAnimated:true completion:nil];
 }
 
-- (void)_applyModerateMessageActions:(NSSet *)actions messageIds:(NSArray *)messageIds {
+- (void)_applyModerateMessageActions:(NSSet *)actions messageIds:(NSArray *)messageIds{
+    
     TGProgressWindow *progressWindow = [[TGProgressWindow alloc] init];
     [progressWindow showWithDelay:0.2];
     [[[[_companion applyModerateMessageActions:actions messageIds:messageIds] deliverOn:[SQueue mainQueue]] onDispose:^{
@@ -10065,11 +9974,13 @@ static UIView *_findBackArrow(UIView *view)
     [self leaveEditingMode];
 }
 
-- (void)pushEarliestUnreadMessageId:(int32_t)messageId {
+-(void)pushEarliestUnreadMessageId:(int32_t)messageId {
+    
     [_scrollStack pushMessageId:messageId];
 }
 
-- (void)incrementScrollDownUnreadCount:(NSInteger)count {
+-(void)incrementScrollDownUnreadCount:(NSInteger)count {
+    
     if (_unseenMessagesButton.superview != nil && _unseenMessagesButton.alpha > FLT_EPSILON) {
         _unseenMessagesButton.badgeCount += count;
     }

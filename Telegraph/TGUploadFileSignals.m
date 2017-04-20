@@ -36,11 +36,16 @@
 
 - (void)actorCompleted:(int)status path:(NSString *)__unused path result:(id)result {
     if (status == ASStatusSuccess) {
+        
         if (_completion) {
+            
             _completion(result[@"file"]);
         }
+        
     } else {
+        
         if (_error) {
+            
             _error();
         }
     }

@@ -13,16 +13,16 @@
 @property (nonatomic) CGSize imageSize;
 @property (nonatomic) CGSize thumbnailSize;
 @property (nonatomic, strong) NSString *assetUrl;
-
 @property (nonatomic, strong) NSString *localImageDataPath;
 @property (nonatomic, strong) NSString *localThumbnailDataPath;
-
 @property (nonatomic, strong) NSString *caption;
-
-@property (nonatomic, strong) NSArray *stickerDocuments;
+@property (nonatomic, strong) NSArray  *stickerDocuments;
 
 + (instancetype)messageWithImageData:(NSData *)imageData imageSize:(CGSize)imageSize thumbnailData:(NSData *)thumbnailData thumbnailSize:(CGSize)thumbnailSize assetUrl:(NSString *)assetUrl caption:(NSString *)caption replyMessage:(TGMessage *)replyMessage replyMarkup:(TGReplyMarkupAttachment *)replyMarkup stickerDocuments:(NSArray *)stickerDocuments;
+
+
 + (instancetype)messageWithLocalImageDataPath:(NSString *)localImageDataPath imageSize:(CGSize)imageSize localThumbnailDataPath:(NSString *)localThumbnailDataPath thumbnailSize:(CGSize)thumbnailSize assetUrl:(NSString *)assetUrl caption:(NSString *)caption replyMessage:(TGMessage *)replyMessage replyMarkup:(TGReplyMarkupAttachment *)replyMarkup stickerDocuments:(NSArray *)stickerDocuments;
+
 + (instancetype)messageByCopyingMessageData:(TGPreparedLocalImageMessage *)source;
 
 @end

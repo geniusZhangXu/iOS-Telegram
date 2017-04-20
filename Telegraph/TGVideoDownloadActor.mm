@@ -1,34 +1,21 @@
 #import "TGVideoDownloadActor.h"
-
 #import "ActionStage.h"
-
 #import "TGTelegraph.h"
-
 #import "TGVideoMediaAttachment.h"
-
 #import "TGCache.h"
 #import "TGImageUtils.h"
 #import "TGStringUtils.h"
-
 #import "TGRemoteImageView.h"
-
 #import "TGFileDownloadActor.h"
-
 #import <MTProtoKit/MTEncryption.h>
 #import <MTProtoKit/MTRequest.h>
-
 #import "TGTelegramNetworking.h"
 #import "TGNetworkWorker.h"
-
 #import "TGDownloadManager.h"
-
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
-
 #import <CommonCrypto/CommonDigest.h>
-
 #include <map>
-
 #import "TGAppDelegate.h"
 
 static NSMutableDictionary *rewriteDict()
@@ -540,8 +527,11 @@ public:
     }];
 }
 
-- (void)downloadFileParts
-{
+
+#pragma mark -- 视频下载
+- (void)downloadFileParts{
+    
+    // 进到这里说明视频下载完成
     if (_downloadedFileSize >= _videoFileLength)
     {
         if (_fileStream != nil)
@@ -551,7 +541,9 @@ public:
         }
         
         NSError *error = nil;
+        
         [[ActionStageInstance() globalFileManager] moveItemAtPath:_tempStoreFilePath toPath:_storeFilePath error:&error];
+        
         if (error != nil)
         {
             [ActionStageInstance() actionFailed:self.path reason:-1];
@@ -561,12 +553,14 @@ public:
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
             {
                 TGLog(@"Generating video preview");
-                
+                TGLog(@"Generating video preview == %@",_storeFilePath);
+
                 AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:_storeFilePath]];
-                AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+                AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
                 imageGenerator.maximumSize = CGSizeMake(800, 800);
                 imageGenerator.appliesPreferredTrackTransform = true;
                 NSError *imageError = nil;
+                
                 CGImageRef imageRef = [imageGenerator copyCGImageAtTime:CMTimeMake(0, asset.duration.timescale) actualTime:NULL error:&imageError];
                 
                 UIImage *image = [[UIImage alloc] initWithCGImage:imageRef];
@@ -612,10 +606,22 @@ public:
                     [result setObject:_thumbnailFilePath forKey:@"thumbnailPath"];
                 
                 if (image != nil)
+                    
                     [ActionStageInstance() dispatchResource:@"/as/media/previewReady" resource:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithLongLong:_videoId], @"videoId", image, @"image", nil]];
                 
-                TGLog(@"Generated video preview");
-                
+                ///////////这里处理的是单聊、群聊接收到的视频
+                ////////////////////////////////
+                NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
+                if (messageID) {
+                    
+                     NSString * result = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue];
+                    // 发送成功删除该ID
+                    if ([result intValue]== 200) {
+                        
+                        [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
+                    }
+                }
+            
                 [ActionStageInstance() actionCompleted:self.path result:result];
             });
         }
@@ -805,6 +811,7 @@ public:
 
 - (void)filePartDownloadSuccess:(TLInputFileLocation *)__unused location offset:(int)offset length:(int)length data:(NSData *)data
 {
+    
     [self videoPartDownloadSuccess:offset length:length data:data];
 }
 
@@ -962,14 +969,14 @@ public:
 
 #pragma mark -
 
-- (void)watcherJoined:(ASHandle *)watcherHandle options:(NSDictionary *)options waitingInActorQueue:(bool)waitingInActorQueue
-{
+- (void)watcherJoined:(ASHandle *)watcherHandle options:(NSDictionary *)options waitingInActorQueue:(bool)waitingInActorQueue{
+    
     [watcherHandle receiveActorMessage:self.path messageType:@"progress" message:[[NSNumber alloc] initWithFloat:_progress]];
     
     [super watcherJoined:watcherHandle options:options waitingInActorQueue:waitingInActorQueue];
 }
 
-- (void)actorCompleted:(int)status path:(NSString *)path result:(id)result
+-(void)actorCompleted:(int)status path:(NSString *)path result:(id)result
 {
     if ([path hasPrefix:@"/as/media/video/"])
     {
@@ -980,7 +987,7 @@ public:
     }
 }
 
-- (void)actorMessageReceived:(NSString *)path messageType:(NSString *)messageType message:(id)message
+-(void)actorMessageReceived:(NSString *)path messageType:(NSString *)messageType message:(id)message
 {
     if ([path hasPrefix:@"/as/media/video/"])
     {

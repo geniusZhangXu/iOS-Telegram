@@ -431,9 +431,13 @@
 }
 
 - (void)actorMessageReceived:(NSString *)path messageType:(NSString *)messageType message:(id)message {
+    
     if ([messageType isEqualToString:@"progress"]) {
+        
         TGDispatchOnMainThread(^{
+           
             if ([path isEqualToString:_downloadPath]) {
+              
                 [_overlayView setProgress:[message floatValue] cancelEnabled:false animated:true];
             }
         });

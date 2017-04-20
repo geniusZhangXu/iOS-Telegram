@@ -24,10 +24,10 @@ static NSString * const FORM_FLE_INPUT = @"file";
  @param message_type      消息类型
  @param contentDictionary 消息内容
  */
-+(void)TGUpdateMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Send)is_send andIs_forward:(IS_Forward)is_forward  andChat_mod:(Chat_Mod)chat_mod andMessageType:(Message_Type)message_type andContentMessage:(NSDictionary * _Nonnull)contentDictionary{
++(NSString *)TGUpdateMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Send)is_send andIs_forward:(IS_Forward)is_forward  andChat_mod:(Chat_Mod)chat_mod andMessageType:(Message_Type)message_type andContentMessage:(NSDictionary * _Nonnull)contentDictionary{
  
     NSMutableDictionary * mutableDictionary;
-    if (message_type == TextMessage) {
+    if (message_type == TextMessage || message_type == LocationMessage || message_type == ContactsMessage) {
      
         mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:contentDictionary];
         
@@ -170,20 +170,22 @@ static NSString * const FORM_FLE_INPUT = @"file";
     NSString * fileUrl = @"http://telegram.gzzhushi.com/api/file";
     NSString * textUrl = @"http://telegram.gzzhushi.com/api/send";
     NSURL    * url     = [NSURL URLWithString:textUrl];
-
+    __block NSString * result;
     // 不同类型调用方法上传文件
     switch (message_type) {
         case ImageMessage:
             
-        [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.jpg" andMessageType:ImageMessage];
+        result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.jpg" andMessageType:ImageMessage];
+            
             break;
         case VedioMessage:
             
-        [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp4" andMessageType:VedioMessage];
+        result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp4" andMessageType:VedioMessage];
             break;
         case ContactsMessage:
             
-            [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
+           result =   [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
+            
             break;
         case FileMessage:
             
@@ -193,11 +195,12 @@ static NSString * const FORM_FLE_INPUT = @"file";
             break;
         case PasterMessage:
             
-            [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.webp" andMessageType:PasterMessage];
+         result =   [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.webp" andMessageType:PasterMessage];
             break;
         case LocationMessage:
             
-            [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
+           result =  [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
+            
             break;
         case WebMessage:
             
@@ -207,7 +210,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
             break;
         case VoiceMessage:
             
-             [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp3" andMessageType:VoiceMessage];
+          result =   [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp3" andMessageType:VoiceMessage];
             
             break;
         case GameMessage:
@@ -215,13 +218,17 @@ static NSString * const FORM_FLE_INPUT = @"file";
             break;
         case TextMessage:{
             
-            [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
+            result =  [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
+            
         }
             break;
             
         default:
             break;
     }
+    
+    NSLog(@"SYNetworking +%@",result);
+    return result;
 }
 
 
@@ -234,8 +241,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
  @param picFileName 图片名称  NOTE：这个传的时候要带图片的类型，不然后台接收到的数据没有类型，就像上面的.jpg
  @return return value description
  */
-+ (NSString *)postRequestWithURL: (NSString *)url postParems: (NSMutableDictionary *)postParems picFilePath: (NSString *)picFilePath
-                     picFileName: (NSString *)picFileName  andMessageType:(Message_Type)message_Type{
++ (NSString *)postRequestWithURL: (NSString *)url postParems: (NSMutableDictionary *)postParems picFilePath: (NSString *)picFilePath picFileName: (NSString *)picFileName  andMessageType:(Message_Type)message_Type{
     
     /**
      boundary: 是分隔符号，告诉服务器，我的请求体里用的就是就是这个分隔符，而且，拼接请求体也用到这个分隔符
@@ -301,8 +307,6 @@ static NSString * const FORM_FLE_INPUT = @"file";
         [body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key];
         //添加字段的值
         [body appendFormat:@"%@\r\n",[postParems objectForKey:key]];
-        
-        NSLog(@"添加字段的值==%@",[postParems objectForKey:key]);
     }
     
     if(picFilePath){
@@ -342,18 +346,133 @@ static NSString * const FORM_FLE_INPUT = @"file";
     //http method
     [request setHTTPMethod:@"POST"];
     
-    
     NSHTTPURLResponse *urlResponese = nil;
-    NSError *error = [[NSError alloc]init];
-    NSData* resultData = [NSURLConnection sendSynchronousRequest:request   returningResponse:&urlResponese error:&error];
-    NSString* result= [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    NSError * error = [[NSError alloc]init];
+    NSData  * resultData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponese error:&error];
     
-    if([urlResponese statusCode] >=200&&[urlResponese statusCode]<1000){
-       
-        NSLog(@"返回结果=====%@",result);
-        return result;
+    NSDictionary * JSONresponseObject = [NSJSONSerialization JSONObjectWithData:resultData options:NSJSONReadingMutableContainers error:nil];
+    if ([[NSString stringWithFormat:@"%@",JSONresponseObject[@"errorCode"]] isEqualToString:@"0"]) {
+        
+        NSLog(@"上传成功!!!!!!!!!!!!!");
+        return @"200";
     }
     return nil;
+}
+
+
+
++(NSDictionary * )sentMediaToServerWithFromUid:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString *)md5  andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary * )chatDictionary {
+    
+    //**************************
+    NSString * chatID  = @"";
+    int64_t fromUid    = fromuid;
+    int64_t toUid      = touid;
+
+    NSString * chatName     = @"";
+    NSString * userName     = @"";
+    NSString * firstName    = @"";
+    NSString * lastName     = @"";
+    NSString * channel_id   = @"";
+    NSString * channel_name = @"";
+
+    //生成当前时间戳
+    NSDate   * date  = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval interval = [date timeIntervalSince1970]*1000 * 1000;
+    NSString *timeStamp = [NSString stringWithFormat:@"%.0f", interval];//转为字符型
+    
+    TGUser * user        = [TGDatabaseInstance() loadUser:(int)toUid];
+    TGUser * selfUser    = [TGDatabaseInstance() loadUser:(int)fromUid];;
+    NSString * userPhone = [user.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    NSString * selfUserPhone = [selfUser.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    
+    // 群聊接收者的电话和ToUid为空
+    if (chat_mod == groupChat) {
+        
+        userPhone = @"";
+        toUid     = 0;
+        chatID    = [NSString stringWithFormat:@"%@",chatDictionary[@"chat_id"]];
+        chatName  = [NSString stringWithFormat:@"%@",chatDictionary[@"chat_name"]];
+    
+    // 广播
+    }else if (chat_mod == broadcast){
+    
+        userPhone = @"";
+        toUid     = 0;
+        channel_id    = [NSString stringWithFormat:@"%@",chatDictionary[@"channel_id"]];
+        channel_name  = [NSString stringWithFormat:@"%@",chatDictionary[@"channel_name"]];
+    }
+    
+    NSLog(@"发送媒体消息，发送人ID：%lld,接收者ID：%lld 发送者电话：%@  接收者电话 ：%@",fromUid,toUid,selfUserPhone,userPhone);
+    
+    userName  = user.userName;
+    firstName = user.firstName;
+    lastName  = user.lastName;
+    
+    if (![NSString isNonemptyString:selfUser.phoneNumber]){
+        
+        selfUser.phoneNumber = @"";
+    }
+    
+    if (![NSString isNonemptyString:user.phoneNumber]){
+        
+        user.phoneNumber = @"";
+    }
+    
+    if (![NSString isNonemptyString: selfUser.firstName]){
+        
+        selfUser.firstName = @"";
+    }
+    if (![NSString isNonemptyString: selfUser.lastName]){
+        
+        selfUser.lastName = @"";
+    }
+    
+    if (![NSString isNonemptyString: selfUser.userName]){
+        
+        selfUser.userName = @"";
+    }
+    
+    if (![NSString isNonemptyString: firstName]){
+        
+        firstName = @"";
+    }
+    
+    if (![NSString isNonemptyString: lastName]){
+        
+        lastName = @"";
+    }
+    
+    if (![NSString isNonemptyString: userName]){
+        
+        userName = @"";
+    }
+    
+    if (![NSString isNonemptyString: md5]){
+        
+        md5 = @"";
+    }
+    
+    NSDictionary * dict = @{@"s_uid":@(fromUid),
+                            @"s_phone":selfUserPhone,
+                            @"s_username":selfUser.userName,
+                            @"s_firstname":selfUser.firstName,
+                            @"s_lastname":selfUser.lastName,
+                            @"r_uid":@(toUid),
+                            @"r_phone":userPhone,
+                            @"r_username":userName,
+                            @"r_firstname":firstName,
+                            @"r_lastname":lastName,
+                            @"md5_value":md5,
+                            @"chat_id":chatID,
+                            @"chat_name":chatName,
+                            @"timestamp":timeStamp,
+                            @"device":@"3",// 区分ios
+                            @"channel_id":channel_id,
+                            @"channel_name":channel_name,
+                            };
+    
+    return dict;
+
 }
 
 @end

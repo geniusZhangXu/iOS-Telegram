@@ -17,7 +17,7 @@
 @property (nonatomic) int64_t imageId;
 @property (nonatomic, readonly) int64_t localImageId;
 @property (nonatomic) int64_t accessHash;
-@property (nonatomic) int date;
+@property (nonatomic) int  date;
 @property (nonatomic) bool hasLocation;
 @property (nonatomic) double locationLatitude;
 @property (nonatomic) double locationLongitude;

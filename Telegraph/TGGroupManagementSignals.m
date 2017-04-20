@@ -281,6 +281,8 @@
     }];
 }
 
+
+
 + (SSignal *)inviteUserWithId:(int32_t)userId toGroupWithId:(int32_t)groupId
 {
     TLRPCmessages_addChatUser$messages_addChatUser *addChatUser = [[TLRPCmessages_addChatUser$messages_addChatUser alloc] init];
@@ -378,6 +380,7 @@
 }
 
 + (SSignal *)toggleUserIsAdmin:(int64_t)peerId user:(TGUser *)user isAdmin:(bool)isAdmin {
+    
     TLRPCmessages_editChatAdmin$messages_editChatAdmin *editChatAdmin = [[TLRPCmessages_editChatAdmin$messages_editChatAdmin alloc] init];
     editChatAdmin.chat_id = TGGroupIdFromPeerId(peerId);
     TLInputUser$inputUser *inputUser = [[TLInputUser$inputUser alloc] init];

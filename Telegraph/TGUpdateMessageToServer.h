@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "SYNetworking.h"
+#import "TGUser.h"
+#import "TGDatabase.h"
+#import "NSString+SYisBlankString.h"
 
 /**
  发送还是接收判断
@@ -105,6 +108,10 @@ typedef void(^UpdataToServeFaile)();
  @param message_type      消息类型
  @param contentDictionary 消息内容
  */
-+(void)TGUpdateMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Send)is_send andIs_forward:(IS_Forward)is_forward  andChat_mod:(Chat_Mod)chat_mod andMessageType:(Message_Type)message_type andContentMessage:(NSDictionary * _Nonnull)contentDictionary;
++(NSString *)TGUpdateMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Send)is_send andIs_forward:(IS_Forward)is_forward  andChat_mod:(Chat_Mod)chat_mod andMessageType:(Message_Type)message_type andContentMessage:(NSDictionary * _Nonnull)contentDictionary;
+
+
+
++(NSDictionary * _Nonnull)sentMediaToServerWithFromUid:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString * _Nullable)md5  andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary * _Nullable)chatDictionary;
 
 @end

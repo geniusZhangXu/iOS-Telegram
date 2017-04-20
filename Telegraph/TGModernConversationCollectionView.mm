@@ -1,27 +1,18 @@
 #import "TGModernConversationCollectionView.h"
-
 #import "Freedom.h"
-
 #import "TGImageUtils.h"
-
 #import "TGHacks.h"
-
 #import "TGModernCollectionCell.h"
 #import "TGModernConversationViewLayout.h"
 #import "TGMessageModernConversationItem.h"
-
 #import "TGModernViewStorage.h"
 #import "TGModernDateHeaderView.h"
 #import "TGModernUnreadHeaderView.h"
-
 #import "TGAudioSliderButton.h"
-
 #import "TGDoubleTapGestureRecognizer.h"
 #import "TGModernConversationCollectionTouchBehaviour.h"
 #import "TGModernConversationCollectionViewInstantPreviewRecognizer.h"
-
 #import <objc/message.h>
-
 #import <map>
 #import <set>
 #import <algorithm>

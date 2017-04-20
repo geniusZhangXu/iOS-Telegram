@@ -354,6 +354,7 @@
 
 - (void)actorMessageReceived:(NSString *)path messageType:(NSString *)messageType message:(id)message
 {
+    
     if ([messageType isEqualToString:@"progress"])
     {
         TGDispatchOnMainThread(^

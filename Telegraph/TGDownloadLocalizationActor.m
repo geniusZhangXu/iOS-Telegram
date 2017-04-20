@@ -7,14 +7,10 @@
  */
 
 #import "TGDownloadLocalizationActor.h"
-
 #import "ActionStage.h"
-
 #import "TGProgressWindow.h"
 #import "TGTelegraph.h"
-
 #import "TGAppDelegate.h"
-
 #import "TGAlertView.h"
 
 @interface TGDownloadLocalizationActor () <TGRawHttpActor>

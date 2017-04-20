@@ -7,7 +7,6 @@
  */
 
 #import "TGMediaAttachment.h"
-
 #import "TGVideoInfo.h"
 #import "TGImageInfo.h"
 
@@ -17,21 +16,15 @@
 
 @property (nonatomic) int64_t videoId;
 @property (nonatomic) int64_t accessHash;
-
 @property (nonatomic) int64_t localVideoId;
-
-@property (nonatomic) int duration;
-@property (nonatomic) CGSize dimensions;
-
-@property (nonatomic, strong) TGVideoInfo *videoInfo;
-@property (nonatomic, strong) TGImageInfo *thumbnailInfo;
-
+@property (nonatomic) int     duration;
+@property (nonatomic) CGSize  dimensions;
+@property (nonatomic, strong) TGVideoInfo * videoInfo;
+@property (nonatomic, strong) TGImageInfo * thumbnailInfo;
 @property (nonatomic) NSString *caption;
-@property (nonatomic) bool hasStickers;
-@property (nonatomic, strong) NSArray *embeddedStickerDocuments;
-
+@property (nonatomic) bool               hasStickers;
+@property (nonatomic, strong)   NSArray *embeddedStickerDocuments;
 @property (nonatomic, readonly) NSArray *textCheckingResults;
-
-@property (nonatomic) bool loopVideo;
+@property (nonatomic) bool               loopVideo;
 
 @end

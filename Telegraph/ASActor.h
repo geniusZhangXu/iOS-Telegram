@@ -18,19 +18,19 @@
 
 + (NSString *)genericPath;
 
-@property (nonatomic, strong) NSString *path;
+@property (nonatomic, strong) NSString * path;
 
-@property (nonatomic, strong) NSString *requestQueueName;
-@property (nonatomic, strong) NSDictionary *storedOptions;
+@property (nonatomic, strong) NSString * requestQueueName;
+@property (nonatomic, strong) NSDictionary * storedOptions;
 
-@property (nonatomic) bool requiresAuthorization;
+@property (nonatomic) bool    requiresAuthorization;
 
-@property (nonatomic) NSTimeInterval cancelTimeout;
+@property (nonatomic)         NSTimeInterval cancelTimeout;
 @property (nonatomic, strong) id cancelToken;
-@property (nonatomic, strong) NSMutableArray *multipleCancelTokens;
-@property (nonatomic) bool cancelled;
+@property (nonatomic, strong) NSMutableArray * multipleCancelTokens;
+@property (nonatomic) bool    cancelled;
 
-- (id)initWithPath:(NSString *)path;
+- (id)initWithPath:(NSString  *)path;
 - (void)prepare:(NSDictionary *)options;
 - (void)execute:(NSDictionary *)options;
 - (void)cancel;

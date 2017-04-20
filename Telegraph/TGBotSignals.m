@@ -624,6 +624,7 @@
             return inputPeerUser;
         }
     } else {
+        
         TGConversation *conversation = [TGDatabaseInstance() loadConversationWithId:peerId];
         if (conversation != nil) {
             if (TGPeerIdIsChannel(peerId)) {

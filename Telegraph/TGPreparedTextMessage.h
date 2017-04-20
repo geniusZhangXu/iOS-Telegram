@@ -14,7 +14,7 @@
 @interface TGPreparedTextMessage : TGPreparedMessage
 
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic) bool disableLinkPreviews;
+@property (nonatomic) bool    disableLinkPreviews;
 @property (nonatomic, strong) TGWebPageMediaAttachment *parsedWebpage;
 @property (nonatomic, strong) NSArray *entities;
 
