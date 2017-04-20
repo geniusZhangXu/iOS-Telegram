@@ -149,6 +149,7 @@
         conversationController = [[TGModernConversationController alloc] init];
         conversationController.shouldOpenKeyboardOnce = openKeyboard;
         conversationController.canOpenKeyboardWhileInTransition = canOpenKeyboardWhileInTransition;
+        conversationController.messagenumber = conversation.unreadCount;
         
         if (TGPeerIdIsChannel(conversationId))
         {

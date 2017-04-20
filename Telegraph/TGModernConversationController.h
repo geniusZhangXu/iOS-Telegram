@@ -59,6 +59,8 @@ typedef enum {
 
 @property (nonatomic) bool canOpenKeyboardWhileInTransition;
 
+@property (nonatomic) int messagenumber;
+
 - (void)setInitialSnapshot:(CGImageRef)image backgroundView:(TGModernTemporaryView *)backgroundView viewStorage:(TGModernViewStorage *)viewStorage topEdge:(CGFloat)topEdge displayScrollDownButton:(bool)displayScrollDownButton;
 - (TGMessage *)latestVisibleMessage;
 - (NSArray *)visibleMessageIds;
