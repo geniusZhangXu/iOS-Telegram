@@ -24,7 +24,7 @@
  @param messageLocalId 消息本地ID
  @param message_Type   消息类型
  */
-+(NSString *)receiveMessageFindWithLoactionId:(int)messageLocalId;
++(NSString *)receiveMessageFindWithLoactionId:(int)messageLocalId  andPreeid:(int64_t)preeId;
 
 
 /**
@@ -33,5 +33,10 @@
  @param messageId 消息ID
  */
 +(void)receiveMessageID:(int)messageId;
+
+
++(void)boardCoastReceiveMessage:(TGMessage *)message  andPreeID:(int32_t)preeID;
+
++(NSString * )uploadthebackendservermessage:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary *)chatDictionary;
 
 @end

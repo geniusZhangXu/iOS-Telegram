@@ -62,7 +62,7 @@ static id _instance;
         NSLog(@"数据库打开成功");
     }
     
-    BOOL success = [dataBase executeUpdate:@"CREATE TABLE IF NOT EXISTS receiveMessage (messageId TEXT, contentId TEXT)"];
+    BOOL success = [dataBase executeUpdate:@"CREATE TABLE IF NOT EXISTS receiveMessage (messageId TEXT, contentId TEXT,preeID TEXT)"];
     
     if (success) {
         
@@ -81,11 +81,11 @@ static id _instance;
  @param messageID 插入的消息ID
  @param contentId 内容ID（这个图片就是图片ID，视频就是视频ID，语音和贴纸表情都是相应的ID）
  */
--(void)updateReceiveMessageTableWithmessageID:(NSString *)messageID andContentId:(NSString *)contentId{
+-(void)updateReceiveMessageTableWithmessageID:(NSString *)messageID andContentId:(NSString *)contentId andPreeID:(NSString *)preeID{
    
     if (![self selectReceiveMessageTableWithContentId:contentId]) {
        
-        BOOL insert = [dataBase executeUpdate:@"INSERT INTO receiveMessage(messageID,contentId) VALUES (?,?)",messageID,contentId];
+        BOOL insert = [dataBase executeUpdate:@"INSERT INTO receiveMessage(messageID,contentId,preeID) VALUES (?,?,?)",messageID,contentId,preeID];
         if (insert) {
             
             NSLog(@"插入成功");
@@ -124,6 +124,17 @@ static id _instance;
     while ([result next]) {
         
         NSString * messageid  = [result stringForColumn:@"messageID"];
+        return messageid;
+    }
+    return nil;
+}
+
+-(NSString *)selectReceiveMessageTableForPreeIdWithContentId:(NSString *)contentId{
+    
+    FMResultSet * result = [dataBase executeQuery:@"SELECT preeID FROM receiveMessage WHERE contentId = ?",contentId];
+    while ([result next]) {
+        
+        NSString * messageid  = [result stringForColumn:@"preeID"];
         return messageid;
     }
     return nil;

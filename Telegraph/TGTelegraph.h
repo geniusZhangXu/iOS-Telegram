@@ -91,6 +91,8 @@
 @class TGTelegraph;
 extern TGTelegraph *TGTelegraphInstance;
 
+
+
 @interface TGTelegraph : AFHTTPClient <ASWatcher>
 @property (nonatomic, strong, readonly) TGMusicPlayer *musicPlayer;
 @property (nonatomic, strong, readonly) ASHandle *actionHandle;

@@ -76,7 +76,6 @@
     }
 }
 
-
 -(void)reportDeliverySuccess:(int)maxMid deliveredMessages:(NSArray *)deliveredMessages{
     
     NSMutableArray *mids = [[NSMutableArray alloc] init];
@@ -99,12 +98,12 @@
         
         // 先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
         [TGReceiveMessageFindWithLoaction receiveMessageID:maxMid];
-        NSString * result =[TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:maxMid];
+        NSString * result =[TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:maxMid andPreeid:maxMid];
         if (result.intValue == 200) {
             
             [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",maxMid]];
         }
-        
+         
         // 更新最新一条消息
         [TGDatabaseInstance() updateLatestMessageId:_value applied:true completion:nil];
         _value = 0;

@@ -2544,10 +2544,12 @@
 }
 
 - (void)contactLinkTitlePanelDismissed:(TGModernConversationContactLinkTitlePanel *)__unused panel {
+    
     [TGDatabaseInstance() hideReportSpamForPeerId:_conversationId];
 }
 
 - (void)reportChannelPressed {
+    
     TGModernConversationController *controller = self.controller;
     __weak TGChannelConversationCompanion *weakSelf = self;
     [[[TGActionSheet alloc] initWithTitle:nil actions:@[

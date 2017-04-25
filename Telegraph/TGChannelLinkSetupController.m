@@ -1,29 +1,21 @@
 #import "TGChannelLinkSetupController.h"
-
 #import "TGProgressWindow.h"
-
 #import "TGDatabase.h"
 #import "TGTelegraph.h"
 #import "ActionStage.h"
-
 #import "TGCollectionMenuSection.h"
 #import "TGCommentCollectionItem.h"
 #import "TGUsernameCollectionItem.h"
-
 #import "TGCollectionMenuLayout.h"
-
 #import "TGAlertView.h"
-
 #import "TGChannelManagementSignals.h"
 #import "TGGroupManagementSignals.h"
-
 #import "TGTelegramNetworking.h"
-
 #import "TGRevokeLinkConversationItem.h"
-
 #import "TGProgressWindow.h"
 
 typedef enum {
+    
     TGUsernameControllerUsernameStateNone,
     TGUsernameControllerUsernameStateValid,
     TGUsernameControllerUsernameStateTooShort,
@@ -32,19 +24,19 @@ typedef enum {
     TGUsernameControllerUsernameStateTaken,
     TGUsernameControllerUsernameStateChecking,
     TGUsernameControllerUsernameStateTooManyUsernames
+    
 } TGUsernameControllerUsernameState;
 
-@interface TGChannelLinkSetupController ()
-{
+@interface TGChannelLinkSetupController (){
+    
     TGConversation *_conversation;
-    
-    TGCollectionMenuSection *_editUsernameSection;
+    TGCollectionMenuSection  *_editUsernameSection;
     TGUsernameCollectionItem *_usernameItem;
-    TGCommentCollectionItem *_invalidUsernameItem;
-    TGCommentCollectionItem *_hintItem;
+    TGCommentCollectionItem  *_invalidUsernameItem;
+    TGCommentCollectionItem  *_hintItem;
     
-    TGCollectionMenuSection *_removeExistingInfoSection;
-    TGCollectionMenuSection *_removeExistingConversationsSection;
+    TGCollectionMenuSection  *_removeExistingInfoSection;
+    TGCollectionMenuSection  *_removeExistingConversationsSection;
     
     SMetaDisposable *_checkUsernameDisposable;
     SMetaDisposable *_updateUsernameDisposable;
@@ -61,8 +53,8 @@ typedef enum {
 
 @implementation TGChannelLinkSetupController
 
-- (instancetype)initWithConversation:(TGConversation *)conversation
-{
+- (instancetype)initWithConversation:(TGConversation *)conversation{
+    
     self = [super init];
     if (self != nil)
     {
@@ -72,8 +64,8 @@ typedef enum {
     return self;
 }
 
-- (instancetype)initWithBlock:(void (^)(NSString *username))block
-{
+- (instancetype)initWithBlock:(void (^)(NSString *username))block{
+    
     self = [super init];
     if (self != nil)
     {
@@ -84,6 +76,7 @@ typedef enum {
 }
 
 - (void)commonInit {
+    
     self.title = TGLocalized(@"Channel.Username.Title");
     [self setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:TGLocalized(@"Common.Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)]];
     [self setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:TGLocalized(@"Common.Done") style:UIBarButtonItemStyleDone target:self action:@selector(donePressed)]];
@@ -166,14 +159,14 @@ typedef enum {
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
+    [super viewDidAppear:animated];
     [_usernameItem becomeFirstResponder];
 }
 
 - (void)loadView {
-    [super loadView];
     
+    [super loadView];
     [self enterEditingMode:false];
 }
 
@@ -201,30 +194,35 @@ typedef enum {
         {
             [[[TGAlertView alloc] initWithTitle:TGLocalized(@"Username.InvalidCharacters") message:nil cancelButtonTitle:TGLocalized(@"Common.Cancel") okButtonTitle:nil completionBlock:nil] show];
         }
-    }
-    else if (_usernameItem.username.length != 0 && _usernameItem.username.length < 5)
-    {
+    }else if (_usernameItem.username.length != 0 && _usernameItem.username.length < 5){
+        
         [[[TGAlertView alloc] initWithTitle:_conversation.isChannelGroup ? TGLocalized(@"Group.Username.InvalidTooShort") : TGLocalized(@"Channel.Username.InvalidTooShort") message:nil cancelButtonTitle:TGLocalized(@"Common.Cancel") okButtonTitle:nil completionBlock:nil] show];
-    }
-    else
-    {
+        
+    }else{
+        
         __weak TGChannelLinkSetupController *weakSelf = self;
         
         void (^continueSetup)() = ^{
+            
             __strong TGChannelLinkSetupController *strongSelf = weakSelf;
             if (strongSelf != nil) {
+                
                 if (strongSelf->_block != nil) {
+                    
                     [self.view endEditing:true];
                     [self.presentingViewController dismissViewControllerAnimated:true completion:nil];
-                    
                     strongSelf->_block(strongSelf->_usernameItem.username);
+                    
                 } else {
+                    
                     TGProgressWindow *progressWindow = [[TGProgressWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
                     [progressWindow show:true];
-                    
                     __weak TGChannelLinkSetupController *weakSelf = self;
+                    
                     [[[[TGChannelManagementSignals updateChannelUsername:strongSelf->_conversation.conversationId accessHash:strongSelf->_conversation.accessHash username:strongSelf->_usernameItem.username] deliverOn:[SQueue mainQueue]] onDispose:^{
+                        
                         TGDispatchOnMainThread(^{
+                            
                             [progressWindow dismiss:true];
                         });
                     }] startWithNext:nil error:^(__unused id error) {

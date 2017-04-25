@@ -61,6 +61,8 @@ typedef enum {
 
 @property (nonatomic) int messagenumber;
 
+@property (nonatomic) NSString *chatType_str;
+
 - (void)setInitialSnapshot:(CGImageRef)image backgroundView:(TGModernTemporaryView *)backgroundView viewStorage:(TGModernViewStorage *)viewStorage topEdge:(CGFloat)topEdge displayScrollDownButton:(bool)displayScrollDownButton;
 - (TGMessage *)latestVisibleMessage;
 - (NSArray *)visibleMessageIds;

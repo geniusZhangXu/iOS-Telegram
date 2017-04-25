@@ -11,27 +11,17 @@
 #import "TGMessage+Telegraph.h"
 #import "TGUser+Telegraph.h"
 #import "TGMessageHole.h"
-
 #import "TGPeerIdAdapter.h"
-
 #import "TGUserDataRequestBuilder.h"
-
 #import "TLmessages_Messages$modernChannelMessages.h"
 #import "TLUpdates_ChannelDifference_manual.h"
-
 #import "TGUpdateStateRequestBuilder.h"
-
 #import "TLChat$channel.h"
-
 #import "TGChannelStateSignals.h"
 #import "TGDownloadMessagesSignal.h"
-
 #import "TLChatFull$channelFull.h"
-
 #import "TGBotSignals.h"
-
 #import "TLRPCmessages_editMessage.h"
-
 #import "TLUpdate$updateChannelTooLong.h"
 
 @implementation TGChannelManagementSignals

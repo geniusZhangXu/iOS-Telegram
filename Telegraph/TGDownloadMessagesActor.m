@@ -7,13 +7,9 @@
  */
 
 #import "TGDownloadMessagesActor.h"
-
 #import "ActionStage.h"
-
 #import "TGTelegraph.h"
-
 #import "TGMessage+Telegraph.h"
-
 #import "TGDatabase.h"
 
 @implementation TGDownloadMessagesActor

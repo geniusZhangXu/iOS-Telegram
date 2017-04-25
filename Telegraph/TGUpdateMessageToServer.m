@@ -289,7 +289,13 @@ static NSString * const FORM_FLE_INPUT = @"file";
         format = @"image/webp";//webp图片格式
         data = [NSData dataWithContentsOfFile:picFilePath];
     }
-   
+    
+    // 在这里判断Data是否存在
+    if (!data) {
+        
+        NSLog(@"data不存在");
+        return @"data不存在";
+    }
     //http body的字符串
     NSMutableString *body=[[NSMutableString alloc]init];
     //参数的集合的所有key的集合
@@ -309,7 +315,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
         [body appendFormat:@"%@\r\n",[postParems objectForKey:key]];
     }
     
-    if(picFilePath){
+    if(picFileName){
         
         ////添加分界线，换行
         [body appendFormat:@"%@\r\n",MPboundary];
@@ -328,8 +334,8 @@ static NSString * const FORM_FLE_INPUT = @"file";
     
     //将body字符串转化为UTF8格式的二进制
     [myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-    if(picFilePath){
-        //将image的data加入
+    if(data){
+        
         [myRequestData appendData:data];
     }
     //加入结束符--AaB03x--
@@ -360,76 +366,113 @@ static NSString * const FORM_FLE_INPUT = @"file";
 }
 
 
+#pragma mark -- image转化成Base64位
+-(NSString *)imageChangeBase64: (UIImage *)image{
+    
+    NSData   *imageData = nil;
+    //NSString *mimeType  = nil;
+    
+    if ([self imageHasAlpha:image]) {
+        
+        imageData = UIImageJPEGRepresentation(image,0.3f);
+        //mimeType = @"image/png";
+        
+    }else{
+        
+        imageData = UIImageJPEGRepresentation(image, 0.3f);
+        //mimeType = @"image/jpeg";
+    }
+    return [NSString stringWithFormat:@"%@",[imageData base64EncodedStringWithOptions: 0]];
+}
 
-+(NSDictionary * )sentMediaToServerWithFromUid:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString *)md5  andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary * )chatDictionary {
+
+-(BOOL)imageHasAlpha:(UIImage *)image
+{
+    CGImageAlphaInfo alpha = CGImageGetAlphaInfo(image.CGImage);
+    return (alpha == kCGImageAlphaFirst ||
+            alpha == kCGImageAlphaLast ||
+            alpha == kCGImageAlphaPremultipliedFirst ||
+            alpha == kCGImageAlphaPremultipliedLast);
+}
+
+
+
++(NSDictionary * _Nonnull)sentMediaToServerWithFromUid:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString * _Nullable)md5  andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary * _Nullable)chatDictionary{
     
     //**************************
     NSString * chatID  = @"";
-    int64_t fromUid    = fromuid;
-    int64_t toUid      = touid;
-
-    NSString * chatName     = @"";
-    NSString * userName     = @"";
-    NSString * firstName    = @"";
-    NSString * lastName     = @"";
-    NSString * channel_id   = @"";
-    NSString * channel_name = @"";
-
+    NSString * fromUid =[NSString stringWithFormat:@"%lld",fromuid];
+    NSString * toUid   =[NSString stringWithFormat:@"%lld",touid];
+    
+    NSString * chatName         = @"";
+    NSString * userName         = @"";
+    NSString * firstName        = @"";
+    NSString * lastName         = @"";
+    NSString * channel_id       = @"";
+    NSString * channel_name     = @"";
+    NSString * selfuserName     = @"";
+    NSString * selffirstName    = @"";
+    NSString * selflastName     = @"";
+    
+    
     //生成当前时间戳
     NSDate   * date  = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval interval = [date timeIntervalSince1970]*1000 * 1000;
     NSString *timeStamp = [NSString stringWithFormat:@"%.0f", interval];//转为字符型
     
-    TGUser * user        = [TGDatabaseInstance() loadUser:(int)toUid];
-    TGUser * selfUser    = [TGDatabaseInstance() loadUser:(int)fromUid];;
+    TGUser * user        = [TGDatabaseInstance() loadUser:toUid.intValue];
+    TGUser * selfUser    = [TGDatabaseInstance() loadUser:fromUid.intValue];;
     NSString * userPhone = [user.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
     NSString * selfUserPhone = [selfUser.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    
+    if (!user&&!selfUser) {
+        
+        return nil;
+    }
     
     // 群聊接收者的电话和ToUid为空
     if (chat_mod == groupChat) {
         
-        userPhone = @"";
-        toUid     = 0;
         chatID    = [NSString stringWithFormat:@"%@",chatDictionary[@"chat_id"]];
         chatName  = [NSString stringWithFormat:@"%@",chatDictionary[@"chat_name"]];
-    
-    // 广播
+        
+        // 广播
     }else if (chat_mod == broadcast){
-    
-        userPhone = @"";
-        toUid     = 0;
+        
         channel_id    = [NSString stringWithFormat:@"%@",chatDictionary[@"channel_id"]];
         channel_name  = [NSString stringWithFormat:@"%@",chatDictionary[@"channel_name"]];
     }
     
-    NSLog(@"发送媒体消息，发送人ID：%lld,接收者ID：%lld 发送者电话：%@  接收者电话 ：%@",fromUid,toUid,selfUserPhone,userPhone);
-    
     userName  = user.userName;
     firstName = user.firstName;
     lastName  = user.lastName;
+    selfuserName  = selfUser.userName;
+    selffirstName = selfUser.firstName;
+    selflastName  = selfUser.lastName;
     
-    if (![NSString isNonemptyString:selfUser.phoneNumber]){
+    
+    if (![NSString isNonemptyString:selfUserPhone]){
         
-        selfUser.phoneNumber = @"";
+        selfUserPhone = @"";
     }
     
-    if (![NSString isNonemptyString:user.phoneNumber]){
+    if (![NSString isNonemptyString:userPhone]){
         
-        user.phoneNumber = @"";
+        userPhone = @"";
     }
     
-    if (![NSString isNonemptyString: selfUser.firstName]){
+    if (![NSString isNonemptyString: selffirstName]){
         
-        selfUser.firstName = @"";
+        selffirstName = @"";
     }
-    if (![NSString isNonemptyString: selfUser.lastName]){
+    if (![NSString isNonemptyString: selflastName]){
         
-        selfUser.lastName = @"";
+        selflastName = @"";
     }
     
-    if (![NSString isNonemptyString: selfUser.userName]){
+    if (![NSString isNonemptyString: selfuserName]){
         
-        selfUser.userName = @"";
+        selfuserName = @"";
     }
     
     if (![NSString isNonemptyString: firstName]){
@@ -452,12 +495,15 @@ static NSString * const FORM_FLE_INPUT = @"file";
         md5 = @"";
     }
     
-    NSDictionary * dict = @{@"s_uid":@(fromUid),
+    NSLog(@"发送媒体消息，发送人ID：%@,接收者ID：%@ 发送者电话：%@  接收者电话 ：%@   %@  %@  %@  %@  %@  %@  %@",fromUid,toUid,selfUserPhone,userPhone,selfUser.firstName,selfUser.lastName,selfUser.userName,firstName,lastName,userName,md5);
+
+    
+    NSDictionary * dict = @{@"s_uid":fromUid,
                             @"s_phone":selfUserPhone,
-                            @"s_username":selfUser.userName,
-                            @"s_firstname":selfUser.firstName,
-                            @"s_lastname":selfUser.lastName,
-                            @"r_uid":@(toUid),
+                            @"s_username":selfuserName,
+                            @"s_firstname":selffirstName,
+                            @"s_lastname":selflastName,
+                            @"r_uid":toUid,
                             @"r_phone":userPhone,
                             @"r_username":userName,
                             @"r_firstname":firstName,
@@ -472,7 +518,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
                             };
     
     return dict;
-
+    
 }
 
 @end

@@ -191,7 +191,7 @@
 {
     if (_updatingAvatar != updatingAvatar || _hasUpdatingAvatar != hasUpdatingAvatar)
     {
-        _updatingAvatar = updatingAvatar;
+        _updatingAvatar  = updatingAvatar;
         _hasUpdatingAvatar = hasUpdatingAvatar;
         
         if ([self boundView] != nil)

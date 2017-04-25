@@ -1,9 +1,6 @@
 #import "TGDeleteProfilePhotoActor.h"
-
 #import "ActionStage.h"
-
 #import "TGDatabase.h"
-
 #import "TGTelegraph.h"
 
 @implementation TGDeleteProfilePhotoActor

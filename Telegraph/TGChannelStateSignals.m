@@ -1,29 +1,20 @@
 #import "TGChannelStateSignals.h"
-
 #import "TGDatabase.h"
 #import "TGPeerIdAdapter.h"
 #import "TGTelegramNetworking.h"
-
 #import "TL/TLMetaScheme.h"
 #import "TLUpdates_ChannelDifference_manual.h"
-
 #import "TGConversation+Telegraph.h"
 #import "TGMessage+Telegraph.h"
 #import "TGUserDataRequestBuilder.h"
 #import "TGUpdateStateRequestBuilder.h"
 #import "TGTelegraph.h"
-
 #import "TGDownloadMessagesSignal.h"
 #import "TGConversationAddMessagesActor.h"
-
 #import "TGChannelManagementSignals.h"
-
 #import "TGStringUtils.h"
-
 #import "TGModernSendCommonMessageActor.h"
-
 #import "TGPreparedMessage.h"
-
 #import "TLUpdate$updateChannelTooLong.h"
 
 static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse)) {
@@ -242,12 +233,36 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse)) 
             NSMutableArray *deletedMessageIds = [[NSMutableArray alloc] init];
             
             for (id update in ptsUpdates) {
+                
                 if ([update isKindOfClass:[TLUpdate$updateNewChannelMessage class]]) {
+                    
                     TLUpdate$updateNewChannelMessage *updateNewChannelMessage = update;
-                    TGMessage *message = [[TGMessage alloc] initWithTelegraphMessageDesc:updateNewChannelMessage.message];
+                    TGMessage * message = [[TGMessage alloc] initWithTelegraphMessageDesc:updateNewChannelMessage.message];
                     message.pts = updateNewChannelMessage.pts;
                     
+                    TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                    TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_peerId];
+                    NSDictionary *   ChatDictionary;
+                    Chat_Mod         chat_mod;
+                    // 广播信息接收
+                    if ([conversation isChannel]) {
+                        
+                        NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_peerId)];
+                        ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                        chat_mod = broadcast;
+                    }
+
+                    // 接收到广播的时候先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
+                    [TGReceiveMessageFindWithLoaction boardCoastReceiveMessage:message andPreeID:TGChannelIdFromPeerId(_peerId)];
+                    
+                    NSString * result =[TGReceiveMessageFindWithLoaction uploadthebackendservermessage:message andFromUid:selfUser.uid andToUid:peerId andChat_mod:broadcast andChatDictionary:ChatDictionary];
+                    if (result.intValue == 200) {
+                        
+                        [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",message.mid]];
+                    }
+
                     if (updateNewChannelMessage.pts <= updatedPts) {
+                        
                         continue;
                     }
                     else if (updatedPts + updateNewChannelMessage.pts_count == updateNewChannelMessage.pts) {
@@ -540,6 +555,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse)) 
                     NSData *stored = [TGDatabaseInstance() conversationCustomPropertySync:peerId name:murMurHash32(@"inviterStored")];
                     if (stored.length == 0) {
                         if ([dict[@"userId"] intValue] != 0) {
+                            
                             TGMessage *message = [[TGMessage alloc] init];
                             message.mid = [[TGDatabaseInstance() generateLocalMids:1].firstObject intValue];
                             message.date = [dict[@"timestamp"] intValue];

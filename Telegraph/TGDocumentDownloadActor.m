@@ -252,14 +252,34 @@
         
         ///////////这里处理的是单聊、群聊接收到的语音、贴纸表情消息上传
         ////////////////////////////////
-        NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+        
+        int64_t voiceid;
+        if (_documentAttachment.documentId == 0) {
+            voiceid = _documentAttachment.localDocumentId;
+        }else
+            voiceid = _documentAttachment.documentId;
+        
+        
+        NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
+        NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+        
+        if (![preeID isEqualToString:@"1"] && preeID) {
+            
+            NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromChannelId(preeID.intValue)];
+            // 发送成功删除该ID
+            if ([resultCode intValue] == 200) {
+                
+                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+            }
+            return;
+        }
         if (messageID) {
         
-            NSString * result =  [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue];
+            NSString * result =  [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];
             // 发送成功删除该ID
             if ([result intValue] == 200) {
                
-                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
             }
         }
     }

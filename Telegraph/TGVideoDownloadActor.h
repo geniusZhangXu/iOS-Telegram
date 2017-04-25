@@ -10,6 +10,7 @@
 #import "ASWatcher.h"
 #import "TGReceiveMessageFindWithLoaction.h"
 #import "TGReceiveMessageDatabase.h"
+#import "TGPeerIdAdapter.h"
 
 
 @interface TGVideoDownloadActor : ASActor <ASWatcher>

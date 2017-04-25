@@ -544,6 +544,8 @@
         TGUser *user     = [TGDatabaseInstance()loadUser:uid];
         TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tongzhimidsend" object:nil];
+        
         // 私密文本消息
         if ([self.preparedMessage isKindOfClass:[TGPreparedTextMessage class]])
         {

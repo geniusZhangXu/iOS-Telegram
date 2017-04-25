@@ -612,11 +612,23 @@ public:
                 ///////////这里处理的是单聊、群聊接收到的视频
                 ////////////////////////////////
                 NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
+                NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
+                
+                if (![preeID isEqualToString:@"1"] && preeID) {
+                    
+                    NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromChannelId(preeID.intValue)];
+                    // 发送成功删除该ID
+                    if ([resultCode intValue] == 200) {
+                        
+                        [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
+                    }
+                    return;
+                }
                 if (messageID) {
                     
-                     NSString * result = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue];
+                   NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];
                     // 发送成功删除该ID
-                    if ([result intValue]== 200) {
+                    if ([resultCode intValue]== 200) {
                         
                         [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
                     }

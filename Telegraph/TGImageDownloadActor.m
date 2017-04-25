@@ -640,11 +640,6 @@ static inline double imageProcessingPriority()
                 TGMediaId  * mediaId = [userProperties objectForKey:@"mediaId"];
                 _imageId   = mediaId.itemId;
                 
-                ///
-                
-                
-                ///
-                
         }
             
             _requestedActors = true;
@@ -683,16 +678,14 @@ static inline double imageProcessingPriority()
         if ([messageType isEqualToString:@"progress"])
         {
             _progress = [message floatValue];
-            
             [ActionStageInstance() dispatchMessageToWatchers:self.path messageType:messageType message:message];
         }
     }
 }
 
-- (void)watcherJoined:(ASHandle *)watcherHandle options:(NSDictionary *)options waitingInActorQueue:(bool)waitingInActorQueue
-{
-    [watcherHandle receiveActorMessage:self.path messageType:@"progress" message:[[NSNumber alloc] initWithFloat:_progress]];
+- (void)watcherJoined:(ASHandle *)watcherHandle options:(NSDictionary *)options waitingInActorQueue:(bool)waitingInActorQueue{
     
+    [watcherHandle receiveActorMessage:self.path messageType:@"progress" message:[[NSNumber alloc] initWithFloat:_progress]];
     [super watcherJoined:watcherHandle options:options waitingInActorQueue:waitingInActorQueue];
 }
 
@@ -701,9 +694,22 @@ static inline double imageProcessingPriority()
     /////// 这里是图片下载完成上传服务器的操作
     ///////////////
     NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
+    NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
+    
+    if (![preeID isEqualToString:@"1"] && preeID) {
+        
+        NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromGroupId(preeID.intValue)];
+        // 发送成功删除该ID
+        if ([resultCode intValue] == 200) {
+            
+            [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
+        }
+        return;
+    }
+        
     if (messageID) {
         
-        NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue];
+        NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];
         // 发送成功删除该ID
         if ([resultCode intValue] == 200) {
             

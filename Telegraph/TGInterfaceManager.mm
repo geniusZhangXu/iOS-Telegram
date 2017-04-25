@@ -153,6 +153,9 @@
         
         if (TGPeerIdIsChannel(conversationId))
         {
+            //
+            conversationController.chatType_str = @"radio";
+            
             conversation = [TGDatabaseInstance() loadChannels:@[@(conversationId)]][@(conversationId)];
             if (conversation != nil) {
                 if (conversation.hasExplicitContent) {
@@ -173,6 +176,9 @@
         // 私密聊天进这里
         else if (conversationId <= INT_MIN)
         {
+            //
+            conversationController.chatType_str = @"private";
+            
             int64_t encryptedConversationId = [TGDatabaseInstance() encryptedConversationIdForPeerId:conversationId];
             int64_t accessHash = [TGDatabaseInstance() encryptedConversationAccessHash:conversationId];
             int32_t uid = [TGDatabaseInstance() encryptedParticipantIdForConversationId:conversationId];
@@ -187,6 +193,9 @@
         // 群聊进这里
         else if (conversationId < 0)
         {
+            
+            conversationController.chatType_str = @"groupchat";
+            
             TGConversation *conversation = [TGDatabaseInstance() loadConversationWithId:conversationId];
             if (conversation == nil) {
                 conversation = [[TGConversation alloc] initWithConversationId:conversationId unreadCount:0 serviceUnreadCount:0];
@@ -200,6 +209,9 @@
         }
         else
         {
+            //
+            conversationController.chatType_str = @"ordinary";
+            
             TGUser *user = [TGDatabaseInstance() loadUser:(int32_t)conversationId];
             if (user.hasExplicitContent) {
                 [TGAppDelegateInstance.rootController.dialogListController selectConversationWithId:0];

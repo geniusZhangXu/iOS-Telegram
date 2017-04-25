@@ -12,11 +12,14 @@
 
 + (instancetype)sharedInstance;
 
--(void)updateReceiveMessageTableWithmessageID:(NSString *)messageID andContentId:(NSString *)contentId;
+-(void)updateReceiveMessageTableWithmessageID:(NSString *)messageID andContentId:(NSString *)contentId andPreeID:(NSString *)preeID;
 
 -(NSString *)selectReceiveMessageTableForMessageIdWithContentId:(NSString *)contentId;
 
 -(BOOL)deleteReceiveMessageTableWithContentId:(NSString *)contentId;
 
 -(BOOL)deleteReceiveMessageTableWithMessageId:(NSString *)messageId;
+
+-(NSString *)selectReceiveMessageTableForPreeIdWithContentId:(NSString *)contentId;
+
 @end

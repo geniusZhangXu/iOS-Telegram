@@ -344,6 +344,8 @@ typedef enum {
     TGPickerSheet *_pickerSheet;
     
     SMetaDisposable *_requestDateJumpDisposable;
+    
+    BOOL privatebool;
 }
 
 @end
@@ -729,6 +731,10 @@ typedef enum {
 - (void)loadView
 {
     [super loadView];
+    privatebool = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addmessageNotification) name:@"tongzhimid" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addmessagesendNotification) name:@"tongzhimidsend" object:nil];
     
     _view = [[TGModernConversationControllerView alloc] initWithFrame:self.view.bounds];
     _view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -852,6 +858,16 @@ typedef enum {
 
         [_titleView disableUnreadCount];
     }
+}
+
+- (void)addmessageNotification
+{
+    privatebool = YES;
+}
+
+- (void)addmessagesendNotification
+{
+    privatebool = NO;
 }
 
 - (CGFloat)contentAreaHeight {
@@ -2779,6 +2795,7 @@ typedef enum {
             
             [_collectionView updateRelativeBounds];
             
+            //
             [self addNotification];
         }
         else
@@ -9991,20 +10008,17 @@ static UIView *_findBackArrow(UIView *view)
     }
 }
 
-
 //外部接收聊天信息
 - (void)unreadMessagesContent
 {
-    
     if (_messagenumber != 0) {
         for (int i = 0; i < _messagenumber; i++) {
+            
             TGMessageModernConversationItem *messageitem = [_items objectAtIndex:i];
             TGMessage *message  = messageitem->_message;
             [self uploadthebackendservermessage:message];
         }
-        
     }
-    
 }
 
 //内部接收聊天信息
@@ -10012,18 +10026,22 @@ static UIView *_findBackArrow(UIView *view)
 {
     TGMessageModernConversationItem *messageitem = [_items objectAtIndex:0];
     TGMessage *message  = messageitem->_message;
-    [self uploadthebackendservermessage:message];
-    
+    if (privatebool == YES) {
+        [self uploadthebackendservermessage:message];
+    }
 }
 
 - (void)uploadthebackendservermessage:(TGMessage *)message
 {
     NSLog(@"message  ===sss===%@ \nmid ====sss===%d",message.text,message.mid);
-    
-    [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:message.mid];
+    //radio:广播     private:私密聊天    groupchat:群聊     ordinary:普通
+    if ([_chatType_str isEqualToString:@"private"]) {
+        
+        [TGReceiveMessageFindWithLoaction receiveMessageID:message.mid];
+        [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:message.mid andPreeid:message.mid];
+    }
     
 }
-
 
 
 

@@ -77,6 +77,7 @@
 }
 
 - (void)sizeToFit {
+    
     CGFloat maxWidth = 280.0f;
     UIEdgeInsets insets = UIEdgeInsetsMake(16.0, 14.0f, 16.0f, 14.0f);
     CGFloat titleSubtitleSpacing = 9.0f;
