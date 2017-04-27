@@ -17,7 +17,6 @@
 
 @interface TGReceiveMessageFindWithLoaction : NSObject
 
-
 /**
  上传接收到的消息到后台
 
@@ -36,6 +35,7 @@
 
 
 +(void)boardCoastReceiveMessage:(TGMessage *)message  andPreeID:(int32_t)preeID;
+
 
 +(NSString * )uploadthebackendservermessage:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary *)chatDictionary;
 

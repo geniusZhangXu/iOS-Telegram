@@ -17,7 +17,7 @@
 @property (nonatomic) int64_t randomId;
 @property (nonatomic) int32_t mid;
 @property (nonatomic) int32_t date;
-@property (nonatomic) bool isBroadcast;
+@property (nonatomic) bool    isBroadcast;
 
 @property (nonatomic) int32_t replacingMid;
 

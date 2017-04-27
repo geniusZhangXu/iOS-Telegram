@@ -1637,8 +1637,8 @@ static void cleanupMessage(TGDatabase *database, int mid, NSArray *attachments, 
     [_database executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (id INTEGER, type INTEGER, data BLOB, random_id INTEGER, sort_key INTEGER AUTO_INCREMENT, PRIMARY KEY(id, type))", _futureActionsTableName]];
     
     if ([self loadConversationWithId:0] != nil) {
-        [_database executeUpdate:[NSString stringWithFormat:@"DELETE FROM %@ WHERE cid=0", _conversationListTableName]]
-        ;
+        
+        [_database executeUpdate:[NSString stringWithFormat:@"DELETE FROM %@ WHERE cid=0", _conversationListTableName]];
     }
     
     FMResultSet *futureActionsHasSortingKeyResult = [_database executeQuery:[[NSString alloc] initWithFormat:@"PRAGMA table_info(%@)", _futureActionsTableName]];

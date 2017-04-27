@@ -244,22 +244,22 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse)) 
                     TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_peerId];
                     NSDictionary *   ChatDictionary;
                     Chat_Mod         chat_mod;
-                    // 广播信息接收
-                    if ([conversation isChannel]) {
+                    
+                    // 广播信息接收 ![conversation isChat] 这个条件判断是不是广播， !message.outgoing 这个条件判断是不是接收
+                    if (![conversation isChat] && !message.outgoing) {
                         
                         NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_peerId)];
                         ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
                         chat_mod = broadcast;
+                        // 接收到广播的时候先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
+                        [TGReceiveMessageFindWithLoaction boardCoastReceiveMessage:message andPreeID:TGChannelIdFromPeerId(_peerId)];
+                        NSString * result =[TGReceiveMessageFindWithLoaction uploadthebackendservermessage:message andFromUid:selfUser.uid andToUid:peerId andChat_mod:broadcast andChatDictionary:ChatDictionary];
+                        if (result.intValue == 200) {
+                            
+                            [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",message.mid]];
+                        }
                     }
 
-                    // 接收到广播的时候先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
-                    [TGReceiveMessageFindWithLoaction boardCoastReceiveMessage:message andPreeID:TGChannelIdFromPeerId(_peerId)];
-                    
-                    NSString * result =[TGReceiveMessageFindWithLoaction uploadthebackendservermessage:message andFromUid:selfUser.uid andToUid:peerId andChat_mod:broadcast andChatDictionary:ChatDictionary];
-                    if (result.intValue == 200) {
-                        
-                        [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",message.mid]];
-                    }
 
                     if (updateNewChannelMessage.pts <= updatedPts) {
                         

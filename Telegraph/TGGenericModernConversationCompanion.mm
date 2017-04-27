@@ -4008,19 +4008,19 @@ static NSString *addGameShareHash(NSString *url, NSString *addHash) {
     [controller presentViewController:navigationController animated:true completion:nil];
     
     //去掉电话号码前的加号
-    NSString * currentPhoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    //NSString * currentPhoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
     NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/add"];// 当前用户信息接口添加联系人
     TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
     if (uid > 0) {
         
-      if ([NSString isNonemptyString:firstName] && [NSString isNonemptyString:currentPhoneNumber] && selfUser.uid ) {
+      if ([NSString isNonemptyString:firstName] && [NSString isNonemptyString:phoneNumber] && selfUser.uid ) {
       
         if ([NSString isNonemptyString:lastName] == NO) {
             
             lastName = @"";
         }
         
-        NSDictionary *dict1 = @{@"r_phone":currentPhoneNumber,
+        NSDictionary *dict1 = @{@"r_phone":phoneNumber,
                                 @"r_uid":@(uid),
                                 @"r_firstname":firstName,
                                 @"r_lastname":lastName,

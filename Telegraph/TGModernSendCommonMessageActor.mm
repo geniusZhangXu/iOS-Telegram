@@ -65,6 +65,9 @@
 #import "TGRecentMaskStickersSignal.h"
 #import "TGTelegramNetworking.h"
 
+
+#import "TGImageInfo+Telegraph.h"
+
 @interface TGModernSendCommonMessageActor (){
     
     int64_t _conversationId;
@@ -325,7 +328,7 @@
         // 文本.转发的添加了文本消息之后就走这里
         } else if ([self.preparedMessage isKindOfClass:[TGPreparedTextMessage class]]) {
             
-            TGPreparedTextMessage *textMessage = (TGPreparedTextMessage *)self.preparedMessage;
+            TGPreparedTextMessage * textMessage = (TGPreparedTextMessage *)self.preparedMessage;
             
             if (self.preparedMessage.randomId != 0 && self.preparedMessage.mid != 0) {
                 
@@ -335,7 +338,7 @@
             [self setupFailTimeout:[TGModernSendMessageActor defaultTimeoutInterval]];
             
             
-            //******上传文本消息到服务器
+            // ******上传文本消息到服务器
             // 能进这个方法的，当会话ID小于0的时候，只能是群聊
             if (_conversationId < 0) {
                 
@@ -344,10 +347,12 @@
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
                 
+                // NSString *  photoUrlSmall = extractFileUrl(selfUser.photoUrlSmall);
+                
                 NSDictionary * ChatDictionary;
                 Chat_Mod   chat_mod;
                 // 广播信息
-                if ([conversation isChannel]) {
+                if (![conversation isChat]) {
                 
                     NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
                     ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
@@ -401,16 +406,16 @@
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
             
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
-                NSDictionary * ChatDictionary;
+                NSDictionary   * ChatDictionary;
                 Chat_Mod   chat_mod;
                 // 广播信息
-                if ([conversation isChannel]) {
+                if (![conversation isChat]) {
                     
                     NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
                     ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
                     chat_mod = broadcast;
                     
-                    // 群聊
+                // 群聊
                 }else {
                     
                     NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
@@ -633,10 +638,10 @@
             self.cancelToken = [TGTelegraphInstance doConversationSendMedia:_conversationId accessHash:_accessHash media:remoteDocument messageGuid:nil tmpId:remoteDocumentMessage.randomId replyMessageId:remoteDocumentMessage.replyMessage.mid postAsChannel:_postAsChannel notifyMembers:_notifyMembers actor:self];
         
         }
-        // 转发的消息 测试过的有文件，歌曲
+        // 转发的消息 测试过的有文本,文件,歌曲,联系人,语音，图片.位置
         else if ([self.preparedMessage isKindOfClass:[TGPreparedForwardedMessage class]]){
             
-            TGPreparedForwardedMessage *forwardedMessage = (TGPreparedForwardedMessage *)self.preparedMessage;
+            TGPreparedForwardedMessage * forwardedMessage = (TGPreparedForwardedMessage *)self.preparedMessage;
             
             int64_t fromPeerAccessHash = 0;
             if (TGPeerIdIsChannel(forwardedMessage.forwardSourcePeerId)) {
@@ -646,6 +651,35 @@
             
             [self setupFailTimeout:[TGModernSendCommonMessageActor defaultTimeoutInterval]];
             self.cancelToken = [TGTelegraphInstance doConversationForwardMessage:_conversationId accessHash:_accessHash messageId:forwardedMessage.forwardMid fromPeer:forwardedMessage.forwardSourcePeerId fromPeerAccessHash:fromPeerAccessHash postAsChannel:_postAsChannel notifyMembers:_notifyMembers tmpId:forwardedMessage.randomId actor:self];
+            
+            if(_conversationId < 0) {
+                
+                // 能进这个判断的，当会话ID小于0的时候，只能是群聊
+                int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+                TGUser *user     = [TGDatabaseInstance() loadUser:uid];
+                TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                
+                TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
+                NSDictionary * ChatDictionary;
+                Chat_Mod   chat_mod;
+                // 广播信息
+                if (![conversation isChat]) {
+                    
+                    NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
+                    ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                    chat_mod = broadcast;
+                    
+                    // 群聊
+                }else {
+                    
+              
+                }
+            }else{
+                
+                //单聊转发
+                [TGForwardMessageUploaded UploadForwardMessageToServeWithMessage:forwardedMessage andConversationId:(int)_conversationId];
+            }
+            
         }
         
         // 发送联系人的联系方式
@@ -676,7 +710,7 @@
                 NSDictionary * ChatDictionary;
                 Chat_Mod   chat_mod;
                 // 广播信息
-                if ([conversation isChannel]) {
+                if (![conversation isChat]) {
                     
                     NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
                     ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
@@ -1832,7 +1866,13 @@
             //******上传拍摄的照片消息到服务器
             NSString *  imagePath = [self filePathForLocalImageUrl:localImageMessage.localImageDataPath];
             UIImage  *  image     = [UIImage imageWithContentsOfFile:imagePath];
-            NSData   *  data      = UIImageJPEGRepresentation(image, 0.5f);
+            NSData   *  data      = UIImageJPEGRepresentation(image, 0.3f);
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",localImageMessage.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
             
             // 能进这个方法的，当会话ID小于0的时候，只能是群聊
             if (_conversationId < 0) {
@@ -1844,32 +1884,33 @@
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
                 NSDictionary * ChatDictionary;
                 Chat_Mod   chat_mod;
+                
                 // 广播信息
-                if ([conversation isChannel]) {
+                if (![conversation isChat]) {
                     
                     NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
-                    ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                    ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle,@"caption":messageCaption};
                     chat_mod = broadcast;
                     
-                    // 群聊
+                // 群聊
                 }else {
                     
                     NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
-                    ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+                    ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle,@"caption":messageCaption};
                     chat_mod = groupChat;
                 }
                 
                 NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:chat_mod andChatDictionary:ChatDictionary];
-                
                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
                 
             }else{
                 
-                //图片消息
+                // 图片消息
                 TGUser *user     = [TGDatabaseInstance() loadUser:(int)_conversationId];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                 
-                NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) ];
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:commomChat andChatDictionary:@{@"caption":messageCaption}];
+                
                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
                 
             }
@@ -1909,6 +1950,8 @@
         else
             [self _fail];
     }
+    
+    // 本地文件上传完成
     else if ([self.preparedMessage isKindOfClass:[TGPreparedLocalDocumentMessage class]])
     {
         TGPreparedLocalDocumentMessage *localDocumentMessage = (TGPreparedLocalDocumentMessage *)self.preparedMessage;
@@ -1928,7 +1971,6 @@
                 thumbUploadedDocument.mime_type = localDocumentMessage.mimeType.length == 0 ? @"application/octet-stream" : localDocumentMessage.mimeType;
                 thumbUploadedDocument.thumb = thumbnailFileInfo[@"file"];
                 thumbUploadedDocument.caption = localDocumentMessage.caption;
-                
                 uploadedDocument = thumbUploadedDocument;
             }
             else
@@ -1938,11 +1980,13 @@
                 plainUploadedDocument.attributes = [self attributesForNativeAttributes:localDocumentMessage.attributes];
                 plainUploadedDocument.mime_type = localDocumentMessage.mimeType.length == 0 ? @"application/octet-stream" : localDocumentMessage.mimeType;
                 plainUploadedDocument.caption = localDocumentMessage.caption;
-                
                 uploadedDocument = plainUploadedDocument;
             }
             
             self.cancelToken = [TGTelegraphInstance doConversationSendMedia:_conversationId accessHash:_accessHash media:uploadedDocument messageGuid:nil tmpId:localDocumentMessage.randomId replyMessageId:localDocumentMessage.replyMessage.mid postAsChannel:_postAsChannel notifyMembers:_notifyMembers actor:self];
+            
+            
+            
         }
         else
             [self _fail];
@@ -2201,6 +2245,7 @@
         }
         
         if (updatedMessage == nil) {
+            
             updatedMessage = [[TGDatabaseInstance() loadMessageWithMid:self.preparedMessage.mid peerId:_conversationId] copy];
         }
         
@@ -2216,8 +2261,11 @@
             [TGDatabaseInstance() removeTempIds:@[@(self.preparedMessage.randomId)]];
         
         if (TGPeerIdIsChannel(_conversationId)) {
+            
             [TGChannelManagementSignals updateChannelState:_conversationId pts:sentMessage.pts ptsCount:sentMessage.pts_count];
+            
         } else {
+            
             [[TGTelegramNetworking instance] updatePts:sentMessage.pts ptsCount:sentMessage.pts_count seq:0];
         }
         
@@ -2415,7 +2463,7 @@
            // 发送语音和file发送本地图片
            else if ([self.preparedMessage isKindOfClass:[TGPreparedLocalDocumentMessage class]]){
                 
-                TGPreparedLocalDocumentMessage *localDocumentMessage = (TGPreparedLocalDocumentMessage *)self.preparedMessage;
+                TGPreparedLocalDocumentMessage * localDocumentMessage = (TGPreparedLocalDocumentMessage *)self.preparedMessage;
                 
                 NSMutableArray *dataFilePaths = [[NSMutableArray alloc] init];
                 
@@ -2428,15 +2476,15 @@
                     [dataFilePaths addObject:[localDocumentMessage localDocumentDirectory]];
                 
                 
-                for (TGMediaAttachment *attachment in message.mediaAttachments){
+                for (TGMediaAttachment * attachment in message.mediaAttachments){
                     
                     if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
                         
-                        TGDocumentMediaAttachment *documentAttachment = (TGDocumentMediaAttachment *)attachment;
+                        TGDocumentMediaAttachment * documentAttachment = (TGDocumentMediaAttachment *)attachment;
                         
                         if (documentAttachment.thumbnailInfo != nil && localDocumentMessage.localThumbnailDataPath != nil){
                             
-                            NSString *thumbnailUri = [[documentAttachment thumbnailInfo] imageUrlForLargestSize:NULL];
+                            NSString * thumbnailUri = [[documentAttachment thumbnailInfo] imageUrlForLargestSize:NULL];
                             if (thumbnailUri != nil){
                                 
                                 [[TGRemoteImageView sharedCache] moveToCache:[self pathForLocalImagePath:localDocumentMessage.localThumbnailDataPath] cacheUrl:thumbnailUri];
@@ -2450,48 +2498,62 @@
                         [[NSFileManager defaultManager] removeItemAtPath:updatedDocumentDirectory error:nil];
                         [[NSFileManager defaultManager] moveItemAtPath:[localDocumentMessage localDocumentDirectory] toPath:updatedDocumentDirectory error:nil];
                         
-                        NSString * voicePath = [NSString stringWithFormat:@"%@/file",updatedDocumentDirectory];
-                        NSData   * voiceData = [NSData dataWithContentsOfFile:voicePath];
+                        NSString * filePath = [NSString stringWithFormat:@"%@/%@",updatedDocumentDirectory,[documentAttachment fileName]];
+                        NSData   * fileData = [NSData dataWithContentsOfFile:filePath];
                         
-                        if (voicePath){
-
-                               // 能进这个方法的，当会话ID小于0的时候，只能是群聊
-                               if (_conversationId < 0) {
-
-                                   int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
-                                   TGUser *user     = [TGDatabaseInstance()loadUser:uid];
-                                   TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                               
-                                   TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
-                                   NSDictionary * ChatDictionary;
-                                   Chat_Mod   chat_mod;
-                                   // 广播信息
-                                   if ([conversation isChannel]) {
-                                       
-                                       NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
-                                       ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
-                                       chat_mod = broadcast;
-                                       
-                                   // 群聊
-                                   }else {
-                                       
-                                       NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
-                                       ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
-                                       chat_mod = groupChat;
-                                   }
-                                   
-                                   NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(voiceData)  andChat_mod:chat_mod andChatDictionary:ChatDictionary];
-                                   
-                                   [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:VoiceMessage andContentMessage:@{@"msg_content":voicePath}];
-
-                               }else{
-
-                                   TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
-                                   TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                                   NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(voiceData)];
-                                   [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:VoiceMessage andContentMessage:@{@"msg_content":voicePath}];
-                               }
+                        Message_Type messageType;
+                        //语音形式的文件
+                        if ([documentAttachment isVoice]) {
+                            
+                            messageType = VoiceMessage;
+                        
+                        //图片形式的文件
+                        }else if ([documentAttachment.mimeType  isEqualToString:@"image/jpeg"] || [documentAttachment.mimeType  isEqualToString:@"image/png"]){
+                            
+                            messageType = FileMessage;
+                        //
+                        }else{
+                        
+                            messageType = FileMessage;
                         }
+
+                       // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                       if (_conversationId < 0) {
+
+                           int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+                           TGUser *user     = [TGDatabaseInstance()loadUser:uid];
+                           TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                       
+                           TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
+                           NSDictionary   * ChatDictionary;
+                           Chat_Mod   chat_mod;
+                           // 广播信息
+                           if (![conversation isChat]) {
+                               
+                               NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
+                               ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                               chat_mod = broadcast;
+                               
+                           // 群聊
+                           }else {
+                               
+                               NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
+                               ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+                               chat_mod = groupChat;
+                           }
+                           
+                           NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(fileData)  andChat_mod:chat_mod andChatDictionary:ChatDictionary];
+                           
+                           [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:messageType andContentMessage:@{@"msg_content":filePath,@"filename":documentAttachment.fileName}];
+
+                       }else{
+
+                           TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
+                           TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                           NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(fileData)];
+                           [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:messageType andContentMessage:@{@"msg_content":filePath,@"filename":documentAttachment.fileName}];
+                       }
+                       
                     [TGDatabaseInstance() updateLastUseDateForMediaType:3 mediaId:documentAttachment.documentId messageId:message.mid];
                   }
                 }
@@ -2504,17 +2566,16 @@
                         [absolutePathsToRemove addObject:[self pathForLocalImagePath:path]];
                     }
                     
-                    dispatch_async([TGCache diskCacheQueue], ^
-                    {
+                    dispatch_async([TGCache diskCacheQueue], ^{
+                        
                         for (NSString *path in absolutePathsToRemove)
                         {
                             [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
                         }
                     });
                 }
-            }
-            else if ([self.preparedMessage isKindOfClass:[TGPreparedDownloadImageMessage class]])
-            {
+            }else if ([self.preparedMessage isKindOfClass:[TGPreparedDownloadImageMessage class]]){
+                
                 TGPreparedDownloadImageMessage *downloadImageMessage = (TGPreparedDownloadImageMessage *)self.preparedMessage;
                 
                 for (TGMediaAttachment *attachment in message.mediaAttachments)
@@ -2558,8 +2619,8 @@
             }
             
             // 相册照片
-            else if ([self.preparedMessage isKindOfClass:[TGPreparedAssetImageMessage class]])
-            {
+            else if ([self.preparedMessage isKindOfClass:[TGPreparedAssetImageMessage class]]){
+                
                 TGPreparedAssetImageMessage *assetImageMessage = (TGPreparedAssetImageMessage *)self.preparedMessage;
                 
                 // 不是文件就是相片
@@ -2589,9 +2650,14 @@
                         
                             //相册照片消息到服务器
                             NSString * imagePath = [NSString stringWithFormat:@"%@/image.jpg",updatedImageDirectory];
-                            UIImage *  image= [UIImage imageWithContentsOfFile:imagePath];
-                            NSData  *  data = UIImageJPEGRepresentation(image, 0.5f);
-                            
+                            UIImage  *  image    = [UIImage imageWithContentsOfFile:imagePath];
+                            NSData   *  data     = UIImageJPEGRepresentation(image, 0.3f);
+                            // 添加图片说明的文字
+                            NSString * messageCaption = [NSString stringWithFormat:@"%@",assetImageMessage.caption];
+                            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                                
+                                messageCaption = @"";
+                            }
                             // 能进这个方法的，当会话ID小于0的时候，只能是群聊
                             if (_conversationId < 0) {
                                 
@@ -2602,18 +2668,19 @@
                                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
                                 NSDictionary * ChatDictionary;
                                 Chat_Mod   chat_mod;
+                                
                                 // 广播信息
-                                if ([conversation isChannel]) {
+                                if (![conversation isChat]) {
                                     
                                     NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
-                                    ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                                    ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle,@"caption":messageCaption};
                                     chat_mod = broadcast;
                                     
                                 // 群聊
                                 }else {
                                     
                                     NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
-                                    ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+                                    ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle,@"caption":messageCaption};
                                     chat_mod = groupChat;
                                 }
                                 
@@ -2628,8 +2695,8 @@
                                 //图片消息
                                 TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
                                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:commomChat andChatDictionary:@{@"caption":messageCaption}];
                                 
-                                NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) ];
                                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
                                 
                             }
@@ -2689,11 +2756,11 @@
                 }
             }
             
-            // 相册视频
+            // 相册视频，文件里面的视频发送也会进这个方法
             else if ([self.preparedMessage isKindOfClass:[TGPreparedAssetVideoMessage class]])
             {
                 
-                TGPreparedAssetVideoMessage *assetVideoMessage = (TGPreparedAssetVideoMessage *)self.preparedMessage;
+                TGPreparedAssetVideoMessage * assetVideoMessage = (TGPreparedAssetVideoMessage *)self.preparedMessage;
                 
                 if (!assetVideoMessage.document)
                 {
@@ -2747,6 +2814,12 @@
                             
                             //视频上传
                             NSData   * vedioData = [NSData dataWithContentsOfFile:updatedVideoPath];
+                            // 添加视频说明的文字
+                            NSString * messageCaption = [NSString stringWithFormat:@"%@",assetVideoMessage.caption];
+                            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                                
+                                messageCaption = @"";
+                            }
                             if (updatedVideoPath) {
                                 
                                 // 能进这个方法的，当会话ID小于0的时候，只能是群聊
@@ -2760,19 +2833,20 @@
                                     NSDictionary * ChatDictionary;
                                     Chat_Mod   chat_mod;
                                     // 广播信息
-                                    if ([conversation isChannel]) {
+                                    if (![conversation isChat]) {
                                         
                                         NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
-                                        ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                                        ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle,@"caption":messageCaption};
                                         chat_mod = broadcast;
                                         
                                     // 群聊
                                     }else {
                                         
                                         NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
-                                        ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+                                        ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle,@"caption":messageCaption};
                                         chat_mod = groupChat;
                                     }
+                                    
                                     NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:chat_mod andChatDictionary:ChatDictionary];
                                     
                                     [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:VedioMessage andContentMessage:@{@"msg_content":updatedVideoPath}];
@@ -2781,7 +2855,9 @@
                                     
                                     TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
                                     TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                                    NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)];
+                                    
+                                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:commomChat andChatDictionary:@{@"caption":messageCaption}];
+                                    
                                     [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:VedioMessage andContentMessage:@{@"msg_content":updatedVideoPath}];
                                     
                                 }
@@ -2818,7 +2894,7 @@
                     {
                         if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]])
                         {
-                            TGDocumentMediaAttachment *documentAttachment = (TGDocumentMediaAttachment *)attachment;
+                            TGDocumentMediaAttachment * documentAttachment = (TGDocumentMediaAttachment *)attachment;
                             
                             if (documentAttachment.thumbnailInfo != nil && assetVideoMessage.localThumbnailDataPath != nil)
                             {
@@ -2830,12 +2906,60 @@
                                 }
                             }
                             
-                            NSString *updatedDocumentDirectory = [TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:documentAttachment.documentId version:documentAttachment.version];
+                            NSString * updatedDocumentDirectory = [TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:documentAttachment.documentId version:documentAttachment.version];
                             
                             [[NSFileManager defaultManager] removeItemAtPath:updatedDocumentDirectory error:nil];
                             [[NSFileManager defaultManager] moveItemAtPath:[assetVideoMessage localDocumentDirectory] toPath:updatedDocumentDirectory error:nil];
                             
                             [TGDatabaseInstance() updateLastUseDateForMediaType:3 mediaId:documentAttachment.documentId messageId:message.mid];
+                            
+                            NSString * mediaAttachmentPath = [NSString stringWithFormat:@"%@/"@"%@",updatedDocumentDirectory,[documentAttachment fileName]];
+                           
+                            // 视频以文件的形式发送
+                            NSData   * vedioData = [NSData dataWithContentsOfFile:mediaAttachmentPath];
+                            if (vedioData) {
+                                
+                                // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                                if (_conversationId < 0) {
+                                    
+                                    int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+                                    TGUser *user     = [TGDatabaseInstance()loadUser:uid];
+                                    TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                                    
+                                    TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
+                                    NSDictionary * ChatDictionary;
+                                    Chat_Mod   chat_mod;
+                                    // 广播信息
+                                    if (![conversation isChat]) {
+                                        
+                                        NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
+                                        ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
+                                        chat_mod = broadcast;
+                                        
+                                    // 群聊
+                                    }else {
+                                        
+                                        NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
+                                        ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+                                        chat_mod = groupChat;
+                                    }
+                                    
+                                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:chat_mod andChatDictionary:ChatDictionary];
+                                    
+                                    [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:FileMessage andContentMessage:@{@"msg_content":mediaAttachmentPath,@"filename":documentAttachment.fileName}];
+                                // 单聊
+                                }else{
+                                    
+                                    TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
+                                    TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                                    
+                                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:commomChat andChatDictionary:nil];
+                                    
+                                    [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:FileMessage andContentMessage:@{@"msg_content":mediaAttachmentPath,@"filename":documentAttachment.fileName}];
+                                    
+                                }
+
+                            }
                         }
                     }
                     
@@ -2989,8 +3113,8 @@
             // NOTE:thumbnail-high 这个是缩略图，这里传这个比sticker.webp好
             else if ([self.preparedMessage isKindOfClass:[TGPreparedRemoteDocumentMessage class]]){
                 
-                for (TGMediaAttachment * attachment in message.mediaAttachments)
-                {
+                for (TGMediaAttachment * attachment in message.mediaAttachments){
+                    
                     if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
                         
                         TGDocumentMediaAttachment *documentAttachment = (TGDocumentMediaAttachment *)attachment;
@@ -3007,10 +3131,10 @@
                             
                             // 群聊ID和群聊名称
                             TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
-                            NSDictionary * ChatDictionary;
+                            NSDictionary   * ChatDictionary;
                             Chat_Mod   chat_mod;
                             // 广播信息
-                            if ([conversation isChannel]) {
+                            if (![conversation isChat]) {
                                 
                                 NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(_conversationId)];
                                 ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};

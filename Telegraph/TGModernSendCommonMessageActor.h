@@ -8,6 +8,10 @@
 
 #import "TGModernSendMessageActor.h"
 
+#import "TGForwardMessageUploaded.h"
+#import "TGImageManager.h"
+
+
 @class TGDocumentMediaAttachment;
 @class TGImageMediaAttachment;
 

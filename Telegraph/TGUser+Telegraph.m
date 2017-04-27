@@ -1,15 +1,9 @@
 #import "TGUser+Telegraph.h"
-
 #import "TGSchema.h"
-
 #import "TGDatabase.h"
-
 #import "TGTelegraph.h"
-
 #import "TGImageInfo+Telegraph.h"
-
 #import "TGStringUtils.h"
-
 #import "TLUser$modernUser.h"
 
 void extractUserPhoto(TLUserProfilePhoto *photo, TGUser *target)

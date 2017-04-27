@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSString *siteName;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *pageDescription;
-@property (nonatomic, strong) NSArray *pageDescriptionEntities;
+@property (nonatomic, strong) NSArray  *pageDescriptionEntities;
 @property (nonatomic, strong) TGImageMediaAttachment *photo;
 @property (nonatomic, strong) NSString *embedUrl;
 @property (nonatomic, strong) NSString *embedType;

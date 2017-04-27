@@ -1,13 +1,9 @@
 #import "TGTimelineAssignProfilePhotoActor.h"
-
 #import "ActionStage.h"
-
 #import "TGUser+Telegraph.h"
 #import "TGTelegraph.h"
 #import "TGDatabase.h"
-
 #import "TGUserDataRequestBuilder.h"
-
 #import "TGImageInfo+Telegraph.h"
 
 @implementation TGTimelineAssignProfilePhotoActor
@@ -35,10 +31,10 @@
     [ActionStageInstance() actionFailed:self.path reason:-1];
 }
 
-- (void)assignProfilePhotoRequestSuccess:(TLUserProfilePhoto *)photo
-{
-    if ([photo isKindOfClass:[TLUserProfilePhoto$userProfilePhoto class]])
-    {
+- (void)assignProfilePhotoRequestSuccess:(TLUserProfilePhoto *)photo{
+    
+    if ([photo isKindOfClass:[TLUserProfilePhoto$userProfilePhoto class]]){
+        
         TLUserProfilePhoto$userProfilePhoto *concretePhoto = (TLUserProfilePhoto$userProfilePhoto *)photo;
         
         TGUser *originalUser = [[TGDatabase instance] loadUser:TGTelegraphInstance.clientUserId];

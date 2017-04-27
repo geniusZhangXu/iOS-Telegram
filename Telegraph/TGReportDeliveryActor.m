@@ -93,7 +93,6 @@
     
     // 处理本地通知展示
     [TGApplyUpdatesActor applyDelayedNotifications:maxMid mids:mids midsWithoutSound:midsWithoutSound maxQts:0 randomIds:nil];
-    
     if(maxMid == _value){
         
         // 先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据

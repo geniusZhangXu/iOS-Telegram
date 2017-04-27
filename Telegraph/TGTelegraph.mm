@@ -1622,6 +1622,9 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
             }];
         }
     }];
+    
+    
+    
 }
 
 
@@ -2560,7 +2563,7 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
  */
 - (NSObject *)doExportContacts:(NSArray *)contacts requestBuilder:(TGSynchronizeContactsActor *)requestActor{
     
-    NSMutableString *debugContactsString = [[NSMutableString alloc] init];
+    //NSMutableString *debugContactsString = [[NSMutableString alloc] init];
     NSMutableArray  *friendsArray        = [NSMutableArray array];
     NSMutableArray  *contactsArray       = [[NSMutableArray alloc] initWithCapacity:contacts.count];
     
@@ -2576,6 +2579,7 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
         [contactsArray addObject:inputContact];
        
         if ( [NSString isNonemptyString:binding.phoneNumber] && binding.phoneId ) {
+            
             if ([NSString isNonemptyString:binding.firstName] == NO) {
                 
                 binding.firstName = @"";
@@ -2595,11 +2599,10 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
             [friendsArray insertObject:dict atIndex:0];
     
         }
-        
-        [debugContactsString appendFormat:@"%@\t%@\t%@\n", binding.phoneNumber, binding.firstName, binding.lastName];
+        //[debugContactsString appendFormat:@"%@\t%@\t%@\n", binding.phoneNumber, binding.firstName, binding.lastName];
     }
    
-    TGLog(@"Exporting %d contacts: %@", contacts.count, debugContactsString);
+    //TGLog(@"Exporting %d contacts: %@", contacts.count, debugContactsString);
    
     TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
     
@@ -2621,7 +2624,8 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
                             @"r_username": selfUser.userName
                            };
         
-       [friendsArray insertObject:dict2 atIndex:0];
+    [friendsArray insertObject:dict2 atIndex:0];
+        
     }
     
     NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人

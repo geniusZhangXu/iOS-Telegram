@@ -8,11 +8,10 @@
 #import "TGDownloadMessagesSignal.h"
 #import "TGConversationAddMessagesActor.h"
 
-@interface TGConversationHistoryAsyncRequestActor ()
-{
+@interface TGConversationHistoryAsyncRequestActor (){
+    
     int32_t _fromMid;
     bool _down;
-    
     id<SDisposable> _disposable;
 }
 
@@ -20,7 +19,7 @@
 
 @implementation TGConversationHistoryAsyncRequestActor
 
-+ (NSString *)genericPath
++(NSString *)genericPath
 {
     return @"/tg/conversations/@/asyncHistory/@";
 }

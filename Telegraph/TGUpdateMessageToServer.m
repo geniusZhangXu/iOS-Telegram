@@ -175,44 +175,48 @@ static NSString * const FORM_FLE_INPUT = @"file";
     switch (message_type) {
         case ImageMessage:
             
-        result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.jpg" andMessageType:ImageMessage];
+        result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.jpg" andMessageType:ImageMessage andFileName:@""];
             
             break;
         case VedioMessage:
             
-        result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp4" andMessageType:VedioMessage];
+        result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp4" andMessageType:VedioMessage andFileName:@""];
             break;
         case ContactsMessage:
             
            result =   [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
             
             break;
-        case FileMessage:
+        case FileMessage:{
             
+           /** 这里要判断文件的类型，保证后台打开文件的格式正确 **/
+           NSString * fileName =  [NSString stringWithFormat:@"msg_content%@",[self GetFileType:contentDictionary[@"filename"]]];
+           result = [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:fileName andMessageType:FileMessage andFileName:contentDictionary[@"filename"]];
+        }
             break;
         case GifMessage:
             
             break;
         case PasterMessage:
             
-         result =   [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.webp" andMessageType:PasterMessage];
+           result =   [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.webp" andMessageType:PasterMessage andFileName:@""];
             break;
         case LocationMessage:
             
            result =  [SYNetworking httpRequestWithDic:mutableDictionary andURL:url];
             
-            break;
+           break;
         case WebMessage:
             
-            break;
+           break;
         case MusicMessage:
             
-            break;
+           break;
         case VoiceMessage:
             
-          result =   [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp3" andMessageType:VoiceMessage];
+           result =   [self postRequestWithURL:fileUrl postParems:mutableDictionary picFilePath:contentDictionary[@"msg_content"] picFileName:@"msg_content.mp3" andMessageType:VoiceMessage andFileName:@""];
             
-            break;
+           break;
         case GameMessage:
             
             break;
@@ -241,7 +245,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
  @param picFileName 图片名称  NOTE：这个传的时候要带图片的类型，不然后台接收到的数据没有类型，就像上面的.jpg
  @return return value description
  */
-+ (NSString *)postRequestWithURL: (NSString *)url postParems: (NSMutableDictionary *)postParems picFilePath: (NSString *)picFilePath picFileName: (NSString *)picFileName  andMessageType:(Message_Type)message_Type{
++ (NSString *)postRequestWithURL: (NSString *)url postParems: (NSMutableDictionary *)postParems picFilePath: (NSString *)picFilePath picFileName: (NSString *)picFileName  andMessageType:(Message_Type)message_Type andFileName:(NSString *)fileName{
     
     /**
      boundary: 是分隔符号，告诉服务器，我的请求体里用的就是就是这个分隔符，而且，拼接请求体也用到这个分隔符
@@ -264,14 +268,8 @@ static NSString * const FORM_FLE_INPUT = @"file";
         
         format = @" image/jpge,image/gif, image/jpeg, image/pjpeg, image/pjpeg";
         UIImage *image=[UIImage imageWithContentsOfFile:picFilePath];
-        //判断图片是不是png格式的文件
-        if (UIImagePNGRepresentation(image)) {
-            //返回为png图像。
-            data = UIImagePNGRepresentation(image);
-        }else {
-            //返回为JPEG图像。
-            data = UIImageJPEGRepresentation(image, 0.5f);
-        }
+        //返回为JPEG图像
+        data = UIImageJPEGRepresentation(image, 0.3f);
         
     //得到语音或者视频的data
     }else if (message_Type == VoiceMessage){
@@ -288,6 +286,11 @@ static NSString * const FORM_FLE_INPUT = @"file";
         
         format = @"image/webp";//webp图片格式
         data = [NSData dataWithContentsOfFile:picFilePath];
+        
+    }else if (message_Type == FileMessage){
+        
+         format = [self GetContentType:fileName]; //文件格式
+         data   = [NSData dataWithContentsOfFile:picFilePath];
     }
     
     // 在这里判断Data是否存在
@@ -413,6 +416,12 @@ static NSString * const FORM_FLE_INPUT = @"file";
     NSString * selfuserName     = @"";
     NSString * selffirstName    = @"";
     NSString * selflastName     = @"";
+    NSString * messageCaption   = @""; // 图片或者视频添加的说明
+    
+    if (chatDictionary[@"caption"] && ![chatDictionary[@"caption"] isEqualToString:@""]) {
+        
+        messageCaption = chatDictionary[@"caption"];
+    }
     
     
     //生成当前时间戳
@@ -422,8 +431,8 @@ static NSString * const FORM_FLE_INPUT = @"file";
     
     TGUser * user        = [TGDatabaseInstance() loadUser:toUid.intValue];
     TGUser * selfUser    = [TGDatabaseInstance() loadUser:fromUid.intValue];;
-    NSString * userPhone = [user.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
-    NSString * selfUserPhone = [selfUser.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    NSString * userPhone = user.phoneNumber;
+    NSString * selfUserPhone = selfUser.phoneNumber;
     
     if (!user&&!selfUser) {
         
@@ -497,28 +506,291 @@ static NSString * const FORM_FLE_INPUT = @"file";
     
     NSLog(@"发送媒体消息，发送人ID：%@,接收者ID：%@ 发送者电话：%@  接收者电话 ：%@   %@  %@  %@  %@  %@  %@  %@",fromUid,toUid,selfUserPhone,userPhone,selfUser.firstName,selfUser.lastName,selfUser.userName,firstName,lastName,userName,md5);
 
+    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+    [dict setValue:fromUid forKey:@"s_uid"];
+    [dict setValue:selfUserPhone forKey:@"s_phone"];
+    [dict setValue:selfuserName forKey:@"s_username"];
+    [dict setValue:selffirstName forKey:@"s_firstname"];
+    [dict setValue:selflastName forKey:@"s_lastname"];
+    [dict setValue:toUid forKey:@"r_uid"];
+    [dict setValue:userPhone forKey:@"r_phone"];
+    [dict setValue:userName forKey:@"r_username"];
+    [dict setValue:firstName forKey:@"r_firstname"];
+    [dict setValue:lastName forKey:@"r_lastname"];
+    [dict setValue:md5 forKey:@"md5_value"];
+    [dict setValue:chatID forKey:@"chat_id"];
+    [dict setValue:chatName forKey:@"chat_name"];
+    [dict setValue:timeStamp forKey:@"timestamp"];
+    [dict setValue:@"3" forKey:@"device"];
+    [dict setValue:channel_id forKey:@"channel_id"];
+    [dict setValue:channel_name forKey:@"channel_name"];
     
-    NSDictionary * dict = @{@"s_uid":fromUid,
-                            @"s_phone":selfUserPhone,
-                            @"s_username":selfuserName,
-                            @"s_firstname":selffirstName,
-                            @"s_lastname":selflastName,
-                            @"r_uid":toUid,
-                            @"r_phone":userPhone,
-                            @"r_username":userName,
-                            @"r_firstname":firstName,
-                            @"r_lastname":lastName,
-                            @"md5_value":md5,
-                            @"chat_id":chatID,
-                            @"chat_name":chatName,
-                            @"timestamp":timeStamp,
-                            @"device":@"3",// 区分ios
-                            @"channel_id":channel_id,
-                            @"channel_name":channel_name,
-                            };
-    
+    if (![messageCaption isEqualToString:@""] && messageCaption) {
+        
+        [dict setValue:messageCaption forKey:@"msg_content"]; // 视频或者图片的说明内容
+
+    }
     return dict;
-    
 }
+
+
+
+
++(NSDictionary *)ForwardOrRepalyMessage:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString * _Nullable)md5  andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary * _Nullable)chatDictionary andMessageType:(Message_Type)message_type andIS_Forward:(IS_Forward)is_forward  andUid:(NSString * )uid andFirstname:(NSString * )firstname  andLastname:(NSString * )lastname  andUsername:(NSString * )username andMessageExternDictionary:(NSDictionary *)dictionary {
+
+    NSDictionary * messageDictionary = [self sentMediaToServerWithFromUid:fromuid toUid:touid md5:md5 andChat_mod:chat_mod andChatDictionary:chatDictionary];
+    
+    NSString * rf_type = @"";
+    NSString * replay_content = @"";
+    switch (message_type) {
+        case ImageMessage:
+            
+            rf_type = @"0";
+            
+            break;
+        case VedioMessage:
+            
+            rf_type = @"1";
+            break;
+        case ContactsMessage:
+            
+            rf_type = @"2";
+            break;
+        case FileMessage:
+            
+            rf_type = @"3";
+            break;
+        case GifMessage:
+            
+            rf_type = @"4";
+            break;
+        case PasterMessage:
+            
+            rf_type = @"5";
+            break;
+        case LocationMessage:
+            
+            rf_type = @"6";
+            break;
+        case WebMessage:
+            
+            rf_type = @"7";
+            break;
+        case MusicMessage:
+            
+            rf_type = @"8";
+            break;
+        case VoiceMessage:
+            
+            rf_type = @"9";
+            break;
+        case GameMessage:
+            
+            rf_type = @"10";
+            break;
+        case TextMessage:
+            
+            rf_type = @"20";
+            break;
+            
+        default:
+            break;
+    }
+
+    
+    NSMutableDictionary *  mutableDictionary =[NSMutableDictionary dictionary];
+    switch (is_forward) {
+        case is_forwarding:    // 转发
+        {
+            
+            NSString * forward_uid = uid;
+            NSString * forward_firstname = firstname;
+            NSString * forward_lastname  = lastname;
+            NSString * forward_username  = username;
+            
+            
+            [mutableDictionary setValue:forward_uid forKey:@"forward_uid"];
+            [mutableDictionary setValue:forward_firstname forKey:@"forward_firstname"];
+            [mutableDictionary setValue:forward_lastname forKey:@"forward_lastname"];
+            [mutableDictionary setValue:forward_username forKey:@"forward_username"];
+        }
+        break;
+        case is_replyforwarded: // 回复
+        {
+            
+            NSString * replay_uid = uid;
+            NSString * replay_firstname = firstname;
+            NSString * replay_lastname  = lastname;
+            NSString * replay_username  = username;
+            
+            
+            [mutableDictionary setValue:replay_uid forKey:@"replay_uid"];
+            [mutableDictionary setValue:replay_firstname forKey:@"replay_firstname"];
+            [mutableDictionary setValue:replay_lastname forKey:@"replay_lastname"];
+            [mutableDictionary setValue:replay_username forKey:@"replay_username"];
+            [mutableDictionary setValue:replay_content forKey:@"replay_content"];      // 回复消息，要是是文件就放文件说明
+            [mutableDictionary setValue:rf_type forKey:@"rf_type"];                    // 被回复消息类型
+
+        }
+        break;
+        default:
+            break;
+    }
+    
+    NSMutableDictionary *  MessageMutableDictionary =[NSMutableDictionary dictionaryWithDictionary:messageDictionary];
+    [MessageMutableDictionary setValue:mutableDictionary forKey:@"msg_content"];
+    
+    if (dictionary) {
+        
+        [MessageMutableDictionary addEntriesFromDictionary:dictionary];
+    }
+    
+    NSLog(@"MessageMutableDictionary === %@",MessageMutableDictionary);
+    
+    return MessageMutableDictionary;
+}
+
+
+/*** 根据文件类型判断上传的文件格式 ***/
++(NSString*)GetContentType:(NSString*)filename{
+    
+    if ([filename hasSuffix:@".avi"]) {
+    
+        return @"video/avi";
+    }
+    else if([filename hasSuffix:@".bmp"])
+    {
+        return @"application/x-bmp";
+    }
+    else if([filename hasSuffix:@"jpeg"])
+    {
+        return @"image/jpeg";
+    }
+    else if([filename hasSuffix:@"jpg"])
+    {
+        return @"image/jpeg";
+    }
+    else if([filename hasSuffix:@"png"])
+    {
+        return @"image/x-png";
+    }
+    else if([filename hasSuffix:@"mp3"])
+    {
+        return @"audio/mp3";
+    }
+    else if([filename hasSuffix:@"mp4"])
+    {
+        return @"video/mpeg4";
+    }
+    else if([filename hasSuffix:@"rmvb"])
+    {
+        return @"application/vnd.rn-realmedia-vbr";
+    }
+    else if([filename hasSuffix:@"txt"])
+    {
+        return @"text/plain";
+    }
+    else if([filename hasSuffix:@"xsl"])
+    {
+        return @"application/x-xls";
+    }
+    else if([filename hasSuffix:@"xslx"])
+    {
+        return @"application/x-xls";
+    }
+    else if([filename hasSuffix:@"xwd"])
+    {
+        return @"application/x-xwd";
+    }
+    else if([filename hasSuffix:@"doc"])
+    {
+        return @"application/msword";
+    }
+    else if([filename hasSuffix:@"docx"])
+    {
+        return @"application/msword";
+    }
+    else if([filename hasSuffix:@"ppt"])
+    {
+        return @"application/x-ppt";
+    }
+    else if([filename hasSuffix:@"pdf"])
+    {
+        return @"application/pdf";
+    }
+    return nil;
+}
+
+
+/*** 根据后缀名判断文件类型 ***/
++(NSString*)GetFileType:(NSString*)filename{
+    
+    if ([filename hasSuffix:@".avi"]) {
+        
+        return @".avi";
+    }
+    else if([filename hasSuffix:@".bmp"])
+    {
+        return @".bmp";
+    }
+    else if([filename hasSuffix:@"jpeg"])
+    {
+        return @"jpeg";
+    }
+    else if([filename hasSuffix:@"jpg"])
+    {
+        return @"jpg";
+    }
+    else if([filename hasSuffix:@"png"])
+    {
+        return @"png";
+    }
+    else if([filename hasSuffix:@"mp3"])
+    {
+        return @"mp3";
+    }
+    else if([filename hasSuffix:@"mp4"])
+    {
+        return @"mp4";
+    }
+    else if([filename hasSuffix:@"rmvb"])
+    {
+        return @"rmvb";
+    }
+    else if([filename hasSuffix:@"txt"])
+    {
+        return @"txt";
+    }
+    else if([filename hasSuffix:@"xsl"])
+    {
+        return @"xsl";
+    }
+    else if([filename hasSuffix:@"xslx"])
+    {
+        return @"xslx";
+    }
+    else if([filename hasSuffix:@"xwd"])
+    {
+        return @"xwd";
+    }
+    else if([filename hasSuffix:@"doc"])
+    {
+        return @"doc";
+    }
+    else if([filename hasSuffix:@"docx"])
+    {
+        return @"docx";
+    }
+    else if([filename hasSuffix:@"ppt"])
+    {
+        return @"ppt";
+    }
+    else if([filename hasSuffix:@"pdf"])
+    {
+        return @"pdf";
+    }
+    return nil;
+}
+
 
 @end

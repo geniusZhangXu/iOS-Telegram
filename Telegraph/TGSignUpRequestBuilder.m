@@ -78,16 +78,14 @@
     self.cancelToken = [TGTelegraphInstance doSignUp:_phoneNumber phoneHash:_phoneHash phoneCode:_phoneCode firstName:_firstName lastName:_lastName requestBuilder:self];
 }
 
+
+#pragma mark -- 登录成功
 - (void)signUpSuccess:(TLauth_Authorization *)authorization
 {
     int userId = ((TLUser$modernUser *)authorization.user).n_id;
-    
     [TGUserDataRequestBuilder executeUserDataUpdate:[NSArray arrayWithObject:authorization.user]];
-    
     bool activated = true;
-    
     [TGTelegraphInstance processAuthorizedWithUserId:userId clientIsActivated:activated];
-    
     [ActionStageInstance() actionCompleted:self.path result:[[SGraphObjectNode alloc] initWithObject:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithBool:activated], @"activated", nil]]];
 }
 

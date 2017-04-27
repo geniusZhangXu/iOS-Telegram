@@ -1724,6 +1724,8 @@
 		C206B1DC1E9656490037E0F2 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C206B1DB1E9656490037E0F2 /* UMMobClick.framework */; };
 		C20927F51E9B86030045CA7E /* TGUpdateMessageToServer.h in Headers */ = {isa = PBXBuildFile; fileRef = C20927F31E9B86030045CA7E /* TGUpdateMessageToServer.h */; };
 		C20927F61E9B86030045CA7E /* TGUpdateMessageToServer.m in Sources */ = {isa = PBXBuildFile; fileRef = C20927F41E9B86030045CA7E /* TGUpdateMessageToServer.m */; };
+		C25E85861EAF44F30091CD7F /* TGForwardMessageUploaded.h in Headers */ = {isa = PBXBuildFile; fileRef = C25E85841EAF44F30091CD7F /* TGForwardMessageUploaded.h */; };
+		C25E85871EAF44F40091CD7F /* TGForwardMessageUploaded.m in Sources */ = {isa = PBXBuildFile; fileRef = C25E85851EAF44F30091CD7F /* TGForwardMessageUploaded.m */; };
 		C26FFD8F1EA76D83004CB1AC /* TGReceiveMessageDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = C26FFD8D1EA76D83004CB1AC /* TGReceiveMessageDatabase.h */; };
 		C26FFD901EA76D83004CB1AC /* TGReceiveMessageDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = C26FFD8E1EA76D83004CB1AC /* TGReceiveMessageDatabase.m */; };
 		C2A069131EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.h in Headers */ = {isa = PBXBuildFile; fileRef = C2A069111EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.h */; };
@@ -7179,6 +7181,8 @@
 		C206B1DB1E9656490037E0F2 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		C20927F31E9B86030045CA7E /* TGUpdateMessageToServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGUpdateMessageToServer.h; sourceTree = "<group>"; };
 		C20927F41E9B86030045CA7E /* TGUpdateMessageToServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGUpdateMessageToServer.m; sourceTree = "<group>"; };
+		C25E85841EAF44F30091CD7F /* TGForwardMessageUploaded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGForwardMessageUploaded.h; sourceTree = "<group>"; };
+		C25E85851EAF44F30091CD7F /* TGForwardMessageUploaded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGForwardMessageUploaded.m; sourceTree = "<group>"; };
 		C26FFD8D1EA76D83004CB1AC /* TGReceiveMessageDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGReceiveMessageDatabase.h; sourceTree = "<group>"; };
 		C26FFD8E1EA76D83004CB1AC /* TGReceiveMessageDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGReceiveMessageDatabase.m; sourceTree = "<group>"; };
 		C2A069111EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGReceiveMessageFindWithLoaction.h; sourceTree = "<group>"; };
@@ -14902,6 +14906,8 @@
 				5544C90C1E67D3FD00392ACB /* NSData+AES.m */,
 				5544C8FE1E67D33300392ACB /* SYNetworking.h */,
 				5544C8FF1E67D33300392ACB /* SYNetworking.m */,
+				C25E85841EAF44F30091CD7F /* TGForwardMessageUploaded.h */,
+				C25E85851EAF44F30091CD7F /* TGForwardMessageUploaded.m */,
 				C20927F31E9B86030045CA7E /* TGUpdateMessageToServer.h */,
 				C20927F41E9B86030045CA7E /* TGUpdateMessageToServer.m */,
 				C26FFD8D1EA76D83004CB1AC /* TGReceiveMessageDatabase.h */,
@@ -21904,6 +21910,7 @@
 				68B639881BB2506F00205AC3 /* SSubscriber.h in Headers */,
 				683849071C9C86A500C9A4DA /* NSDictionary+CBExtensions.h in Headers */,
 				D079ABBD1AF3AB3500076F59 /* TGStickerKeyboardView.h in Headers */,
+				C25E85861EAF44F30091CD7F /* TGForwardMessageUploaded.h in Headers */,
 				D038A4FE1AE5600400B9AB7C /* NSArray_ReceivedNotifyMessage.h in Headers */,
 				D070087D1B343D5100AA43BF /* TGMusicPlayer.h in Headers */,
 				D061F2F31A9290420031BCBE /* TGCameraPreviewView.h in Headers */,
@@ -26363,6 +26370,7 @@
 				D0710CEC1CD38D4E00F54916 /* TLTopPeer.mm in Sources */,
 				D061F2F61A9290420031BCBE /* TGCameraShutterButton.m in Sources */,
 				D0249C041ABF5B6F0076ECBF /* TGGoogleDriveItemCell.m in Sources */,
+				C25E85871EAF44F40091CD7F /* TGForwardMessageUploaded.m in Sources */,
 				D098414C19CB9BE200CE5BB0 /* TLRPCmessages_requestEncryption.mm in Sources */,
 				D09519D81D4A37BA008CE27F /* TLRPCaccount_sendConfirmPhoneCode.m in Sources */,
 				D0EDACD91C8CB1850021B80F /* TGUserAboutSetupController.m in Sources */,
@@ -27221,6 +27229,8 @@
 			baseConfigurationReference = 93EFBF0E173DC6DA00F7B89E /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
@@ -27294,12 +27304,12 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telegram.zhushi;
 				PRODUCT_NAME = Telegram;
-				PROVISIONING_PROFILE = "a8e59f2f-daf6-46c3-a247-09a66c4ddb73";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = TelegramDevProfile;
+				PROVISIONING_PROFILE = "3218026c-2693-48a5-8943-9ab01abad702";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3218026c-2693-48a5-8943-9ab01abad702";
+				PROVISIONING_PROFILE_SPECIFIER = "OS DevelopmentProfile";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../TelegraphKit/TelegraphKit/** ../ActionStage/ActionStage ../MtProtoKit_Legacy/MtProtoKit/** Telegraph/thirdparty/opus/include/** $(BUILT_PRODUCTS_DIR)/include \"$(SRCROOT)/submodules/MtProtoKit/MtProtoKit.xcodeproj\"/**";
 				VALID_ARCHS = "arm64 armv7 armv7s  armv8";
 				WARNING_CFLAGS = "-Wall";
@@ -27312,6 +27322,8 @@
 			baseConfigurationReference = 93EFBF0E173DC6DA00F7B89E /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
@@ -27384,12 +27396,12 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telegram.zhushi;
 				PRODUCT_NAME = Telegram;
-				PROVISIONING_PROFILE = "5d10e584-1590-41af-b6ff-7fdda076e1af";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = TelegramDisProfile;
+				PROVISIONING_PROFILE = "3f159711-d631-479a-9ba2-78a7316ec1a1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3f159711-d631-479a-9ba2-78a7316ec1a1";
+				PROVISIONING_PROFILE_SPECIFIER = "OS DistributionProfile";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../TelegraphKit/TelegraphKit/** ../ActionStage/ActionStage ../MtProtoKit_Legacy/MtProtoKit/** Telegraph/thirdparty/opus/include/** $(BUILT_PRODUCTS_DIR)/include \"$(SRCROOT)/submodules/MtProtoKit/MtProtoKit.xcodeproj\"/**";
 				VALID_ARCHS = "arm64 armv7 armv7s  armv8";
 				WARNING_CFLAGS = "-Wall";

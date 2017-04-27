@@ -250,29 +250,36 @@
             [ActionStageInstance() actionFailed:self.path reason:-1];
         }
         
-        ///////////这里处理的是单聊、群聊接收到的语音、贴纸表情消息上传
+        ///////////这里处理的是单聊、群聊接收到的语音、贴纸表情消息上传,文件的下载也在这里
         ////////////////////////////////
         
         int64_t voiceid;
         if (_documentAttachment.documentId == 0) {
+            
             voiceid = _documentAttachment.localDocumentId;
+            
         }else
+            
             voiceid = _documentAttachment.documentId;
         
         
         NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
-        NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
         
+        NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
+        
+        // 上面的是广播发送
         if (![preeID isEqualToString:@"1"] && preeID) {
             
             NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromChannelId(preeID.intValue)];
+            
             // 发送成功删除该ID
             if ([resultCode intValue] == 200) {
                 
-                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_documentAttachment.documentId]];
+                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
             }
             return;
         }
+        
         if (messageID) {
         
             NSString * result =  [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];

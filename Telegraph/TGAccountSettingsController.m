@@ -329,7 +329,7 @@
             
             UIImage *smallOriginalImage = [[TGRemoteImageView sharedCache] cachedImage:user.photoUrlSmall availability:TGCacheDisk];
             /***** 编辑完成更新个人资料 */
-            [self UploadUserS_avatar:smallOriginalImage];
+            [self UploadUserS_avatar:smallOriginalImage  andFirstName:options[@"firstName"] andLastName:options[@"lastName"]];
             /*****/
         }
     }
@@ -337,16 +337,16 @@
 
 
 // 更新个人资料
--(void)UploadUserS_avatar:(UIImage *)image{
+-(void)UploadUserS_avatar:(UIImage *)image  andFirstName:(NSString * )firstname andLastName:(NSString *)lastname {
 
     //********************
     //去掉电话号码前的加号
     NSString * userName;
     NSString * lastName;
     NSString * firstName;
-    
+    UIImage  * userimage = image;
     TGUser   * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-    NSString * currentPhoneNumber = [selfUser.phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+    NSString * currentPhoneNumber = selfUser.phoneNumber;
     if ([NSString isNonemptyString:currentPhoneNumber] && selfUser.uid && [NSString isNonemptyString:selfUser.firstName]) {
         
         userName = selfUser.userName;
@@ -368,14 +368,23 @@
             firstName = @"";
         }
         
+        if (![firstname isEqualToString:@""]) {
+            
+            firstName = firstname;
+        }
+        if (![lastname isEqualToString:@""]) {
+            
+            lastName = lastname;
+        }
+        
         NSDictionary *dict1 = @{@"s_phone":currentPhoneNumber,
                                 @"s_username":userName,
                                 @"s_firstname":firstName,
                                 @"s_lastname":lastName,
                                 @"s_uid":@(selfUser.uid),
-                                @"device":@(3)
+                                @"device":@"3"
                                 };
-        NSString * imageBase64 =  [[[TGUpdateMessageToServer alloc]init] imageChangeBase64:image];
+        NSString * imageBase64 =  [[[TGUpdateMessageToServer alloc]init] imageChangeBase64:userimage];
         NSMutableDictionary * parems = [NSMutableDictionary dictionaryWithDictionary:dict1];
         [parems setValue:imageBase64 forKey:@"s_avatar"];
         [SYNetworking httpRequestWithDic:parems andURL:[NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"]];
@@ -472,7 +481,7 @@
     
     // 更新个人资料
     // ********************
-    [self UploadUserS_avatar:avatarImage];
+    [self UploadUserS_avatar:avatarImage andFirstName:@"" andLastName:@""];
 }
 
 
@@ -522,13 +531,30 @@
              return NSOrderedDescending;
         }];
         
-        // TGImageMediaAttachment * imageMedia = sortedResult[0];
-  
+        TGImageMediaAttachment * imageMedia = sortedResult[0];
+        NSString * path = [self filePathForRemoteImageId:imageMedia.imageId];
+        NSLog(@"pathpathpath * %@",path);
         
         
     }];
 }
 
+
+- (NSString *)filePathForRemoteImageId:(int64_t)remoteImageId
+{
+    static NSString *filesDirectory = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+                  {
+                      filesDirectory = [[TGAppDelegate documentsPath] stringByAppendingPathComponent:@"files"];
+                  });
+    
+    NSString *photoDirectoryName = [[NSString alloc] initWithFormat:@"image-remote-%" PRIx64 "", remoteImageId];
+    NSString *photoDirectory = [filesDirectory stringByAppendingPathComponent:photoDirectoryName];
+    
+    NSString *imagePath = [photoDirectory stringByAppendingPathComponent:@"image.jpg"];
+    return imagePath;
+}
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)__unused animated
 {

@@ -1006,8 +1006,9 @@ typedef enum {
             }
         }];
     }
-    
+    if ([_chatType_str isEqualToString:@"private"]) {
     [self unreadMessagesContent];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -2796,7 +2797,9 @@ typedef enum {
             [_collectionView updateRelativeBounds];
             
             //
+            if ([_chatType_str isEqualToString:@"private"]) {
             [self addNotification];
+            }
         }
         else
         {

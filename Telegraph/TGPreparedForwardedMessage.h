@@ -10,7 +10,7 @@
 
 @interface TGPreparedForwardedMessage : TGPreparedMessage
 
-@property (nonatomic, strong) TGMessage *innerMessage;
+@property (nonatomic, strong) TGMessage * innerMessage;
 
 @property (nonatomic) int32_t forwardMid;
 @property (nonatomic) int64_t forwardPeerId;

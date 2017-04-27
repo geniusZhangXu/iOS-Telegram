@@ -80,8 +80,11 @@
     if (!_disableAvatar)
     {
         if (_hasUpdatingAvatar)
+            
             [view setAvatarImage:_updatingAvatar animated:false];
+        
         else
+            
             [view setAvatarUri:_user.photoUrlSmall animated:false synchronous:_firstBind];
     }
     
@@ -135,6 +138,7 @@
             if (_hasUpdatingAvatar)
             {
                 if (_updatingAvatar != nil)
+                    
                     [view setAvatarImage:_updatingAvatar animated:animated];
             }
             else
@@ -201,8 +205,11 @@
             if (!_disableAvatar)
             {
                 if (_hasUpdatingAvatar)
+                    
                     [view setAvatarImage:_updatingAvatar animated:false];
+                
                 else
+                    
                     [view setAvatarUri:_user.photoUrlSmall animated:false synchronous:false];
             }
             

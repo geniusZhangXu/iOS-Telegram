@@ -7,11 +7,8 @@
  */
 
 #import "TGModernSendMessageActor.h"
-
 #import <MTProtoKit/MTMessageEncryptionKey.h>
-
 #import "TL/TLMetaScheme.h"
-
 #import "SecretLayer1.h"
 #import "SecretLayer17.h"
 #import "SecretLayer20.h"
@@ -23,7 +20,6 @@
 @interface TGModernSendSecretMessageActor : TGModernSendMessageActor
 
 + (NSUInteger)currentLayer;
-
 + (MTMessageEncryptionKey *)generateMessageKeyData:(NSData *)messageKey incoming:(bool)incoming key:(NSData *)key;
 + (int32_t)enqueueOutgoingMessageForPeerId:(int64_t)peerId layer:(NSUInteger)layer keyId:(int64_t)keyId randomId:(int64_t)randomId messageData:(NSData *)messageData storedFileInfo:(TGStoredOutgoingMessageFileInfo *)storedFileInfo watcher:(id)watcher;
 + (int32_t)enqueueOutgoingServiceMessageForPeerId:(int64_t)peerId layer:(NSUInteger)layer keyId:(int64_t)keyId randomId:(int64_t)randomId messageData:(NSData *)messageData;
@@ -33,9 +29,7 @@
 + (void)beginIncomingQueueProcessingIfNeeded:(int64_t)peerId;
 + (void)beginOutgoingQueueProcessingIfNeeded:(int64_t)peerId;
 + (void)maybeRekeyPeerId:(int64_t)peerId;
-
 + (NSData *)encryptMessage:(NSData *)serializedMessage key:(NSData *)key keyId:(int64_t)keyId;
-
 + (NSData *)decryptedServiceMessageActionWithLayer:(NSUInteger)layer setTTL:(int32_t)ttl randomId:(int64_t)randomId;
 + (NSData *)decryptedServiceMessageActionWithLayer:(NSUInteger)layer deleteMessagesWithRandomIds:(NSArray *)randomIds randomId:(int64_t)randomId;
 + (NSData *)decryptedServiceMessageActionWithLayer:(NSUInteger)layer flushHistoryWithRandomId:(int64_t)randomId;

@@ -21,7 +21,6 @@
 +(void)receiveMessageID:(int)messageId{
     
     TGMessage * message = [TGDatabaseInstance() loadMessageWithMid:messageId peerId:messageId];
-    
     for (TGMediaAttachment *attachment in message.mediaAttachments){
         
         // 图片
@@ -33,12 +32,14 @@
         }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
             
             int64_t voiceid;
-            
             TGDocumentMediaAttachment *  localAttachment = (TGDocumentMediaAttachment * )attachment;
             
             if (localAttachment.documentId == 0) {
+                
                 voiceid = localAttachment.localDocumentId;
+                
             }else
+                
                 voiceid = localAttachment.documentId;
             
            [[TGReceiveMessageDatabase sharedInstance] updateReceiveMessageTableWithmessageID:[NSString stringWithFormat:@"%d",messageId] andContentId:[NSString stringWithFormat:@"%lld",voiceid] andPreeID:[NSString stringWithFormat:@"%d",1]];
@@ -52,7 +53,10 @@
     }
 }
 
-
+/**
+ 
+ 广播接收消息处理
+ ***/
 +(void)boardCoastReceiveMessage:(TGMessage *)message  andPreeID:(int32_t)preeID{
     
     TGMessage * tgmessage = message;
@@ -78,8 +82,9 @@
     }
 }
 
+
 /**
- 判断是群聊还是单聊，生成不同的数据上传
+ 接收消息判断是群聊还是单聊，生成不同的数据上传
 
  @param messageLocalId 消息ID
  */
@@ -116,24 +121,22 @@
     // 不是1的时候就会是广播
     }else{
     
-    
         NSLog(@"这是一条广播通知消息");
         TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:preeId];
         NSDictionary   * ChatDictionary;
-        TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+        TGUser    * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+        NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(preeId)];
         
-        // 广播信息接收
-        if ([conversation isChannel]) {
+        if (channel_id && conversation.chatTitle) {
             
-            NSString  * channel_id =[NSString stringWithFormat:@"%d",TGChannelIdFromPeerId(preeId)];
             ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
         }
-        
         result =[self uploadthebackendservermessage:message andFromUid:0 andToUid:selfUser.uid andChat_mod:broadcast andChatDictionary:ChatDictionary];
     
     }
     return result;
 }
+
 
 /**
  普通接收消息传到后台
@@ -142,10 +145,15 @@
  */
 +(NSString * )uploadthebackendservermessage:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary *)chatDictionary{
 
-    NSString  * result;
+    // 消息不存在
+    if (!message) {
+        
+        return @"";
+    }
     
+    NSString  * result;
     // 接收到文本消息
-    if (![message.text isEqualToString:@""] && ![message.text isEqual:nil]) {
+    if (![message.text isEqualToString:@""] && message.text) {
         
         NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:nil andChat_mod:chat_mod andChatDictionary:chatDictionary];
         if (fixDictionary) {
@@ -163,12 +171,22 @@
             NSString * imagePath = [self filePathForRemoteImageId:imageAttachment.imageId];
             NSData   * imageData  = [NSData dataWithContentsOfFile:imagePath];
             
-            if (imageData) {
-             
-                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(imageData)  andChat_mod:chat_mod andChatDictionary:chatDictionary];
-                result =[TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",imageAttachment.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
             }
             
+            NSMutableDictionary * mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:chatDictionary];
+            [mutableDictionary setValue:messageCaption forKey:@"caption"];
+            
+            if (imageData) {
+             
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(imageData)  andChat_mod:chat_mod andChatDictionary:mutableDictionary];
+                
+                result =[TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
+            }
         }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
             
             //语音
@@ -178,8 +196,10 @@
                 
                 NSString * receiveDocumentDirectory;
                 if (localAttachment.documentId == 0) {
+                    
                     receiveDocumentDirectory = [self localDocumentDirectoryForLocalDocumentId:localAttachment.localDocumentId version:0];
                 }else{
+                    
                     receiveDocumentDirectory = [self localDocumentDirectoryForDocumentId:localAttachment.documentId version:0];
                 }
                 
@@ -194,7 +214,6 @@
                    }
             // 贴纸表情
             }else if([localAttachment isSticker]){
-            
 
                 NSString * stickerDirectory = [self localDocumentDirectoryForDocumentId:localAttachment.documentId version:localAttachment.version];
                 NSString * string      = [NSString stringWithFormat:@"%@/sticker.webp",stickerDirectory];
@@ -203,19 +222,50 @@
                 if (stickerdata) {
                     
                     NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(stickerdata)  andChat_mod:chat_mod andChatDictionary:chatDictionary];
-                    result =[TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:PasterMessage andContentMessage:@{@"msg_content":stickerDirectory}];
-                    
+                    result = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:PasterMessage andContentMessage:@{@"msg_content":string}];
                 }
+                
+            // 图片类型的文件
+            }else if ([localAttachment.mimeType  isEqualToString:@"image/jpeg"] || [localAttachment.mimeType  isEqualToString:@"image/png"]){
+            
+                NSString * updatedDocumentDirectory = [TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:localAttachment.documentId version:localAttachment.version];
+                NSString * filePath = [NSString stringWithFormat:@"%@/%@",updatedDocumentDirectory,[localAttachment fileName]];
+                NSData   * fileData = [NSData dataWithContentsOfFile:filePath];
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(fileData)  andChat_mod:chat_mod andChatDictionary:chatDictionary];
+                
+                result = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ImageMessage andContentMessage:@{@"msg_content":filePath,@"filename":localAttachment.fileName}];
+                
+            // 文件类型上传
+            }else{
+            
+                 NSString * updatedDocumentDirectory = [TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:localAttachment.documentId version:localAttachment.version];
+                 NSString * filePath = [NSString stringWithFormat:@"%@/%@",updatedDocumentDirectory,[localAttachment fileName]];
+                 NSData   * fileData = [NSData dataWithContentsOfFile:filePath];
+                 NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(fileData)  andChat_mod:chat_mod andChatDictionary:chatDictionary];
+                
+                  result = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:FileMessage andContentMessage:@{@"msg_content":filePath,@"filename":localAttachment.fileName}];
             }
+            
         //视频
         }else if ([attachment isKindOfClass:[TGVideoMediaAttachment class]]){
             
             TGVideoMediaAttachment *  videoAttachment = (TGVideoMediaAttachment * )attachment;
             NSString * videoPath = [self filePathForVideoId:videoAttachment.videoId == 0 ? videoAttachment.localVideoId : videoAttachment.videoId local:videoAttachment.videoId == 0];
             NSData   * videoData  = [NSData dataWithContentsOfFile:videoPath];
+            
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",videoAttachment.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
+            
+            NSMutableDictionary * mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:chatDictionary];
+            [mutableDictionary setValue:messageCaption forKey:@"caption"];
+            
             if (videoData) {
             
-                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(videoData)  andChat_mod:chat_mod andChatDictionary:chatDictionary];
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(videoData)  andChat_mod:chat_mod andChatDictionary:mutableDictionary];
                 result = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:VoiceMessage andContentMessage:@{@"msg_content":videoPath}];
             }
         // 位置
@@ -235,13 +285,13 @@
             NSDictionary * contactDictionary = @{@"card_firstname":contactAttachment.firstName,@"card_lastname":contactAttachment.lastName,@"card_phone":contactAttachment.phoneNumber};
            
             NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:nil  andChat_mod:chat_mod andChatDictionary:chatDictionary];
+            
             result = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_receive andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:TextMessage andContentMessage:@{@"msg_content":contactDictionary}];
         }
     }
     
     return result;
 }
-
 
 
 /**

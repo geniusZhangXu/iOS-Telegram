@@ -1,10 +1,7 @@
 #import "TGImageInfo+Telegraph.h"
-
 #import "TGSchema.h"
-
 #import "TGCache.h"
 #import "TGRemoteImageView.h"
-
 #import "TGImageUtils.h"
 
 NSString *extractFileUrl(id fileLocation)

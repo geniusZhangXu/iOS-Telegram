@@ -1,13 +1,9 @@
 #import "TGImageUtils.h"
-
 #import <Accelerate/Accelerate.h>
 #import <CommonCrypto/CommonCrypto.h>
-
 #import <libkern/OSAtomic.h>
 #include <map>
-
 #import <objc/runtime.h>
-
 #import "TGStringUtils.h"
 
 static bool retinaInitialized = false;
