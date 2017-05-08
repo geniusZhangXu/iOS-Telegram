@@ -357,6 +357,10 @@ typedef void (^TGDatabaseCleanupEverythingBlock)();
 - (NSArray *)addPeerProfilePhotos:(int64_t)peerId photosArray:(NSArray *)photosArray;
 - (void)loadPeerProfilePhotos:(int64_t)peerId completion:(void (^)(NSArray *photosArray))completion;
 - (void)deletePeerProfilePhotos:(int64_t)peerId imageIds:(NSArray *)imageIds;
+
+- (void)loadUserProfilePhotosData:(int64_t)peerId completion:(void (^)(NSArray *photosArray))completion;
+
+
 - (void)clearPeerProfilePhotos;
 - (void)clearPeerProfilePhotos:(int64_t)peerId;
 
@@ -596,6 +600,7 @@ forceReplacePinnedConversations:(bool)forceReplacePinnedConversations;
 - (NSArray<TGUser *> *)contactUsersMatchingPhone:(NSString *)phoneNumber;
 
 - (NSArray<TGConversation *> *)_getPinnedConversations;
+
 
 @end
 

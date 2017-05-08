@@ -3987,7 +3987,6 @@ static NSString *addGameShareHash(NSString *url, NSString *addHash) {
 }
 
 #pragma mark -
-
 - (void)controllerWantsToCreateContact:(int32_t)uid firstName:(NSString *)firstName lastName:(NSString *)lastName phoneNumber:(NSString *)phoneNumber
 {
     TGCreateContactController *createContactController = nil;

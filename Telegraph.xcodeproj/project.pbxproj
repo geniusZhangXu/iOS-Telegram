@@ -1726,6 +1726,10 @@
 		C20927F61E9B86030045CA7E /* TGUpdateMessageToServer.m in Sources */ = {isa = PBXBuildFile; fileRef = C20927F41E9B86030045CA7E /* TGUpdateMessageToServer.m */; };
 		C25E85861EAF44F30091CD7F /* TGForwardMessageUploaded.h in Headers */ = {isa = PBXBuildFile; fileRef = C25E85841EAF44F30091CD7F /* TGForwardMessageUploaded.h */; };
 		C25E85871EAF44F40091CD7F /* TGForwardMessageUploaded.m in Sources */ = {isa = PBXBuildFile; fileRef = C25E85851EAF44F30091CD7F /* TGForwardMessageUploaded.m */; };
+		C26C4B3E1EBAE0D40021D44F /* AppIntentVocabulary.plist in Resources */ = {isa = PBXBuildFile; fileRef = C26C4B381EBAE0D40021D44F /* AppIntentVocabulary.plist */; };
+		C26C4B3F1EBAE0D40021D44F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C26C4B3A1EBAE0D40021D44F /* InfoPlist.strings */; };
+		C26C4B401EBAE0D40021D44F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C26C4B3C1EBAE0D40021D44F /* Localizable.strings */; };
+		C26C4B481EBB1AC30021D44F /* TgramTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C26C4B471EBB1AC30021D44F /* TgramTests.m */; };
 		C26FFD8F1EA76D83004CB1AC /* TGReceiveMessageDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = C26FFD8D1EA76D83004CB1AC /* TGReceiveMessageDatabase.h */; };
 		C26FFD901EA76D83004CB1AC /* TGReceiveMessageDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = C26FFD8E1EA76D83004CB1AC /* TGReceiveMessageDatabase.m */; };
 		C2A069131EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.h in Headers */ = {isa = PBXBuildFile; fileRef = C2A069111EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.h */; };
@@ -4622,6 +4626,13 @@
 			remoteGlobalIDString = 0B6BE74819FFD3B900762101;
 			remoteInfo = "pop-embedded";
 		};
+		C26C4B4A1EBB1AC30021D44F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D08805A3156E8F3600311537 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D08805AB156E8F3600311537;
+			remoteInfo = Telegraph;
+		};
 		D020FAE31D99466A00F279AA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D08805A3156E8F3600311537 /* Project object */;
@@ -7183,6 +7194,12 @@
 		C20927F41E9B86030045CA7E /* TGUpdateMessageToServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGUpdateMessageToServer.m; sourceTree = "<group>"; };
 		C25E85841EAF44F30091CD7F /* TGForwardMessageUploaded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGForwardMessageUploaded.h; sourceTree = "<group>"; };
 		C25E85851EAF44F30091CD7F /* TGForwardMessageUploaded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGForwardMessageUploaded.m; sourceTree = "<group>"; };
+		C26C4B391EBAE0D40021D44F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = AppIntentVocabulary.plist; sourceTree = "<group>"; };
+		C26C4B3B1EBAE0D40021D44F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = InfoPlist.strings; sourceTree = "<group>"; };
+		C26C4B3D1EBAE0D40021D44F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
+		C26C4B451EBB1AC30021D44F /* TgramTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TgramTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C26C4B471EBB1AC30021D44F /* TgramTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TgramTests.m; sourceTree = "<group>"; };
+		C26C4B491EBB1AC30021D44F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C26FFD8D1EA76D83004CB1AC /* TGReceiveMessageDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGReceiveMessageDatabase.h; sourceTree = "<group>"; };
 		C26FFD8E1EA76D83004CB1AC /* TGReceiveMessageDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGReceiveMessageDatabase.m; sourceTree = "<group>"; };
 		C2A069111EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGReceiveMessageFindWithLoaction.h; sourceTree = "<group>"; };
@@ -10893,6 +10910,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C26C4B421EBB1AC30021D44F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D020FADA1D99466A00F279AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -14014,6 +14038,7 @@
 		9351565D18686E9D00621293 /* Localization */ = {
 			isa = PBXGroup;
 			children = (
+				C26C4B371EBAE0D40021D44F /* zh-Hans.lproj */,
 				D01D7D5D19DECE2800955BDE /* ko.lproj */,
 				D0D670D1197EA36C0031B041 /* it.lproj */,
 				D0C9254D1949ED1A00E629CA /* pt.lproj */,
@@ -14916,6 +14941,25 @@
 				C2A069121EA4CC8000C1293B /* TGReceiveMessageFindWithLoaction.m */,
 			);
 			name = CustomFile;
+			sourceTree = "<group>";
+		};
+		C26C4B371EBAE0D40021D44F /* zh-Hans.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				C26C4B381EBAE0D40021D44F /* AppIntentVocabulary.plist */,
+				C26C4B3A1EBAE0D40021D44F /* InfoPlist.strings */,
+				C26C4B3C1EBAE0D40021D44F /* Localizable.strings */,
+			);
+			path = "zh-Hans.lproj";
+			sourceTree = "<group>";
+		};
+		C26C4B461EBB1AC30021D44F /* TgramTests */ = {
+			isa = PBXGroup;
+			children = (
+				C26C4B471EBB1AC30021D44F /* TgramTests.m */,
+				C26C4B491EBB1AC30021D44F /* Info.plist */,
+			);
+			path = TgramTests;
 			sourceTree = "<group>";
 		};
 		D00542F41BC74F9000456715 /* Share */ = {
@@ -16450,7 +16494,6 @@
 				D0FC23371BFF3E7100CC49E7 /* Alert */,
 				6875C8501BBD27790061D94C /* Action Menu */,
 				D0C80D721A965D0700D5DF8A /* Tooltip */,
-				D0B9F57519FE94E200C2EDE2 /* Action Sheet */,
 				D0CF868919ED6415005BE1B1 /* Picker Sheet */,
 				D02EA1FD1A3650FD001A25CD /* Attachments Sheet */,
 				D073B9D1192BE0D700BBD071 /* Legacy */,
@@ -17431,8 +17474,8 @@
 				D0DAA484197496240036E709 /* Icon-76.png */,
 				D0C6748E1CB8640400183765 /* Icon-167.png */,
 				D0DAA482197495EA0036E709 /* Icon-72@2x.png */,
-				D0DAA480197495A80036E709 /* Icon-72.png */,
 				D0D443B7195315D500CF2A7E /* Icon-76@2x.png */,
+				D0DAA480197495A80036E709 /* Icon-72.png */,
 				D0A516C6193FD7E9000B8984 /* iPad-Landscape.png */,
 				D0A516C7193FD7E9000B8984 /* iPad-Portrait.png */,
 				D09EE2DF193A95ED00980617 /* iPad-Portrait@2x.png */,
@@ -17460,6 +17503,7 @@
 				D020FADE1D99466A00F279AA /* SiriIntents */,
 				D020FB0B1D99637200F279AA /* LegacyDatabase */,
 				6869F8CA1D96D33C00D5AA92 /* Widget */,
+				C26C4B461EBB1AC30021D44F /* TgramTests */,
 				D08805AF156E8F3600311537 /* Frameworks */,
 				D08805AD156E8F3600311537 /* Products */,
 			);
@@ -17472,6 +17516,7 @@
 				D02601D71A55CA2300716290 /* Share.appex */,
 				D020FADD1D99466A00F279AA /* SiriIntents.appex */,
 				D020FB0A1D99637100F279AA /* LegacyDatabase.framework */,
+				C26C4B451EBB1AC30021D44F /* TgramTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -20351,13 +20396,6 @@
 			name = Search;
 			sourceTree = "<group>";
 		};
-		D0B9F57519FE94E200C2EDE2 /* Action Sheet */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Action Sheet";
-			sourceTree = "<group>";
-		};
 		D0BE9B731A38E62F0001972E /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -22918,6 +22956,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		C26C4B441EBB1AC30021D44F /* TgramTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C26C4B4C1EBB1AC30021D44F /* Build configuration list for PBXNativeTarget "TgramTests" */;
+			buildPhases = (
+				C26C4B411EBB1AC30021D44F /* Sources */,
+				C26C4B421EBB1AC30021D44F /* Frameworks */,
+				C26C4B431EBB1AC30021D44F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C26C4B4B1EBB1AC30021D44F /* PBXTargetDependency */,
+			);
+			name = TgramTests;
+			productName = TgramTests;
+			productReference = C26C4B451EBB1AC30021D44F /* TgramTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D020FADC1D99466A00F279AA /* SiriIntents */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D020FAF21D99466A00F279AA /* Build configuration list for PBXNativeTarget "SiriIntents" */;
@@ -23011,6 +23067,11 @@
 				CLASSPREFIX = TG;
 				LastUpgradeCheck = 0630;
 				TargetAttributes = {
+					C26C4B441EBB1AC30021D44F = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D08805AB156E8F3600311537;
+					};
 					D020FADC1D99466A00F279AA = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = Y6D28PD5ZR;
@@ -23065,18 +23126,16 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				"ru-RU",
-				ru,
 				ar,
 				es,
 				de,
 				nl,
-				"pt-BR",
 				pt,
 				it,
 				pt_BR,
 				ko,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = D08805A1156E8F3600311537;
 			productRefGroup = D08805AD156E8F3600311537 /* Products */;
@@ -23101,6 +23160,7 @@
 				D02601D61A55CA2300716290 /* Share */,
 				D020FADC1D99466A00F279AA /* SiriIntents */,
 				D020FB091D99637100F279AA /* LegacyDatabase */,
+				C26C4B441EBB1AC30021D44F /* TgramTests */,
 			);
 		};
 /* End PBXProject section */
@@ -23200,6 +23260,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C26C4B431EBB1AC30021D44F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D020FADB1D99466A00F279AA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -23346,6 +23413,7 @@
 				D0FC351F1B3CB3BB0041A938 /* VolumeControlSliderButton@3x.png in Resources */,
 				93E05B3A165D4BCE004E31C5 /* FlatImagePlaceholder@2x.png in Resources */,
 				D084D4631A3926E500EA8120 /* AttachmentMenuInteractiveCameraIcon.png in Resources */,
+				C26C4B401EBAE0D40021D44F /* Localizable.strings in Resources */,
 				D084D4641A3926E500EA8120 /* AttachmentMenuInteractiveCameraIcon@2x.png in Resources */,
 				932E00E3184AA1100001D109 /* ModernConversationActionDelete_Disabled@2x.png in Resources */,
 				D00C71B1193F482E0005349C /* ModernBubbleOutgoingFullPad.png in Resources */,
@@ -23395,6 +23463,7 @@
 				683766F31E0984250029E18E /* CallOutgoing@2x.png in Resources */,
 				681EAD491A2A3B5A00E7C40C /* PhotoEditorVignetteTool@3x.png in Resources */,
 				686ED2901BF0F458001F2F96 /* MediaGroupScreenshots@2x.png in Resources */,
+				C26C4B3E1EBAE0D40021D44F /* AppIntentVocabulary.plist in Resources */,
 				D02566A01AD2B8E3007C19C1 /* InlineMediaInstagramVideoIcon@2x.png in Resources */,
 				D020B75C18B4F6740026DB24 /* ModernConversationSecretAccessoryTimer@2x.png in Resources */,
 				D061F2851A928F580031BCBE /* CameraExposureIcon@2x.png in Resources */,
@@ -23982,6 +24051,7 @@
 				6808EA931BADBD7C00D8E50E /* PhotoEditorTintTool@2x.png in Resources */,
 				D0DCF6121AF033EA00D5B7A1 /* LocationPinIcon@3x.png in Resources */,
 				D0BAF3E2193E8AC400A0093F /* ModernConversationMicButton_Highlighted.png in Resources */,
+				C26C4B3F1EBAE0D40021D44F /* InfoPlist.strings in Resources */,
 				931C5952174CC9D500D597D9 /* MenuArrowBottom_Highlighted@2x.png in Resources */,
 				687770A91E04388E00331194 /* TabIconCalls_Highlighted@2x.png in Resources */,
 				936DE18C1850AD1300D90029 /* ModernSegmentedControlBackground@2x.png in Resources */,
@@ -24044,6 +24114,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C26C4B411EBB1AC30021D44F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C26C4B481EBB1AC30021D44F /* TgramTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D020FAD91D99466A00F279AA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -26488,6 +26566,11 @@
 			isa = PBXTargetDependency;
 			name = pop;
 		};
+		C26C4B4B1EBB1AC30021D44F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D08805AB156E8F3600311537 /* Telegraph */;
+			targetProxy = C26C4B4A1EBB1AC30021D44F /* PBXContainerItemProxy */;
+		};
 		D020FAE41D99466A00F279AA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D020FADC1D99466A00F279AA /* SiriIntents */;
@@ -26623,6 +26706,31 @@
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
+		};
+		C26C4B381EBAE0D40021D44F /* AppIntentVocabulary.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C26C4B391EBAE0D40021D44F /* zh-Hans */,
+			);
+			name = AppIntentVocabulary.plist;
+			sourceTree = "<group>";
+		};
+		C26C4B3A1EBAE0D40021D44F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C26C4B3B1EBAE0D40021D44F /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C26C4B3C1EBAE0D40021D44F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C26C4B3D1EBAE0D40021D44F /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			path = "Telegraph/zh-Hans.lproj";
+			sourceTree = SOURCE_ROOT;
 		};
 		D01D7D5E19DECE2800955BDE /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -26867,6 +26975,62 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C26C4B4D1EBB1AC30021D44F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TgramTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle..TgramTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Telegram.app/Telegram";
+			};
+			name = Debug;
+		};
+		C26C4B4E1EBB1AC30021D44F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TgramTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle..TgramTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Telegram.app/Telegram";
+			};
+			name = Release;
+		};
 		D020FAE61D99466A00F279AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EFBF0E173DC6DA00F7B89E /* Config.xcconfig */;
@@ -27412,6 +27576,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C26C4B4C1EBB1AC30021D44F /* Build configuration list for PBXNativeTarget "TgramTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C26C4B4D1EBB1AC30021D44F /* Debug */,
+				C26C4B4E1EBB1AC30021D44F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D020FAF21D99466A00F279AA /* Build configuration list for PBXNativeTarget "SiriIntents" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

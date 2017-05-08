@@ -89,6 +89,7 @@
 @class TGUpdateMediaHistoryActor;
 @class TGMessage;
 @class TGTelegraph;
+
 extern TGTelegraph *TGTelegraphInstance;
 
 

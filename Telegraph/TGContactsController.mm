@@ -1,97 +1,62 @@
 #import "TGContactsController.h"
-
 #import "Freedom.h"
-
 #import "TGTelegraph.h"
 #import "TGUser.h"
 #import "TGDatabase.h"
-
 #import "TGAppDelegate.h"
-
 #import "TGPhoneUtils.h"
-
 #import "TGFont.h"
-
 #import "TGBackdropView.h"
-
 #import "TGInterfaceManager.h"
 #import "TGInterfaceAssets.h"
-
 #import "TGSynchronizeContactsActor.h"
-
 #import "TGSearchDisplayMixin.h"
-
 #import "TGToolbarButton.h"
 #import "TGNavigationBar.h"
 #import "TGModernBarButton.h"
-
 #import "ActionStage.h"
 #import "SGraphNode.h"
 #import "SGraphListNode.h"
 #import "SGraphObjectNode.h"
-
 #import "TGMainTabsController.h"
-
 #import "TGContactListRequestBuilder.h"
-
 #import "TGContactCell.h"
-
 #import "TGHacks.h"
 #import "TGSearchBar.h"
 #import "TGImageUtils.h"
 #import "TGButtonGroupView.h"
 #import "TGActionTableView.h"
-
 #import "TGStringUtils.h"
-
 #import "TGTimer.h"
-
 #import "TGLabel.h"
-
 #import "TGAppDelegate.h"
-
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMessageComposeViewController.h>
-
 #import <QuartzCore/QuartzCore.h>
-
 #import "TGActivityIndicatorView.h"
-
 #import "TGFlatActionCell.h"
-
 #import "TGTokenFieldView.h"
 #import "TGHighlightableButton.h"
-
 #import "TGDateUtils.h"
-
 #import "TGListsTableView.h"
-
 #import "TGCreateContactController.h"
 #import "TGPhonebookUserInfoController.h"
 #import "TGCreateEncryptedChatController.h"
 #import "TGSelectContactController.h"
-
 #import "TGAlertView.h"
-
 #include <vector>
 #include <map>
 #include <algorithm>
 #include <tr1/memory>
 #include <set>
-
 #import <objc/message.h>
-
 #import "TGApplicationFeatures.h"
-
 #import "TGCreateGroupController.h"
 #import "TGChannelIntroController.h"
-
 #import "TGMeContactsCell.h"
-
 #import "SYNetworking.h"
 
 #pragma mark -
-
 static bool TGContactListItemSortByLastNameFunction(const TGUser *item1, const TGUser *item2)
 {
     NSString *lastName1 = item1.lastName;
@@ -1581,6 +1546,7 @@ static inline NSString *subtitleStringForUser(TGUser *user, bool &subtitleActive
             user = [_globalSearchResults objectAtIndex:indexPath.row];
     }
     
+    // 我的信息
     if (user != nil && (user.uid == INT_MAX - 10)) {
         static NSString *actionCellIdentifier = @"MEC";
         TGMeContactsCell *actionCell = (TGMeContactsCell *)[_tableView dequeueReusableCellWithIdentifier:actionCellIdentifier];
@@ -1821,8 +1787,8 @@ static inline NSString *subtitleStringForUser(TGUser *user, bool &subtitleActive
 {
 }
 
-- (void)deleteUserFromList:(int)uid
-{
+- (void)deleteUserFromList:(int)uid{
+    
     //********************
     TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
   

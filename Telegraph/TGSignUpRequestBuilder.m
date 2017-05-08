@@ -79,7 +79,7 @@
 }
 
 
-#pragma mark -- 登录成功
+#pragma mark -- 注册成功
 - (void)signUpSuccess:(TLauth_Authorization *)authorization
 {
     int userId = ((TLUser$modernUser *)authorization.user).n_id;

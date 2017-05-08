@@ -1,17 +1,12 @@
 #import "TGMenuSheetController.h"
-
 #import <SSignalKit/SSignalKit.h>
-
 #import "TGMenuSheetView.h"
 #import "TGMenuSheetDimView.h"
 #import "TGMenuSheetItemView.h"
 #import "TGMenuSheetCollectionView.h"
-
 #import "TGAppDelegate.h"
-
 #import "TGObserverProxy.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
-
 #import "TGOverlayController.h"
 #import "TGOverlayControllerWindow.h"
 

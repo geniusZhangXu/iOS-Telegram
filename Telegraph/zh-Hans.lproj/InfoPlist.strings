@@ -1,0 +1,11 @@
+/* Localized versions of Info.plist keys */
+
+"CFBundleDisplayName" = "Tgram";
+
+"NSContactsUsageDescription" = "Tgram将您的联系人在云端存储加密，让您可以连接到所有设备上的朋友。";
+"NSLocationWhenInUseUsageDescription" = "当您将您的位置发送给您的朋友时，Tgram需要访问才能显示地图。";
+"NSLocationAlwaysUsageDescription" = "您还需要从Apple Watch发送位置，当您将您的位置发送给您的朋友时，Tgram需要访问才能显示地图。";
+"NSCameraUsageDescription" = "我们需要访问摄像头，以便您可以拍摄、分享照片和视频。";
+"NSPhotoLibraryUsageDescription" = "我们需要访问相册，以便您可以从照片库共享照片和视频。";
+"NSMicrophoneUsageDescription" = "我们需要访问麦克风，以便您可以使用声音录制、共享语音留言和视频。";
+"NSSiriUsageDescription" = "您可以使用Siri发送消息。";

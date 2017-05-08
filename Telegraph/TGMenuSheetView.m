@@ -5,7 +5,7 @@
 #import "TGImageUtils.h"
 #import "TGAppDelegate.h"
 
-NSString *const TGMenuDividerTop = @"top";
+NSString *const TGMenuDividerTop    = @"top";
 NSString *const TGMenuDividerBottom = @"bottom";
 
 const bool TGMenuSheetUseEffectView = false;

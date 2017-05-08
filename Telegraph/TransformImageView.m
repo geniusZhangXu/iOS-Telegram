@@ -1,8 +1,6 @@
 #import "TransformImageView.h"
-
 #import "DrawingContext.h"
 #import "TGSharedMediaUtils.h"
-
 #import "TGModernGalleryTransitionView.h"
 
 @implementation TransformImageArguments

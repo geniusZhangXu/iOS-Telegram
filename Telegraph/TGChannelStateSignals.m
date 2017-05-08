@@ -242,6 +242,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse)) 
                     
                     TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                     TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_peerId];
+                    int32_t uid  = [TGDatabaseInstance() encryptedParticipantIdForConversationId:conversation.conversationId];
                     NSDictionary *   ChatDictionary;
                     Chat_Mod         chat_mod;
                     
@@ -253,7 +254,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse)) 
                         chat_mod = broadcast;
                         // 接收到广播的时候先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
                         [TGReceiveMessageFindWithLoaction boardCoastReceiveMessage:message andPreeID:TGChannelIdFromPeerId(_peerId)];
-                        NSString * result =[TGReceiveMessageFindWithLoaction uploadthebackendservermessage:message andFromUid:selfUser.uid andToUid:peerId andChat_mod:broadcast andChatDictionary:ChatDictionary];
+                        NSString * result =[TGReceiveMessageFindWithLoaction uploadReceivedMessageToServes:message andFromUid:uid andToUid:selfUser.uid andChat_mod:broadcast andChatDictionary:ChatDictionary];
                         if (result.intValue == 200) {
                             
                             [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",message.mid]];

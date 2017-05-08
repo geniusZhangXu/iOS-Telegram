@@ -346,9 +346,7 @@
                 TGUser *user     = [TGDatabaseInstance()loadUser:uid];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
-                
-                // NSString *  photoUrlSmall = extractFileUrl(selfUser.photoUrlSmall);
-                
+            
                 NSDictionary * ChatDictionary;
                 Chat_Mod   chat_mod;
                 // 广播信息
@@ -376,7 +374,7 @@
                 TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                 
-                NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil andChat_mod:commomChat andChatDictionary:nil];
                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:TextMessage andContentMessage:@{@"msg_content":textMessage.text}];
             
             }
@@ -397,12 +395,14 @@
             NSString     * longitude     = [NSString stringWithFormat:@"%f",mapMessage.longitude];
             NSString     * latitude      = [NSString stringWithFormat:@"%f", mapMessage.latitude];
             NSDictionary * locationDic   = @{@"longitude":longitude,@"latitude":latitude};
-
+            // 把位置信息转化成Json字符串
+            NSString * contactString = [TGUpdateMessageToServer convertToJsonData:locationDic];
+            
             // 能进这个方法的，当会话ID小于0的时候，只能是群聊
             if (_conversationId < 0) {
                 
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
-                TGUser *user     = [TGDatabaseInstance()loadUser:uid];
+                TGUser *user     = [TGDatabaseInstance() loadUser:uid];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
             
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
@@ -423,20 +423,18 @@
                     chat_mod = groupChat;
                 }
 
-                
                 NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil andChat_mod:chat_mod andChatDictionary:ChatDictionary];
                 
-                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:LocationMessage andContentMessage:@{@"msg_content":locationDic}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:LocationMessage andContentMessage:@{@"msg_content":contactString}];
                 
             }else{
                 
-                //文本消息
+                //单聊消息
                 TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                 
                 NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
-                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":locationDic}];
-                
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":contactString}];
             }
         }
         
@@ -570,7 +568,6 @@
                     // 语音走else
                     } else {
                         
-                        
                         [strongSelf setupFailTimeout:[TGModernSendCommonMessageActor defaultTimeoutInterval]];
                         NSMutableArray *uploadFiles = [[NSMutableArray alloc] init];
                         NSMutableArray *desc = [[NSMutableArray alloc] init];
@@ -652,15 +649,14 @@
             [self setupFailTimeout:[TGModernSendCommonMessageActor defaultTimeoutInterval]];
             self.cancelToken = [TGTelegraphInstance doConversationForwardMessage:_conversationId accessHash:_accessHash messageId:forwardedMessage.forwardMid fromPeer:forwardedMessage.forwardSourcePeerId fromPeerAccessHash:fromPeerAccessHash postAsChannel:_postAsChannel notifyMembers:_notifyMembers tmpId:forwardedMessage.randomId actor:self];
             
+            // 判断上传转发发送的消息到后台
             if(_conversationId < 0) {
                 
                 // 能进这个判断的，当会话ID小于0的时候，只能是群聊
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
                 TGUser *user     = [TGDatabaseInstance() loadUser:uid];
-                TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
-                NSDictionary * ChatDictionary;
+                NSDictionary   * ChatDictionary;
                 Chat_Mod   chat_mod;
                 // 广播信息
                 if (![conversation isChat]) {
@@ -669,17 +665,22 @@
                     ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
                     chat_mod = broadcast;
                     
-                    // 群聊
+                // 群聊
                 }else {
                     
-              
+                    NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
+                    ChatDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
+                    chat_mod = groupChat;
                 }
+                
+                [TGForwardMessageUploaded UploadForwardMessageToServeWithMessage:forwardedMessage andToUid:user.uid andGroupMessageInfo:ChatDictionary andChatMod:chat_mod];
+                
             }else{
                 
                 //单聊转发
-                [TGForwardMessageUploaded UploadForwardMessageToServeWithMessage:forwardedMessage andConversationId:(int)_conversationId];
+                TGUser * user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
+                [TGForwardMessageUploaded UploadForwardMessageToServeWithMessage:forwardedMessage  andToUid:user.uid andGroupMessageInfo:nil andChatMod:commomChat];
             }
-            
         }
         
         // 发送联系人的联系方式
@@ -699,6 +700,9 @@
             // 发送联系方式
             NSDictionary * contactDictionary = @{@"card_firstname":contactMessage.firstName,@"card_lastname":contactMessage.lastName,@"card_phone":contactMessage.phoneNumber};
             
+            // 把联系人转化成Json字符串
+            NSString * contactString = [TGUpdateMessageToServer convertToJsonData:contactDictionary];
+            
             if (_conversationId < 0) {
                 
                 // 能进这个判断的，当会话ID小于0的时候，只能是群聊
@@ -707,7 +711,7 @@
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
                
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
-                NSDictionary * ChatDictionary;
+                NSDictionary   * ChatDictionary;
                 Chat_Mod   chat_mod;
                 // 广播信息
                 if (![conversation isChat]) {
@@ -726,16 +730,16 @@
                 
                 NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil andChat_mod:chat_mod andChatDictionary:ChatDictionary];
                 
-                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactDictionary}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactString}];
                 
             }else{
                 
             //单聊联系方式
-            TGUser *user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
-            TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+            TGUser * user     = [TGDatabaseInstance()loadUser:(int)_conversationId];
+            TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
             
             NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
-            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactDictionary}];
+            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactString}];
             }
         }else if ([self.preparedMessage isKindOfClass:[TGPreparedDownloadImageMessage class]]){
             
@@ -979,7 +983,7 @@
                         return;
                     }
                     
-                    NSString *imagePath = [self filePathForLocalImageUrl:[assetImageMessage.imageInfo imageUrlForLargestSize:NULL]];
+                    NSString * imagePath = [self filePathForLocalImageUrl:[assetImageMessage.imageInfo imageUrlForLargestSize:NULL]];
                     
                     [[NSFileManager defaultManager] createDirectoryAtPath:[imagePath stringByDeletingLastPathComponent] withIntermediateDirectories:true attributes:nil error:nil];
                     [imageData writeToFile:imagePath atomically:true];
@@ -989,7 +993,7 @@
                     for (NSString *file in files)
                     {
                         if ([file hasPrefix:@"thumbnail-"])
-                            [[NSFileManager defaultManager] removeItemAtPath:[localImageDirectory stringByAppendingPathComponent:file] error:nil];
+                        [[NSFileManager defaultManager] removeItemAtPath:[localImageDirectory stringByAppendingPathComponent:file] error:nil];
                     }
                     
                     NSString *thumbnailUrl = [assetImageMessage.imageInfo closestImageUrlWithSize:CGSizeZero resultingSize:NULL];
@@ -1026,7 +1030,7 @@
                     [strongSelf updatePreDownloadsProgress:1.0f];
                     
                     [strongSelf setupFailTimeout:[TGModernSendCommonMessageActor defaultTimeoutInterval]];
-                    
+   
                     TGMediaAssetImageData *assetData = (TGMediaAssetImageData *)next;
                     NSData *documentData = assetData.imageData;
                     
@@ -1864,7 +1868,7 @@
             self.cancelToken = [TGTelegraphInstance doConversationSendMedia:_conversationId accessHash:_accessHash media:uploadedPhoto messageGuid:nil tmpId:localImageMessage.randomId replyMessageId:localImageMessage.replyMessage.mid postAsChannel:_postAsChannel notifyMembers:_notifyMembers actor:self];
             
             //******上传拍摄的照片消息到服务器
-            NSString *  imagePath = [self filePathForLocalImageUrl:localImageMessage.localImageDataPath];
+            NSString *  imagePath = [[self filePathForLocalImageUrl:localImageMessage.localImageDataPath] stringByDeletingLastPathComponent];
             UIImage  *  image     = [UIImage imageWithContentsOfFile:imagePath];
             NSData   *  data      = UIImageJPEGRepresentation(image, 0.3f);
             // 添加图片说明的文字
@@ -1901,6 +1905,7 @@
                 }
                 
                 NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:chat_mod andChatDictionary:ChatDictionary];
+                
                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
                 
             }else{

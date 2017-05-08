@@ -11,7 +11,7 @@
 @interface TGButtonCollectionItem : TGCollectionItem
 
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIColor *titleColor;
+@property (nonatomic, strong) UIColor  *titleColor;
 @property (nonatomic) NSTextAlignment alignment;
 @property (nonatomic) bool enabled;
 @property (nonatomic) CGFloat leftInset;

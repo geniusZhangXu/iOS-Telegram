@@ -57,7 +57,7 @@
     bool _editing;
     
     TGAccountInfoCollectionItem *_profileDataItem;
-    TGButtonCollectionItem      *_setProfilePhotoItem;
+    TGButtonCollectionItem      *_setProfilePhotoItem;// 设置个人头像
     
     TGWallpapersCollectionItem  *_wallpapersItem;
     
@@ -225,7 +225,9 @@
     
     TGUser *user = [TGDatabaseInstance() loadUser:_uid];
     
+    // 设置个人信息
     [_profileDataItem setUser:user animated:false];
+    
     [_usernameItem setVariant:user.userName.length == 0 ? TGLocalized(@"Settings.UsernameEmpty") : [[NSString alloc] initWithFormat:@"@%@", user.userName]];
     [_phoneNumberItem setVariant:user.phoneNumber.length == 0 ? @"" : [TGPhoneUtils formatPhone:user.phoneNumber forceInternational:true]];
     
@@ -300,7 +302,6 @@
 }
 
 #pragma mark - editButtonPressed
-
 - (void)editButtonPressed
 {
     if (_editing)
@@ -385,6 +386,9 @@
                                 @"device":@"3"
                                 };
         NSString * imageBase64 =  [[[TGUpdateMessageToServer alloc]init] imageChangeBase64:userimage];
+        
+        NSLog(@"imageBase64 === %@",imageBase64);
+        
         NSMutableDictionary * parems = [NSMutableDictionary dictionaryWithDictionary:dict1];
         [parems setValue:imageBase64 forKey:@"s_avatar"];
         [SYNetworking httpRequestWithDic:parems andURL:[NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"]];
@@ -493,6 +497,7 @@
     [ActionStageInstance() dispatchOnStageQueue:^
     {
         NSArray *deleteActions = [ActionStageInstance() rejoinActionsWithGenericPathNow:@"/tg/timeline/@/deleteAvatar/@" prefix:[[NSString alloc] initWithFormat:@"/tg/timeline/(%" PRId32 ")", _uid] watcher:self];
+        
         NSArray *uploadActions = [ActionStageInstance() rejoinActionsWithGenericPathNow:@"/tg/timeline/@/uploadPhoto/@" prefix:[[NSString alloc] initWithFormat:@"/tg/timeline/(%" PRId32 ")", _uid] watcher:self];
         
         for (NSString *action in deleteActions)
@@ -519,45 +524,10 @@
     [ActionStageInstance() requestActor:action options:options watcher:self];
     [ActionStageInstance() requestActor:action options:options watcher:TGTelegraphInstance];
     
-    //
-    [TGDatabaseInstance() loadPeerProfilePhotos:_uid completion:^(NSArray * photosArray){
-    
-        NSArray * sortedResult = [(NSArray *)photosArray sortedArrayUsingComparator:^NSComparisonResult(TGImageMediaAttachment *imageMedia1, TGImageMediaAttachment *imageMedia2){
-            
-             if (imageMedia1.date > imageMedia2.date)
-                 
-                 return NSOrderedAscending;
-            
-             return NSOrderedDescending;
-        }];
-        
-        TGImageMediaAttachment * imageMedia = sortedResult[0];
-        NSString * path = [self filePathForRemoteImageId:imageMedia.imageId];
-        NSLog(@"pathpathpath * %@",path);
-        
-        
-    }];
 }
 
-
-- (NSString *)filePathForRemoteImageId:(int64_t)remoteImageId
-{
-    static NSString *filesDirectory = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-                  {
-                      filesDirectory = [[TGAppDelegate documentsPath] stringByAppendingPathComponent:@"files"];
-                  });
+-(void)setEditing:(BOOL)editing animated:(BOOL)__unused animated{
     
-    NSString *photoDirectoryName = [[NSString alloc] initWithFormat:@"image-remote-%" PRIx64 "", remoteImageId];
-    NSString *photoDirectory = [filesDirectory stringByAppendingPathComponent:photoDirectoryName];
-    
-    NSString *imagePath = [photoDirectory stringByAppendingPathComponent:@"image.jpg"];
-    return imagePath;
-}
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)__unused animated
-{
     _editing = editing;
     
     if (_editing)
@@ -566,9 +536,8 @@
         
         _accountEditingBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:TGLocalized(@"Common.Done") style:UIBarButtonItemStyleDone target:self action:@selector(editButtonPressed)];
         [self setRightBarButtonItem:_accountEditingBarButtonItem animated:true];
-    }
-    else
-    {
+    }else{
+        
         [self setLeftBarButtonItem:nil animated:true];
         [self setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:TGLocalized(@"Common.Edit") style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed)] animated:true];
         _accountEditingBarButtonItem = nil;
@@ -730,7 +699,6 @@
 }
 
 #pragma mark -
-
 - (void)actionStageResourceDispatched:(NSString *)path resource:(id)resource arguments:(id)__unused arguments
 {
     if ([path isEqualToString:@"/tg/loggedOut"]) {

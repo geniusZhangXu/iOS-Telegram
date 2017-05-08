@@ -1,27 +1,17 @@
 #import "TGModernSendMessageActor.h"
-
 #import "TL/TLMetaScheme.h"
-
 #import "ActionStage.h"
 #import "TGTimer.h"
-
 #import "TGPreparedMessage.h"
 #import "TGPreparedLocalImageMessage.h"
 #import "TGPreparedLocalVideoMessage.h"
 #import "TGPreparedLocalDocumentMessage.h"
-
 #import "TGUpdateStateRequestBuilder.h"
-
 #import "TGNetworkWorker.h"
-
 #import "TGLiveUploadActor.h"
-
 #import "TGTelegraph.h"
-
 #import "TGAppDelegate.h"
-
 #import "NSString+SYisBlankString.h"
-
 #import "SYNetworking.h"
 
 

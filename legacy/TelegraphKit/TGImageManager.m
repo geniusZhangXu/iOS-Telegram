@@ -190,21 +190,21 @@ static UIImage *forceImageDecoding(UIImage *image)
     }];
 }
 
-- (TGDataResource *)loadDataSyncWithUri:(NSString *)uri canWait:(bool)canWait acceptPartialData:(bool)acceptPartialData asyncTaskId:(__autoreleasing id *)asyncTaskId progress:(void (^)(float))progress partialCompletion:(void (^)(TGDataResource *))partialCompletion completion:(void (^)(TGDataResource *))completion
-{
+-(TGDataResource *)loadDataSyncWithUri:(NSString *)uri canWait:(bool)canWait acceptPartialData:(bool)acceptPartialData asyncTaskId:(__autoreleasing id *)asyncTaskId progress:(void (^)(float))progress partialCompletion:(void (^)(TGDataResource *))partialCompletion completion:(void (^)(TGDataResource *))completion{
+    
     __block TGImageDataSource *selectedDataSource = nil;
-    [TGImageDataSource enumerateDataSources:^bool(TGImageDataSource *dataSource)
-    {
-        if ([dataSource canHandleUri:uri])
-        {
+    [TGImageDataSource enumerateDataSources:^bool(TGImageDataSource *dataSource){
+        
+        if ([dataSource canHandleUri:uri]){
+            
             selectedDataSource = dataSource;
             return true;
         }
-        
         return false;
     }];
     
     if (selectedDataSource != nil)
+        
         return [selectedDataSource loadDataSyncWithUri:uri canWait:canWait acceptPartialData:acceptPartialData asyncTaskId:asyncTaskId progress:progress partialCompletion:partialCompletion completion:completion];
     
     return nil;

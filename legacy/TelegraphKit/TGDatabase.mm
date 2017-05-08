@@ -2553,10 +2553,10 @@ inline static TGUser *loadUserFromDatabase(FMResultSet *result, PSKeyValueDecode
     return user;
 }
 
-- (void)storeUsers:(NSArray *)userList
-{
-    TG_SYNCHRONIZED_BEGIN(_userByUid);
-    {
+- (void)storeUsers:(NSArray *)userList{
+    
+    TG_SYNCHRONIZED_BEGIN(_userByUid);{
+        
         for (TGUser *user in userList)
         {
             _userByUid[user.uid] = user;
@@ -8292,6 +8292,28 @@ static inline TGFutureAction *loadFutureActionFromQueryResult(FMResultSet *resul
     return nonExistingIds;
 }
 
+
+- (void)loadUserProfilePhotosData:(int64_t)peerId completion:(void (^)(NSArray *photosArray))completion{
+
+    [self dispatchOnDatabaseThread:^{
+        
+         NSMutableArray *array = [[NSMutableArray alloc] init];
+         
+         FMResultSet *resultSet = [_database executeQuery:[[NSString alloc] initWithFormat:@"SELECT data FROM %@ WHERE peer_id=?", _peerProfilePhotosTableName], [[NSNumber alloc] initWithLongLong:peerId]];
+         
+         int indexData = [resultSet columnIndexForName:@"data"];
+         while ([resultSet next])
+         {
+             NSData *data = [resultSet dataForColumnIndex:indexData];
+             [array addObject:data];
+         }
+         
+         if (completion)
+             completion(array);
+     } synchronous:false];
+
+}
+
 - (void)loadPeerProfilePhotos:(int64_t)peerId completion:(void (^)(NSArray *photosArray))completion
 {
     [self dispatchOnDatabaseThread:^
@@ -8314,6 +8336,7 @@ static inline TGFutureAction *loadFutureActionFromQueryResult(FMResultSet *resul
             [is close];
             
             if (imageAttachment != nil)
+                
                 [array addObject:imageAttachment];
         }
         
@@ -17210,10 +17233,11 @@ forceReplacePinnedConversations:(bool)forceReplacePinnedConversations
     return response;
 }
 
+
 - (NSArray<TGUser *> *)contactUsersMatchingPhone:(NSString *)phoneNumber {
     NSString *normalizedPhone = [TGPhoneUtils cleanPhone:phoneNumber];
-    NSMutableArray<TGUser *> *users = [[NSMutableArray alloc] init];
     
+    NSMutableArray<TGUser *> *users = [[NSMutableArray alloc] init];
     FMResultSet *result = [_database executeQuery:[NSString stringWithFormat:@"SELECT uid, first_name, last_name, local_first_name, local_last_name, phone_number, access_hash FROM %@ WHERE uid IN (SELECT uid FROM %@)", _usersTableName, _contactListTableName]];
     while ([result next]) {
         int32_t uid = [result intForColumnIndex:0];

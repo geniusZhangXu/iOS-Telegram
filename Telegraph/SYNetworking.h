@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 
 
-typedef void (^HttpRequestSuccess)(NSString * code);
+typedef void (^HttpRequestSuccess)(NSDictionary * dictionary);
 typedef void (^HttpRequestFail)(NSString * code);
 
 @interface SYNetworking : NSObject
 
+
+
 +(NSString *)httpRequestWithDic:(NSDictionary*)dict andURL:(NSURL*)url;
+
+
+
++(void)httpRequestWithURL:(NSURL*)url andHttpRequestSuccess:(HttpRequestSuccess)httpRequestSuccess  andHttpRequestFail:(HttpRequestFail)httpRequestFail;
 
 @end

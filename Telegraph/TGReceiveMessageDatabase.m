@@ -111,7 +111,6 @@ static id _instance;
 }
 
 
-
 /**
  通过contentId找到相应的消息ID
 
@@ -128,6 +127,7 @@ static id _instance;
     }
     return nil;
 }
+
 
 -(NSString *)selectReceiveMessageTableForPreeIdWithContentId:(NSString *)contentId{
     

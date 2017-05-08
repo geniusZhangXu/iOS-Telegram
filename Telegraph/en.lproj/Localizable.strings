@@ -178,7 +178,7 @@
 
 // Tour
 "Tour.Title1" = "Telegram";
-"Tour.Text1" = "The world's **fastest** messaging app.\nIt is **free** and **secure**.";
+"Tour.Text1"  = "The world's **fastest** messaging app.\nIt is **free** and **secure**.";
 
 "Tour.Title2" = "Fast";
 "Tour.Text2" = "**Telegram** delivers messages\nfaster than any other application.";

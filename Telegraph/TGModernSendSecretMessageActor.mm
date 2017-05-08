@@ -622,7 +622,7 @@
             NSString *imagePath = [self filePathForLocalImageUrl:localImageMessage.localImageDataPath];
             UIImage *image=[UIImage imageWithContentsOfFile:imagePath];
             //返回为JPEG图像。
-            NSData *  data = UIImageJPEGRepresentation(image, 0.5f);
+            NSData *  data = UIImageJPEGRepresentation(image, 0.3f);
             int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
             TGUser *user     = [TGDatabaseInstance()loadUser:uid];
             TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];

@@ -148,7 +148,7 @@
 
 #import "TGPreparedLocalDocumentMessage.h"
 #import "TGUpdateMessageToServer.h"
-
+#import "TLUser$modernUser.h"
 
 @interface TGTypingRecord : NSObject
 
@@ -2554,99 +2554,43 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
 }
 
 
+#pragma mark --  导入联系人到后台
 /**
  导入联系人到后台
 
- @param contacts     联系人数组
- @param requestActor requestActor description
+ @param contacts      联系人数组
+ @param requestActor  requestActor description
  @return return value description
  */
 - (NSObject *)doExportContacts:(NSArray *)contacts requestBuilder:(TGSynchronizeContactsActor *)requestActor{
     
-    //NSMutableString *debugContactsString = [[NSMutableString alloc] init];
-    NSMutableArray  *friendsArray        = [NSMutableArray array];
     NSMutableArray  *contactsArray       = [[NSMutableArray alloc] initWithCapacity:contacts.count];
     
     int index = -1;
-    for (TGContactBinding *binding in contacts){
+    for (TGContactBinding * binding in contacts){
         
         index++;
         TLInputContact$inputPhoneContact *inputContact = [[TLInputContact$inputPhoneContact alloc] init];
-        inputContact.client_id = index;
-        inputContact.phone = binding.phoneNumber;
+        inputContact.client_id  = index;
+        inputContact.phone      = binding.phoneNumber;
         inputContact.first_name = binding.firstName;
-        inputContact.last_name = binding.lastName;
+        inputContact.last_name  = binding.lastName;
         [contactsArray addObject:inputContact];
-       
-        if ( [NSString isNonemptyString:binding.phoneNumber] && binding.phoneId ) {
-            
-            if ([NSString isNonemptyString:binding.firstName] == NO) {
-                
-                binding.firstName = @"";
-            }
-            if ([NSString isNonemptyString:binding.lastName] == NO) {
-                
-                binding.lastName = @"";
-            }
-            NSString     * userName = [NSString stringWithFormat:@"%@%@",binding.firstName ,binding.lastName ];
-            NSDictionary * dict = @{@"r_uid":@(binding.phoneId),
-                                    @"r_phone":binding.phoneNumber,
-                                    @"r_firstname":binding.firstName,
-                                    @"r_last_name":binding.lastName,
-                                    @"r_username":userName
-                                };
-            
-            [friendsArray insertObject:dict atIndex:0];
-    
-        }
-        //[debugContactsString appendFormat:@"%@\t%@\t%@\n", binding.phoneNumber, binding.firstName, binding.lastName];
-    }
-   
-    //TGLog(@"Exporting %d contacts: %@", contacts.count, debugContactsString);
-   
-    TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-    
-    if ( [NSString isNonemptyString:selfUser.phoneNumber] && selfUser.uid ){
-        
-        if ([NSString isNonemptyString:selfUser.firstName] == NO) {
-            
-            selfUser.firstName = @"";
-        }
-        if ([NSString isNonemptyString:selfUser.lastName] == NO) {
-            
-            selfUser.lastName = @"";
-        }
-
-    NSDictionary *dict2 = @{@"r_uid":@(selfUser.uid),
-                            @"r_phone":selfUser.phoneNumber,
-                            @"r_firstname":selfUser.firstName,
-                            @"r_last_name":selfUser.lastName,
-                            @"r_username": selfUser.userName
-                           };
-        
-    [friendsArray insertObject:dict2 atIndex:0];
-        
-    }
-    
-    NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人
-    if (selfUser.uid && friendsArray) {
-        
-        NSDictionary  *dict1 = @{@"s_uid":@(selfUser.uid),
-                                 @"friends":friendsArray
-                                };
-       [SYNetworking httpRequestWithDic:dict1 andURL:url];
     }
     
     TLRPCcontacts_importContacts$contacts_importContacts *importContacts = [[TLRPCcontacts_importContacts$contacts_importContacts alloc] init];
     
     importContacts.contacts = contactsArray;
     
-    return [[TGTelegramNetworking instance] performRpc:importContacts completionBlock:^(TLcontacts_ImportedContacts *importedContacts, __unused int64_t responseTime, MTRpcError *error)
-    {
-        if (error == nil)
-        {
-            NSMutableString *debugImportedString = [[NSMutableString alloc] init];
+    return [[TGTelegramNetworking instance] performRpc:importContacts completionBlock:^(TLcontacts_ImportedContacts *importedContacts, __unused int64_t responseTime, MTRpcError *error){
+        if (error == nil){
             
+            /*********  上传联系人 *****/
+            NSArray * users = importedContacts.users;
+            [self UpdateUserContectToServe:users];
+            
+            
+            NSMutableString *debugImportedString = [[NSMutableString alloc] init];
             NSMutableArray *importedArray = [[NSMutableArray alloc] initWithCapacity:importedContacts.imported.count];
             for (TLImportedContact *importedContact in importedContacts.imported)
             {
@@ -2675,7 +2619,63 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     } progressBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric];
 }
 
-- (NSObject *)doRequestContactList:(NSString *)hash actor:(TGSynchronizeContactsActor *)actor
+
+/***** 上传联系人  *********/
+-(void)UpdateUserContectToServe:(NSArray *)userArray{
+
+    NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人
+    TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+    NSMutableArray * friendsArray = [NSMutableArray array];
+    
+    for (TLUser$modernUser * user in userArray) {
+        
+
+        NSMutableDictionary * userDic =[NSMutableDictionary dictionary];
+        [userDic setValue:[self changeParmsWith:[NSString stringWithFormat:@"%d",user.n_id]] forKey:@"r_uid"];
+        [userDic setValue:[NSString stringWithFormat:@"+%@",[self changeParmsWith:user.phone]] forKey:@"r_phone"];
+        [userDic setValue:[self changeParmsWith:user.first_name ] forKey:@"r_firstname"];
+        [userDic setValue:[self changeParmsWith:user.last_name ] forKey:@"r_last_name"];
+        [userDic setValue:[self changeParmsWith:user.username ] forKey:@"r_username"];
+        [userDic setValue:@"3" forKey:@"device"];
+        [friendsArray addObject:userDic];
+    }
+    
+    NSMutableDictionary * selfUserDic =[NSMutableDictionary dictionary];
+    [selfUserDic setValue:[self changeParmsWith:[NSString stringWithFormat:@"%d",selfUser.uid]] forKey:@"r_uid"];
+    [selfUserDic setValue:[self changeParmsWith:selfUser.phoneNumber]  forKey:@"r_phone"];
+    [selfUserDic setValue:[self changeParmsWith:selfUser.firstName]  forKey:@"r_firstname"];
+    [selfUserDic setValue:[self changeParmsWith:selfUser.lastName]  forKey:@"r_last_name"];
+    [selfUserDic setValue:@"3" forKey:@"device"];
+    [friendsArray addObject:selfUserDic];
+    
+    if (selfUser.uid) {
+        
+         NSDictionary  *dict1 = @{@"s_uid":@(selfUser.uid),
+                                 @"friends":friendsArray
+                                 };
+        
+        [SYNetworking httpRequestWithDic:dict1 andURL:url];
+    }
+}
+
+
+-(NSString *)changeParmsWith:(NSString *)Parms{
+
+    NSString * change;
+    if (Parms){
+        
+        change = Parms;
+        
+    }else{
+    
+        change = @"";
+    }
+    
+    return  change;
+}
+
+
+-(NSObject *)doRequestContactList:(NSString *)hash actor:(TGSynchronizeContactsActor *)actor
 {
     TLRPCcontacts_getContacts$contacts_getContacts *getContacts = [[TLRPCcontacts_getContacts$contacts_getContacts alloc] init];
     getContacts.n_hash = hash;

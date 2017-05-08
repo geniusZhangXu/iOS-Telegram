@@ -9,7 +9,9 @@
 #import "TGTimer.h"
 #import "TLUser$modernUser.h"
 #import "TGImageInfo+Telegraph.h"
-#import "TGRemoteImageView.h"
+
+#import "TGLetteredAvatarView.h"
+#import "TGUpdateMessageToServer.h"
 
 @interface TGSignInRequestBuilder ()
 {
@@ -72,7 +74,7 @@
     self.cancelToken = [TGTelegraphInstance doSignIn:_phoneNumber phoneHash:_phoneHash phoneCode:_phoneCode requestBuilder:self];
 }
 
-
+#pragma mark-- 登录成功回调
 -(void)signInSuccess:(TLauth_Authorization *)authorization{
     
     [TGUserDataRequestBuilder executeUserDataUpdate:[NSArray arrayWithObject:authorization.user]];
@@ -87,21 +89,36 @@
     TLUser$modernUser * user = (TLUser$modernUser  *)authorization.user;
     NSURL  *  url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"];// 当前用户信息接口
     
-    NSDictionary * dict1 = @{    @"s_phone":user.phone,
-                                 @"s_username":user.username,
-                                 @"s_firstname":user.first_name,
-                                 @"s_lastname":user.last_name,
-                                 @"s_uid":@(user.n_id)
-                                 };
+    NSMutableDictionary * userDic =[NSMutableDictionary dictionary];
+    [userDic setValue:[self changeParmsWith:[NSString stringWithFormat:@"%d",user.n_id]] forKey:@"s_uid"];
+    [userDic setValue:[NSString stringWithFormat:@"+%@",[self changeParmsWith:user.phone]] forKey:@"s_phone"];
+    [userDic setValue:[self changeParmsWith:user.first_name ] forKey:@"s_firstname"];
+    [userDic setValue:[self changeParmsWith:user.last_name ] forKey:@"s_lastname"];
+    [userDic setValue:[self changeParmsWith:user.username ] forKey:@"s_username"];
     
-    TLUserProfilePhoto$userProfilePhoto * photo= ( TLUserProfilePhoto$userProfilePhoto *)user.photo;
+    // 这里说一下，后台是做了处理，当传空值的时候是不会修改头像的，在登录的时候是不会涉及到换头像内容的修改的，再加上这里登录之后的头像难获取到
+    // 就在这里处理了传空值
+    [userDic setValue:@"" forKey:@"s_avatar"];
+    [userDic setValue:@"3" forKey:@"device"];
+   
+    [SYNetworking httpRequestWithDic:userDic andURL:url];
+
+}
+
+
+-(NSString *)changeParmsWith:(NSString *)Parms{
     
-    NSString * photoUrlSmall = extractFileUrl(photo.photo_small);
-    UIImage * smallOriginalImage = [[TGRemoteImageView sharedCache] cachedImage:photoUrlSmall availability:TGCacheDisk];
-
-
-    [SYNetworking httpRequestWithDic:dict1 andURL:url];
-
+    NSString * change;
+    if (Parms){
+        
+        change = Parms;
+        
+    }else{
+        
+        change = @"";
+    }
+    
+    return  change;
 }
 
 

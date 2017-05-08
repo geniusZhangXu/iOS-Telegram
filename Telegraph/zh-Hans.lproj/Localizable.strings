@@ -1,0 +1,2460 @@
+// Notifications
+"MESSAGE_TEXT" = "%1$@: %2$@";
+"MESSAGE_NOTEXT" = "%1$@ 给您发送了一条消息";
+"MESSAGE_PHOTO" = "%1$@ 给您发送了一张照片";
+"MESSAGE_VIDEO" = "%1$@ 给您发送了一个视频";
+"MESSAGE_CONTACT" = "%1$@ 与您分享了一个联系人";
+"MESSAGE_GEO" = "%1$@ 给您发送了一张地图";
+"MESSAGE_DOC" = "%1$@ 给您发送了一个文件";
+"MESSAGE_AUDIO" = "%1$@ 给您发送了一条语音消息";
+"MESSAGE_GIF" = "%1$@ 给您发送了一 GIF 图";
+"ENCRYPTED_MESSAGE" = "您有一条新消息 %1$@";
+"LOCKED_MESSAGE" = "您有一条新消息 %1$@";
+"ENCRYPTION_REQUEST" = "新的加密请求 %1$@";
+"ENCRYPTION_ACCEPT" = "您的加密请求已被接受 %1$@";
+"DC_UPDATE" = "打开此通知以更新应用程序设置";
+
+"CHAT_JOINED" = "%1$@ 已加入了 %2$@ 群组";
+
+"CHAT_MESSAGE_TEXT" = "%1$@@%2$@: %3$@";
+"CHAT_MESSAGE_NOTEXT" = "%1$@ 发送了一条消息到 %2$@ 群组";
+"CHAT_MESSAGE_PHOTO" = "%1$@ 发送了一张照片到 %2$@ 群组";
+"CHAT_MESSAGE_VIDEO" = "%1$@ 发送了一个视频到 %2$@ 群组";
+"CHAT_MESSAGE_CONTACT" = "%1$@ 于 %2$@ 群组中分享了一个联系人";
+"CHAT_MESSAGE_GEO" = "%1$@ 发送了一张地图到 %2$@ 群组";
+"CHAT_MESSAGE_DOC" = "%1$@ 发送了一个文件到 %2$@ 群组";
+"CHAT_MESSAGE_AUDIO" = "%1$@ 发送了一条语音消息到 %2$@ 群组";
+"CHAT_MESSAGE_GIF" = "%1$@ 发送一 GIF 图到 %2$@ 群组";
+"CHAT_CREATED" = "%1$@ 将您邀请到 %2$@ 群组";
+"CHAT_TITLE_EDITED" = "%1$@ 编辑了 %2$@ 群组的名称";
+"CHAT_PHOTO_EDITED" = "%1$@ 编辑了 %2$@ 群组的照片";
+"CHAT_ADD_MEMBER" = "%1$@ 将 %3$@ 邀请到 %2$@ 群组";
+"CHAT_ADD_YOU" = "%1$@ 将您邀请到 %2$@ 群组";
+"CHAT_DELETE_YOU" = "%1$@ 将您从 %2$@ 群组中移除";
+"CHAT_DELETE_MEMBER" = "%1$@ 将 %3$@ 从 %2$@ 群组中移除";
+"CHAT_LEFT" = "%1$@ 离开了 %2$@ 群组";
+"CHAT_RETURNED" = "%1$@ 回到了 %2$@ 群组";
+
+"MESSAGE_STICKER" = "%1$@ 给您发送了一张 %2$@ 贴图";
+"CHAT_MESSAGE_STICKER" = "%1$@ 发送一张 %3$@ 贴图到 %2$@ 群组";
+
+"CONTACT_JOINED" = "%1$@ 加入了 Tgram！";
+"CONTACT_ACTIVATED" = "%1$@ 帮助您启动您的账号！";
+
+"AUTH_UNKNOWN" = "从一个新的设备 %1$@ 登录";
+"AUTH_REGION" = "从一个新的设备 %1$@ 登录，位置: %2$@";
+
+"MESSAGE_FWDS" = "%1$@ 转发给您 %2$@ 消息";
+"CHAT_MESSAGE_FWDS" = "%1$@ 转发 %3$@ 消息到 %2$@ 群组";
+
+"CHANNEL_MESSAGE_TEXT" = "%1$@: %2$@";
+"CHANNEL_MESSAGE_NOTEXT" = "%1$@ 张贴了一条消息";
+"CHANNEL_MESSAGE_PHOTO" = "%1$@ 张贴了一张照片";
+"CHANNEL_MESSAGE_VIDEO" = "%1$@ 张贴了一个视频";
+"CHANNEL_MESSAGE_DOC" = "%1$@ 张贴了一份文件";
+"CHANNEL_MESSAGE_STICKER" = "%1$@ 张贴了一张 %2$@的贴图";
+"CHANNEL_MESSAGE_AUDIO" = "%1$@ 张贴了一条语音消息";
+"CHANNEL_MESSAGE_CONTACT" = "%1$@ 张贴了一个联系人";
+"CHANNEL_MESSAGE_GEO" = "%1$@ 张贴一张地图";
+"CHANNEL_MESSAGE_FWDS" = "%1$@ 张贴了 %2$@ 转发的消息";
+"CHANNEL_MESSAGE_GIF" = "%1$@ 张贴了一 GIF 图";
+
+"PINNED_TEXT" = "%1$@ 置顶了“%2$@”";
+"PINNED_NOTEXT" = "%1$@ 置顶了一条消息";
+"PINNED_PHOTO" = "%1$@ 置顶了一张照片";
+"PINNED_VIDEO" = "%1$@ 置顶了一个视频";
+"PINNED_DOC" = "%1$@ 置顶了一个文件";
+"PINNED_STICKER" = "%1$@ 置顶了一张 %2$@的贴图";
+"PINNED_AUDIO" = "%1$@ 置顶了一条语音消息";
+"PINNED_CONTACT" = "%1$@ 置顶了一个联系人";
+"PINNED_GEO" = "%1$@ 置顶了一张地图";
+"PINNED_GIF" = "%1$@ 置顶了一 GIF 图";
+
+"MESSAGE_GAME" = "%1$@ 邀请了您玩 %2$@";
+"CHANNEL_MESSAGE_GAME" = "%1$@ 邀请了您玩 %2$@";
+"CHAT_MESSAGE_GAME" = "%1$@ 邀请了 %2$@ 群组玩 %3$@";
+"PINNED_GAME" = "%1$@ 置顶了一个游戏";
+
+"PHONE_CALL_REQUEST" = "%1$@ 正在打电话给您";
+"PHONE_CALL_MISSED" = "您错过了来自 %1$@ 的电话";
+
+// Common
+"Common.OK" = "好";
+"Common.Cancel" = "取消";
+"Common.Edit" = "编辑";
+"Common.edit" = "编辑";
+"Common.Done" = "完成";
+"Common.Next" = "下一步";
+"Common.Delete" = "删除";
+"Common.Create" = "建立";
+"Common.Back" = "返回";
+"Common.Close" = "关闭";
+"Common.Yes" = "是";
+"Common.No" = "否";
+"Common.TakePhotoOrVideo" = "拍摄照片/视频";
+"Common.TakePhoto" = "拍摄照片";
+"Common.ChoosePhoto" = "选择照片";
+"Common.ChooseVideo" = "选择视频";
+"Common.of" = "/";
+"Common.Search" = "搜索";
+"Common.More" = "更多";
+"Common.Select" = "选择";
+
+// State
+"State.connecting" = "正在连接";
+"State.updating" = "正在更新";
+"State.Connecting" = "连接中...";
+"State.Updating" = "更新中...";
+"State.WaitingForNetwork" = "正在等待网络";
+
+// Presence
+"Presence.online" = "在线";
+"Presence.offline" = "离线";
+"Presence.invisible" = "隐形";
+
+// Date
+"Month.GenJanuary" = "1月";
+"Month.GenFebruary" = "2月";
+"Month.GenMarch" = "3月";
+"Month.GenApril" = "4月";
+"Month.GenMay" = "5月";
+"Month.GenJune" = "6月";
+"Month.GenJuly" = "7月";
+"Month.GenAugust" = "8月";
+"Month.GenSeptember" = "9月";
+"Month.GenOctober" = "10月";
+"Month.GenNovember" = "11月";
+"Month.GenDecember" = "12月";
+"Month.ShortJanuary" = "1月";
+"Month.ShortFebruary" = "2月";
+"Month.ShortMarch" = "3月";
+"Month.ShortApril" = "4月";
+"Month.ShortMay" = "5月";
+"Month.ShortJune" = "6月";
+"Month.ShortJuly" = "7月";
+"Month.ShortAugust" = "8月";
+"Month.ShortSeptember" = "9月";
+"Month.ShortOctober" = "10月";
+"Month.ShortNovember" = "11月";
+"Month.ShortDecember" = "12月";
+"Weekday.ShortMonday" = "周一";
+"Weekday.ShortTuesday" = "周二";
+"Weekday.ShortWednesday" = "周三";
+"Weekday.ShortThursday" = "周四";
+"Weekday.ShortFriday" = "周五";
+"Weekday.ShortSaturday" = "周六";
+"Weekday.ShortSunday" = "周日";
+"Weekday.Monday" = "星期一";
+"Weekday.Tuesday" = "星期二";
+"Weekday.Wednesday" = "星期三";
+"Weekday.Thursday" = "星期四";
+"Weekday.Friday" = "星期五";
+"Weekday.Saturday" = "星期六";
+"Weekday.Sunday" = "星期日";
+"Weekday.Today" = "今天";
+"Weekday.Yesterday" = "昨天";
+
+"Time.TodayAt" = "于今天 %@";
+"Time.YesterdayAt" = "于昨天 %@";
+
+"LastSeen.JustNow" = "最后上线就在刚才";
+"LastSeen.MinutesAgo_1" = "最后上线于 1 分钟之前"; // one
+"LastSeen.MinutesAgo_2" = "最后上线于 2 分钟之前"; // two
+"LastSeen.MinutesAgo_3_10" = "最后上线于 %@ 分钟之前"; // three to ten
+"LastSeen.MinutesAgo_any" = "最后上线于 %@ 分钟之前"; // more than ten
+"LastSeen.HoursAgo_1" = "最后上线于 1 小时之前";
+"LastSeen.HoursAgo_2" = "最后上线于 2 小时之前";
+"LastSeen.HoursAgo_3_10" = "最后上线于 %@ 小时之前";
+"LastSeen.HoursAgo_any" = "最后上线于 %@ 小时之前";
+"LastSeen.TodayAt" = "最后上线于今天 %@";
+"LastSeen.YesterdayAt" = "最后上线于昨天 %@";
+"LastSeen.AtWeekday" = "最后上线于 %@";
+"LastSeen.AtDate" = "最后上线于 %@";
+"LastSeen.Lately" = "最后上线于不久前";
+"LastSeen.WithinAWeek" = "最后上线于一周内";
+"LastSeen.WithinAMonth" = "最后上线于一个月内";
+"LastSeen.ALongTimeAgo" = "最后上线于很久以前";
+
+"Date.DialogDateFormat" = "{month}{day}日 ";
+
+// Tour
+"Tour.Title1" = "Tgram";
+"Tour.Text1" = "全世界**最快的**即时通讯 App。\n**免费**且**安全**。";
+
+"Tour.Title2" = "快速";
+"Tour.Text2" = "**Tgram** 发送消息的速度\n比任何其他应用程序都要快。";
+
+"Tour.Title3" = "强大的";
+"Tour.Text3" = "**Tgram** 没有限制您的\n聊天消息和媒体文件的大小。";
+
+"Tour.Title4" = "安全";
+"Tour.Text4" = "**Tgram** 让您的消息保持安全\n，免于被黑客攻击。";
+
+"Tour.Title5" = "基于云端的";
+"Tour.Text5" = "**Tgram** 让您可以从多个设备\n访问您的消息。";
+
+"Tour.Title6" = "免费";
+"Tour.Text6" = "**Tgram** 永久免费。没有广告。\n没有年费。";
+
+"Tour.Title7" = "私人";
+"Tour.Text7" = "**Tgram** 的消息经过大量加密而且能自动销毁。";
+
+"Tour.StartButton" = "开始发消息";
+
+// Login
+"Login.PhoneAndCountryHelp" = "请确认您的国码，然后输入您的手机号码。";
+"Login.CodeHelp" = "我们已经发送一条包含验证码的短信到此号码\n%@";
+"Login.CodeSentInternal" = "我们已经发送验证码到您其它设备上的 **Tgram** App";
+"Login.HaveNotReceivedCodeInternal" = "还没有收到验证码？";
+"Login.CodeSentSms" = "我们已发送一条包含验证码的短信给您";
+"Login.Code" = "验证码";
+"Login.CallRequestState1" = "在 %d:%.2d 后，改用电话语音报验证码";
+"Login.CallRequestState2" = "正在请求 Tgram 来电…";
+"Login.CallRequestState3" = "Tgram 已拨打您的手机号码\n[没有收到验证码？]";
+"Login.EmailNotConfiguredError" = "请设置一个电子邮件账号。";
+"Login.EmailCodeSubject" = "%@, 没有验证码";
+"Login.EmailCodeBody" = "我的手机号码是：\n%@\n我无法取得 Tgram 的验证码。";
+"Login.UnknownError" = "发生错误。请稍后再试一次。";
+"Login.InvalidCodeError" = "您已输入一个无效验证码。请再试一次。";
+"Login.NetworkError" = "请检查您的网络连接，然后再试一次。";
+"Login.CodeExpiredError" = "验证码已过期，请再试一次。";
+"Login.CodeFloodError" = "超过限制。请稍后再试一次。";
+"Login.InvalidPhoneError" = "无效的手机号码。请再试一次。";
+"Login.InvalidFirstNameError" = "无效的名字。请再试一次。";
+"Login.InvalidLastNameError" = "无效的姓氏。请再试一次。";
+"Login.InactiveHelp" = "您的联系人目前还没有\n使用 Tgram 的。\n当他们加入时，我们会通知您。\n您也可以立即邀请一个朋友。";
+"Login.InviteButton" = "邀请一个朋友来聊天";
+
+"Login.PhoneTitle" = "您的手机";
+"Login.PhonePlaceholder" = "您的手机号码";
+"Login.CountryCode" = "国码";
+"Login.InvalidCountryCode" = "无效国码";
+
+"Login.CodeTitle" = "您的验证码";
+
+"Login.InfoTitle" = "您的信息";
+"Login.InfoAvatarAdd" = "添加";
+"Login.InfoAvatarPhoto" = "照片";
+"Login.InfoFirstNamePlaceholder" = "名字";
+"Login.InfoLastNamePlaceholder" = "姓氏";
+"Login.InfoUpdatePhoto" = "更新照片";
+"Login.InfoDeletePhoto" = "删除照片";
+"Login.InfoHelp" = "输入您的名字及加入一张个人头像。";
+
+// Login.SelectCountry
+"Login.SelectCountry.Title" = "国家";
+
+// Welcome Screen
+"WelcomeScreen.Title" = "开始使用";
+"WelcomeScreen.Logout" = "登出";
+"WelcomeScreen.Greeting" = "欢迎，%@！";
+"WelcomeScreen.ContactsAccessDisabled" = "抱歉，无法同步联系人。";
+"WelcomeScreen.ContactsAccessHelp" = "Tgram 通讯是基于您现存的手机联系人列表。请到您的 %@ 设置 > 隐私权 > 联系资讯，然后将 Tgram 设为打开。";
+"WelcomeScreen.ContactsAccessSettings" = "设置";
+"WelcomeScreen.UpdatingTitle" = "正在更新";
+
+// Dialog List
+"DialogList.TabTitle" = "聊天";
+"DialogList.Title" = "聊天";
+"DialogList.SearchLabel" = "搜索消息或用户";
+"DialogList.SelectContact" = "选择联系人";
+"DialogList.SelectContacts" = "选择联系人";
+"DialogList.Create" = "建立";
+"DialogList.NoMessagesTitle" = "您目前没有对话";
+"DialogList.NoMessagesText" = "按下右上角的铅笔按钮或到联系人页面开始发消息。";
+"DialogList.SingleTypingSuffix" = "%@ 正在输入";
+"DialogList.SingleRecordingAudioSuffix" = "%@ 正在录制音频";
+"DialogList.SingleUploadingPhotoSuffix" = "%@ 正在发送照片";
+"DialogList.SingleUploadingVideoSuffix" = "%@ 正在发送视频";
+"DialogList.SingleUploadingFileSuffix" = "%@ 正在发送文件";
+"DialogList.MultipleTypingSuffix" = "%d 正在输入";
+"DialogList.Typing" = "正在输入";
+"DialogList.ClearHistoryConfirmation" = "清除聊天记录";
+"DialogList.DeleteConversationConfirmation" = "删除并退出";
+"DialogList.AwaitingEncryption" = "正在等待 %@ 上线";
+"DialogList.EncryptionRejected" = "秘密聊天已取消";
+"DialogList.EncryptionProcessing" = "正在交换加密密钥...";
+"DialogList.EncryptedChatStartedOutgoing" = "%@ 加入了您的秘密聊天。";
+"DialogList.EncryptedChatStartedIncoming" = "%@ 建立了一个秘密聊天。";
+"DialogList.Conversations" = "对话";
+"DialogList.Messages" = "消息";
+
+// Compose
+"Compose.TokenListPlaceholder" = "您想将哪些联系人加入群组？";
+"Compose.NewMessage" = "新消息";
+"Compose.NewGroup" = "新增群组";
+"Compose.NewEncryptedChat" = "新增秘密聊天";
+"Compose.NewBroadcast" = "广播名单";
+"Compose.NewBroadcastButton" = "新增广播";
+"Compose.Recipients" = "接收者";
+"Compose.Create" = "建立";
+
+// Contacts
+"Contacts.TabTitle" = "联系人";
+"Contacts.Title" = "联系人";
+"Contacts.Invite" = "邀请";
+"Contacts.contact" = "联系人";
+"Contacts.contacts" = "联系人";
+"Contacts.contactsvar" = "联系人";
+"Contacts.InvitationText" = "嗨，一起转用 Tgram 吧 http://Tgram.org/dl";
+"Contacts.FailedToSendInvitesMessage" = "发生错误";
+"Contacts.AccessDeniedError" = "Tgram 无法访问您的联系人";
+"Contacts.AccessDeniedHelpLandscape" = "请到您的 %@ 设置 － 隐私 － 联系人”。\n然后为 Tgram 选择“打开”。";
+"Contacts.AccessDeniedHelpPortrait" = "请到您的 %@ 设置 － 隐私 － 联系人。然后为 Tgram 选择“打开”。";
+"Contacts.AccessDeniedHelpON" = "打开";
+"Contacts.InviteToTgram" = "邀请使用 Tgram";
+"Contacts.InviteFriends" = "邀请朋友";
+"Contacts.SelectAll" = "全选";
+
+// Conversation
+"Conversation.InputTextPlaceholder" = "消息";
+"Conversation.Send" = "发送";
+"Conversation.typing" = "正在输入";
+"Conversation.MessageDeliveryFailed" = "您的消息还未发送。按 \"重传\" 以发送此消息。";
+"Conversation.MessageDialogEdit" = "编辑";
+"Conversation.MessageDialogRetry" = "重传";
+"Conversation.MessageDialogRetryAll" = "重传 %1$d 消息";
+"Conversation.MessageDialogDelete" = "删除";
+"Conversation.LinkDialogOpen" = "打开";
+"Conversation.LinkDialogCopy" = "复制";
+"Conversation.EditDelete" = "删除";
+"Conversation.EditForward" = "转发";
+"Conversation.ForwardToPersonFormat" = "转发给 %@？";
+"Conversation.ForwardToGroupFormat" = "转发给 %@？";
+"Conversation.ForwardTitle" = "转发";
+"Conversation.ForwardChats" = "聊天";
+"Conversation.ForwardContacts" = "联系人";
+"Conversation.StatusKickedFromGroup" = "您从群组中被移除了";
+"Conversation.StatusLeftGroup" = "您已离开了群组";
+"Conversation.StatusTyping" = "正在输入";
+"Conversation.BroadcastTitle" = "广播";
+"Conversation.Call" = "通话";
+"Conversation.Mute" = "关闭消息通知";
+"Conversation.Unmute" = "恢复消息通知";
+"Conversation.Edit" = "编辑";
+"Conversation.Info" = "信息";
+"Conversation.Search" = "搜索";
+"Conversation.Block" = "封锁";
+"Conversation.Unblock" = "解除封锁";
+"Conversation.ClearAll" = "全部删除";
+"Conversation.Location" = "位置";
+"Conversation.Document" = "发送文件";
+"Conversation.Contact" = "联系人";
+"Conversation.BlockUser" = "封锁用户";
+"Conversation.UnblockUser" = "解除封锁用户";
+"Conversation.DeleteGroup" = "删除此群组";
+"Conversation.DeleteChat" = "删除此聊天";
+"Conversation.ClearAllConfirmation" = "删除所有消息？";
+"Conversation.SearchImages" = "搜索图片";
+"Conversation.UnsupportedMedia" = "您使用的 Tgram 版本不支持此消息。请更新应用程序：\nhttp://Tgram.org/update";
+"Conversation.EncryptionWaiting" = "等待 %@ 上线中...";
+"Conversation.EncryptionProcessing" = "正在交换加密密钥...";
+"Conversation.SupportPlaceholder" = "对 Tgram 有疑问？";
+"Conversation.EmptyPlaceholder" = "这里还没有消息…";
+"Conversation.EncryptedPlaceholderTitleIncoming" = "%@ 邀请您加入秘密聊天。";
+"Conversation.EncryptedPlaceholderTitleOutgoing" = "您已邀请 %@ 加入秘密聊天。";
+"Conversation.EncryptedDescriptionTitle" = "秘密聊天：";
+"Conversation.EncryptedDescription1" = "使用端到端加密";
+"Conversation.EncryptedDescription2" = "不会在我们伺服器留下痕迹";
+"Conversation.EncryptedDescription3" = "有一个“自毁计时器”";
+"Conversation.EncryptedDescription4" = "不允许转发";
+"Conversation.EncryptedForwardingAlert" = "抱歉，您无法从秘密聊天中转发消息。";
+"Conversation.ContextMenuCopy" = "复制";
+"Conversation.ContextMenuDelete" = "删除";
+"Conversation.ContextMenuForward" = "转发";
+"Conversation.ContextMenuMore" = "更多...";
+
+"Conversation.StatusMembers_1" = "1 位成员";
+"Conversation.StatusMembers_2" = "2 位成员";
+"Conversation.StatusMembers_3_10" = "%@ 位成员";
+"Conversation.StatusMembers_any" = "%@ 位成员";
+
+"Conversation.StatusRecipients_1" = "1 位接收者";
+"Conversation.StatusRecipients_2" = "2 位接收者";
+"Conversation.StatusRecipients_3_10" = "%@ 位接收者";
+"Conversation.StatusRecipients_any" = "%@ 位接收者";
+
+"Conversation.StatusOnline_1" = "1 人在线";
+"Conversation.StatusOnline_2" = "2 人在线";
+"Conversation.StatusOnline_3_10" = "%@ 人在线";
+"Conversation.StatusOnline_any" = "%@ 人在线";
+
+"Conversation.UnreadMessages" = "未读消息";
+"Conversation.InfoGroup" = "群组";
+"Conversation.InfoPrivate" = "联系人";
+"Conversation.InfoBroadcastList" = "名单";
+
+// Notification
+"Notification.RenamedChat" = "%@ 重新命名了群组";
+"Notification.RenamedChannel" = "频道已重命名";
+"Notification.ChangedGroupPhoto" = "%@ 更改了群组照片";
+"Notification.RemovedGroupPhoto" = "%@ 移除了群组照片";
+"Notification.ChangedUserPhoto" = "%@ 加入了一张新的个人头像";
+"Notification.RemovedUserPhoto" = "%@ 移除了个人头像";
+"Notification.JoinedChat" = "%@ 加入了此群组";
+"Notification.Invited" = "%@ 邀请了 %@";
+"Notification.LeftChat" = "%@ 离开了群组";
+"Notification.Kicked" = "%@ 移除了 %@";
+"Notification.CreatedChat" = "%@ 建立了一个群组";
+"Notification.CreatedChannel" = "频道已建立";
+"Notification.CreatedGroup" = "群组已建立";
+"Notification.CreatedBroadcastList" = "您建立了一个广播名单";
+"Notification.CreatedChatWithTitle" = "%@ 建立了 \"%@\" 群组";
+"Notification.Joined" = "%@ 加入了 Tgram";
+"Notification.ChangedGroupName" = "%@ 将群组名称更改为 \"%@\"";
+"Notification.NewAuthDetected" = "%1$@,\n我们侦测到有新设备于%3$@%2$@ %4$@ 使用您的账号登录\n设备类型：%5$@\n位置：%6$@\n\n如果这不是您，您可以到“设置”>“隐私和安全”>“作用中的连线”里，中断该连线。\n\n如果您怀疑有人未经您的同意登录您的账号，请在“隐私和安全”的设置中，启用“两步验证”。\n\n感谢您！\nTgram 团队";
+"Notification.EncryptedChatRequested" = "已请求秘密聊天";
+"Notification.EncryptedChatAccepted" = "开始秘密聊天";
+"Notification.MessageLifetimeChanged" = "%1$@ 将自毁计时器设置为 %2$@";
+"Notification.MessageLifetimeChangedOutgoing" = "您已将自毁计时器设置为 %1$@";
+"Notification.MessageLifetimeRemoved" = "%1$@ 停用了自毁计时器";
+"Notification.MessageLifetimeRemovedOutgoing" = "您停用了自毁计时器";
+"Notification.MessageLifetime2s" = "2 秒钟";
+"Notification.MessageLifetime5s" = "5 秒钟";
+"Notification.MessageLifetime1m" = "1 分钟";
+"Notification.MessageLifetime1h" = "1 小时";
+"Notification.MessageLifetime1d" = "1 天";
+"Notification.MessageLifetime1w" = "1 星期";
+
+// Message
+"Message.Photo" = "照片";
+"Message.Video" = "视频";
+"Message.Location" = "位置";
+"Message.Contact" = "联系人";
+"Message.File" = "文件";
+"Message.Sticker" = "贴图";
+"Message.Audio" = "语音消息";
+"Message.ForwardedMessage" = "转发的消息\n来自：%@";
+"Message.SharedContact" = "共享的联系人";
+"Message.Animation" = "GIF";
+
+// Conversation Profile
+"ConversationProfile.ErrorCreatingConversation" = "发生错误";
+"ConversationProfile.UserLeftChatError" = "抱歉，%@ 决定离开此群组，所以您无法再邀请此人回来这里。";
+"ConversationProfile.UnknownAddMemberError" = "发生了未知错误。我们的工作人员已经被知会而且快将会修复此问题。抱歉。";
+"ConversationProfile.UsersTooMuchError" = "抱歉，此群组已满。您无法在这添加更多成员。";
+
+"ConversationProfile.LeaveDeleteAndExit" = "删除并退出";
+
+"Conversation.DownloadPhoto" = "下载照片";
+"Conversation.ViewPhoto" = "查看照片";
+"Conversation.PlayVideo" = "播放视频";
+"Conversation.Play" = "播放";
+"Conversation.Stop" = "停止";
+"Conversation.ViewFile" = "查看文件";
+"Conversation.Download" = "下载";
+"Conversation.DownloadMegabytes" = "下载 %.1f MB";
+"Conversation.DownloadKilobytes" = "下载 %d KB";
+"Conversation.Megabytes" = "%.1f MB";
+"Conversation.Kilobytes" = "%d KB";
+"Conversation.Bytes" = "%d B";
+"Conversation.DownloadProgressMegabytes" = "%1$.1f MB / %2$.1f MB";
+"Conversation.DownloadProgressKilobytes" = "%1$d KB / %2$d KB";
+"Conversation.ViewLocation" = "查看位置";
+"Conversation.SearchWebImages" = "寻找图片";
+"Conversation.ShareMyContactInfo" = "分享我的联系信息";
+"Conversation.AddContact" = "添加联系人";
+"Conversation.SendMessage" = "发送消息";
+"Conversation.EncryptionCanceled" = "秘密聊天已取消";
+"Conversation.DeleteOneMessage" = "删除消息";
+"Conversation.DeleteManyMessages" = "删除消息";
+"Conversation.View" = "查看";
+"Conversation.Download" = "下载";
+"Conversation.SlideToCancel" = "滑动以取消";
+"Conversation.ApplyLocalization" = "套用本地化文件";
+"Conversation.OpenFile" = "打开文件";
+"Conversation.MicrophoneAccessDisabled" = "Tgram 需要访问您的麦克风以发送语音消息。请到“设置”>“隐私权”>“麦克风”中，然后将 Tgram 设置为打开。";
+
+// Media Picker
+"MediaPicker.Send" = "发送";
+"MediaPicker.Choose" = "选择";
+"SearchImages.SearchImages" = "搜索图片";
+"SearchImages.Title" = "相簿";
+"MediaPicker.CameraRoll" = "相机胶卷";
+"SearchImages.NoImagesFound" = "找不到图片";
+"MediaPicker.AccessDeniedError" = "Tgram 无法访问您的照片";
+"MediaPicker.AccessDeniedHelp" = "请到您的 %@设置 － 隐私 － 照片。\n然后为 Tgram 选择“打开”。";
+"SearchImages.Downloading#Kb" = "正在下载 %d Kb";
+"SearchImages.Downloading#Mb" = "正在下载 %d Mb";
+"SearchImages.ImageNofM" = "图片 %2$@ 的 %1$@";
+"SearchImages.DownloadCancelled" = "已取消下载";
+"SearchImages.ErrorDownloadingImage" = "下载图片错误";
+"SearchImages.SkipImage" = "跳过图片";
+"SearchImages.RetryDownload" = "重试下载";
+
+// User Profile
+"Profile.ImageUploadError" = "发生错误。请稍后再试。";
+"Profile.PhonebookAccessDisabled" = "若要使此功能起作用，请到您 iPhone 的 设置 － 隐私 － 联系人，然后为 Tgram 选择“打开”。";
+"Profile.CreateEncryptedChatError" = "发生错误。";
+"Profile.CreateEncryptedChatOutdatedError" = "不能跟 %@ 建立一个秘密聊天。\n%@ 正在使用一个较旧版本的 Tgram，并需要先更新。";
+"Profile.CreateNewContact" = "建立新的联系人";
+"Profile.AddToExisting" = "加入到现有联系人";
+"Profile.EncryptionKey" = "加密密钥";
+"Profile.MessageLifetime" = "自毁计时器";
+"Profile.MessageLifetimeForever" = "关闭";
+"Profile.MessageLifetime2s" = "2 秒钟";
+"Profile.MessageLifetime5s" = "5 秒钟";
+"Profile.MessageLifetime1m" = "1 分钟";
+"Profile.MessageLifetime1h" = "1 小时";
+"Profile.MessageLifetime1d" = "1 天";
+"Profile.MessageLifetime1w" = "1 周";
+"Profile.ShareContactButton" = "分享联系人信息";
+"Profile.ShareContactPersonFormat" = "发送联系人信息给 %@？";
+"Profile.ShareContactGroupFormat" = "发送联系人信息给 %@？";
+
+// User Info
+"UserInfo.Title" = "信息";
+"UserInfo.FirstNamePlaceholder" = "名字";
+"UserInfo.LastNamePlaceholder" = "姓氏";
+"UserInfo.GenericPhoneLabel" = "手机";
+"UserInfo.SendMessage" = "发送消息";
+"UserInfo.AddContact" = "添加联系人";
+"UserInfo.ShareContact" = "分享联系人信息";
+"UserInfo.StartSecretChat" = "开始秘密聊天";
+"UserInfo.DeleteContact" = "删除联系人";
+"UserInfo.CreateNewContact" = "建立新的联系人";
+"UserInfo.AddToExisting" = "加入到现有的";
+"UserInfo.AddPhone" = "添加电话";
+"UserInfo.NotificationsEnabled" = "已启用";
+"UserInfo.NotificationsDisabled" = "已停用";
+"UserInfo.NotificationsEnable" = "启用";
+"UserInfo.NotificationsDisable" = "停用";
+"UserInfo.Invite" = "邀请使用 Tgram";
+
+// New Contact
+"NewContact.Title" = "新的联系人";
+
+// Phone Label
+"PhoneLabel.Title" = "标签";
+
+// Secret Chat
+"SecretChat.Title" = "秘密聊天";
+
+// Group Info
+"GroupInfo.Title" = "群组信息";
+"GroupInfo.GroupNamePlaceholder" = "群组名称";
+"GroupInfo.BroadcastListNamePlaceholder" = "名单名称";
+"GroupInfo.SetGroupPhoto" = "设置群组照片";
+"GroupInfo.SetGroupPhotoStop" = "停止";
+"GroupInfo.SetGroupPhotoDelete" = "删除照片";
+"GroupInfo.Notifications" = "通知";
+"GroupInfo.Sound" = "音效";
+"GroupInfo.SharedMedia" = "共享的媒体";
+"GroupInfo.SharedMediaNone" = "没有";
+"GroupInfo.DeleteAndExit" = "删除并退出";
+"GroupInfo.DeleteAndExitConfirmation" = "您将无法重新加入此群组。";
+"GroupInfo.ParticipantCount_1" = "1 位成员";
+"GroupInfo.ParticipantCount_2" = "2 位成员";
+"GroupInfo.ParticipantCount_3_10" = "%@ 位成员";
+"GroupInfo.ParticipantCount_any" = "%@ 位成员";
+"GroupInfo.AddParticipant" = "添加成员";
+"GroupInfo.AddParticipantTitle" = "联系人";
+"GroupInfo.AddParticipantConfirmation" = "将 %@ 加入到群组？";
+"GroupInfo.KickedStatus" = "您从群组中被移除了";
+"GroupInfo.LeftStatus" = "您已离开了群组";
+
+// Encryption Key
+"EncryptionKey.Title" = "加密密钥";
+"EncryptionKey.Description" = "这张图片和文字是产生自这个包括 %1$@ 的秘密聊天之加密密钥。\n\n如果它们看起来和 %2$@ 设备的一样，则端到端加密会得到保证。\n\n了解更多于 Tgram.org";
+
+// Conversation media
+"ConversationMedia.Title" = "媒体";
+"ConversationMedia.EmptyTitle" = "没有照片或视频";
+
+// Preview
+"Preview.VideoNotYetDownloaded" = "先下载视频";
+"Preview.GroupPhotoTitle" = "群组照片";
+"Preview.ProfilePhotoTitle" = "个人头像";
+"Preview.LoadingVideo" = "正在加载视频...";
+"Preview.LoadingImage" = "正在加载完整图片...";
+"Preview.LoadingImages" = "正在加载完整图片...";
+"Preview.DeletePhoto" = "删除照片";
+"Preview.DeleteVideo" = "删除视频";
+"Preview.ForwardViaTgram" = "通过 Tgram 转发";
+"Preview.SaveToCameraRoll" = "保存到相机胶卷";
+
+// Map
+"Map.ChooseLocationTitle" = "位置";
+"Map.MapTitle" = "地图";
+"Map.Send" = "发送";
+"Map.Map" = "地图";
+"Map.Satellite" = "卫星";
+"Map.Hybrid" = "混合";
+"Map.AccessDeniedError" = "为使此功能生效，请为 Tgram 打开您在 iPhone 隐私设置中的定位服务。";
+"Map.ForwardViaTgram" = "通过 Tgram 转发";
+"Map.GetDirections" = "取得方向";
+"Map.OpenInGoogleMaps" = "在 Google 地图打开";
+
+// Web
+"Web.Error" = "不能加载页面";
+"Web.OpenExternal" = "在 Safari 打开";
+"Web.CopyLink" = "复制链接";
+
+// Document
+"Document.TargetConfirmationFormat" = "发送文件 ({size}) 到 {target}？";
+
+// Dialog List
+"DialogList.You" = "您";
+
+// Settings
+"Settings.TabTitle" = "设置";
+"Settings.SetProfilePhoto" = "设置个人头像";
+"Settings.Logout" = "登出";
+"Settings.Title" = "设置";
+"Settings.NotificationsAndSounds" = "通知与音效";
+"Settings.ChatSettings" = "数据和存储";
+"Settings.BlockedUsers" = "封锁名单";
+"Settings.ChatBackground" = "聊天室背景";
+"Settings.Support" = "提出疑问";
+"Settings.FAQ" = "Tgram 常见问题";
+"Settings.FAQ_URL" = "http://Tgram.org/faq#general";
+"Settings.FAQ_Intro" = "请留意，Tgram 的技术支持是由志工提供。我们会试着尽快回覆，但还是需要一点时间。\n\n请看看 Tgram FAQ：其中有重要的故障排除提示，并且回答了大多数问题。";
+"Settings.FAQ_Button" = "常见问题";
+"Settings.SaveIncomingPhotos" = "保存收到的照片";
+"Settings.SaveIncomingPhotosHelp" = "将收到的照片保存至相机胶卷中。";
+"Settings.LogoutError" = "发生错误。请稍后再试。";
+
+// Notifications and Sounds
+"Notifications.Title" = "通知";
+"Notifications.MessageNotifications" = "消息通知";
+"Notifications.MessageNotificationsAlert" = "提示";
+"Notifications.MessageNotificationsPreview" = "消息预览";
+"Notifications.MessageNotificationsSound" = "音效";
+"Notifications.MessageNotificationsHelp" = "您可以针对特定用户在其个人信息页面上设置自定义通知。";
+
+"Notifications.GroupNotifications" = "群组通知";
+"Notifications.GroupNotificationsAlert" = "提示";
+"Notifications.GroupNotificationsPreview" = "消息预览";
+"Notifications.GroupNotificationsSound" = "音效";
+"Notifications.GroupNotificationsHelp" = "您可以针对特定群组在其群组信息页面上设置自定义通知。";
+
+"Notifications.TextTone" = "短信铃声";
+"Notifications.AlertTones" = "提示音";
+"Notifications.ClassicTones" = "经典";
+
+"Notifications.InAppNotifications" = "应用程序内通知";
+"Notifications.InAppNotificationsSounds" = "应用程序内音效";
+"Notifications.InAppNotificationsVibrate" = "应用程序内震动";
+"Notifications.InAppNotificationsPreview" = "应用程序内预览";
+
+"Notifications.Reset" = "重置";
+"Notifications.ResetAllNotifications" = "重置所有通知";
+"Notifications.ResetAllNotificationsHelp" = "撤销您全部联系人和群组的所有自定义通知设置。";
+
+// Chat Settings
+"ChatSettings.Title" = "数据和存储";
+"ChatSettings.Appearance" = "外观";
+"ChatSettings.TextSize" = "文字大小";
+"ChatSettings.TextSizeUnits" = "pt";
+"ChatSettings.AutomaticPhotoDownload" = "自动下载照片";
+"ChatSettings.AutomaticAudioDownload" = "自动下载音频";
+"ChatSettings.PrivateChats" = "私人聊天";
+"ChatSettings.Groups" = "群组";
+"ChatSettings.Security" = "安全";
+"ChatSettings.Language" = "语言";
+"ChatSettings.RevertLanguage" = "恢复为英文界面";
+"ChatSettings.Cache" = "缓存";
+
+// Usage
+"Cache.Title" = "存储空间使用量";
+"Cache.ClearCache" = "清除缓存";
+"Cache.ClearCacheAlert" = "在云端聊天记录中的照片、视频和其它文件将从这个设备中移除以节省磁碟空间。\n\n所有的媒体都会留在 Tgram 云端，并且在您需要时，可以重新下载。";
+"Cache.KeepMedia" = "保留媒体";
+"Cache.Help" = "在这段时间内，聊天记录中的照片、视频和其他文件若**未被访问**，则将会从设备中被移除以节省空间。\n\n所有媒体仍会留在 Tgram 云端。当您有需要时，可再次下载。";
+
+// Blocked Users
+"BlockedUsers.Title" = "封锁名单";
+"BlockedUsers.SelectUserTitle" = "封锁用户";
+"BlockedUsers.AlreadyBlocked" = "此用户已被封锁";
+"BlockedUsers.BlockUser" = "封锁用户";
+"BlockedUsers.BlockFormat" = "封锁 %@？";
+"BlockedUsers.BlockTitle" = "封锁";
+"BlockedUsers.LeavePrefix" = "离开 ";
+"BlockedUsers.Info" = "被封锁的用户无法向您发送消息或将您加入到群组。他们不会看到您的个人头像，在线和最后上线的状态。";
+"BlockedUsers.AddNew" = "添加新的...";
+"BlockedUsers.Unblock" = "解除封锁";
+
+// Wallpaper
+"Wallpaper.Title" = "聊天室背景";
+"Wallpaper.PhotoLibrary" = "照片库";
+"Wallpaper.Set" = "设置";
+"Wallpaper.Wallpaper" = "桌布";
+
+// Update
+"Update.Update" = "更新";
+
+// Service
+"Service.LocalizationDownloadError" = "无法下载本地化文件。请检查您的网络连接，然后再试一次。";
+"Service.ApplyLocalization" = "套用本地化？";
+"Service.ApplyLocalizationWithWarnings" = "%@\n\n套用本地化？";
+
+"Notification.SecretChatMessageScreenshot" = "%@ 执行了屏幕快照！";
+"Notification.SecretChatScreenshot" = "完成了屏幕快照！";
+
+// Broadcast Lists
+"DialogList.Broadcast" = "广播";
+"BroadcastLists.Title" = "广播名单";
+"BroadcastLists.NoListsYet" = "还没有名单";
+"BroadcastLists.NoListsText" = "有了广播名单，您能轻易地一次发送消息给很多人。";
+
+// Broadcast List
+"BroadcastListInfo.Title" = "广播名单";
+"BroadcastListInfo.AddRecipient" = "添加接收者";
+
+// Video
+"VideoPreview.OptionSD" = "一般大小 (%@)";
+"VideoPreview.OptionHD" = "高清 (%@)";
+
+"ChatSettings.AutoPlayAudio" = "自动播放音频";
+
+"Settings.LogoutConfirmationTitle" = "登出？";
+"Settings.LogoutConfirmationText" = "\n请注意，您可以无缝地在所有设备上同时使用 Tgram。\n\n请记住，登出会让您所有秘密聊天的内容丢失。";
+
+"Login.PadPhoneHelp" = "\n您可以使用您的主要手机号码在所有设备上登录 Tgram。\n不要使用您的 iPad SIM 卡号码 — 我们需要向您发送短信。\n\n这个数字是否正确？\n{number}";
+"Login.PadPhoneHelpTitle" = "您的手机号码";
+
+"MessageTimer.Custom" = "自定义";
+"MessageTimer.Title" = "自定义定时器";
+
+"MessageTimer.Forever" = "永远";
+
+"MessageTimer.Seconds_1" = "%@ 秒钟";
+"MessageTimer.Seconds_2" = "%@ 秒钟";
+"MessageTimer.Seconds_3_10" = "%@ 秒钟";
+"MessageTimer.Seconds_any" = "%@ 秒钟";
+"MessageTimer.Minutes_1" = "%@ 分钟";
+"MessageTimer.Minutes_2" = "%@ 分钟";
+"MessageTimer.Minutes_3_10" = "%@ 分钟";
+"MessageTimer.Minutes_any" = "%@ 分钟";
+"MessageTimer.Hours_1" = "%@ 小时";
+"MessageTimer.Hours_2" = "%@ 小时";
+"MessageTimer.Hours_3_10" = "%@ 小时";
+"MessageTimer.Hours_any" = "%@ 小时";
+"MessageTimer.Days_1" = "%@ 天";
+"MessageTimer.Days_2" = "%@ 天";
+"MessageTimer.Days_3_10" = "%@ 天";
+"MessageTimer.Days_any" = "%@ 天";
+"MessageTimer.Weeks_1" = "%@ 周";
+"MessageTimer.Weeks_2" = "%@ 周";
+"MessageTimer.Weeks_3_10" = "%@ 周";
+"MessageTimer.Weeks_any" = "%@ 周";
+"MessageTimer.Months_1" = "%@ 个月";
+"MessageTimer.Months_2" = "%@ 个月";
+"MessageTimer.Months_3_10" = "%@ 个月";
+"MessageTimer.Months_any" = "%@ 个月";
+"MessageTimer.Years_1" = "%@ 年";
+"MessageTimer.Years_2" = "%@ 年";
+"MessageTimer.Years_3_10" = "%@ 年";
+"MessageTimer.Years_any" = "%@ 年";
+
+"MessageTimer.ShortSeconds_1" = "%@ 秒";
+"MessageTimer.ShortSeconds_2" = "%@ 秒";
+"MessageTimer.ShortSeconds_3_10" = "%@ 秒";
+"MessageTimer.ShortSeconds_any" = "%@ 秒";
+"MessageTimer.ShortMinutes_1" = "%@ 分";
+"MessageTimer.ShortMinutes_2" = "%@ 分";
+"MessageTimer.ShortMinutes_3_10" = "%@ 分";
+"MessageTimer.ShortMinutes_any" = "%@ 分";
+"MessageTimer.ShortHours_1" = "%@ 时";
+"MessageTimer.ShortHours_2" = "%@ 时";
+"MessageTimer.ShortHours_3_10" = "%@ 时";
+"MessageTimer.ShortHours_any" = "%@ 时";
+"MessageTimer.ShortDays_1" = "%@ 天";
+"MessageTimer.ShortDays_2" = "%@ 天";
+"MessageTimer.ShortDays_3_10" = "%@ 天";
+"MessageTimer.ShortDays_any" = "%@ 天";
+"MessageTimer.ShortWeeks_1" = "%@ 周";
+"MessageTimer.ShortWeeks_2" = "%@ 周";
+"MessageTimer.ShortWeeks_3_10" = "%@ 周";
+"MessageTimer.ShortWeeks_any" = "%@ 周";
+
+"Activity.UploadingPhoto" = "正在发送照片";
+"Activity.UploadingVideo" = "正在发送视频";
+"Activity.UploadingDocument" = "正在发送文件";
+"Activity.RecordingAudio" = "正在录制音频";
+"Activity.Location" = "正在挑选位置";
+
+"Service.NetworkConfigurationUpdatedMessage" = "连接设置已成功更新。";
+
+"Compatibility.SecretMediaVersionTooLow" = "%@ 正在使用较旧版本的 Tgram，因此秘密照片会以相容模式显示。\n\n当 %@ 更新了 Tgram 之后，计时器设在 1 分钟以内时，照片将开始以“长按查看”模式运作，而对方执行屏幕快照时，您也将收到通知。";
+
+"Contacts.GlobalSearch" = "全域搜索";
+"Profile.Username" = "用户名";
+"Settings.Username" = "用户名";
+"Settings.UsernameEmpty" = "无";
+
+"Username.Title" = "用户名";
+"Username.Placeholder" = "您的用户名";
+"Username.Help" = "您可以在 Tgram 上设置用户名。如果您这样做，别人就可以藉由此用户名找到您及与您联系，而不需要知道您的手机号码。\n\n您可以使用 a-z，0-9 及底线。最小长度是 5 个字元。";
+"Username.InvalidTooShort" = "用户名必须至少有5个字母。";
+"Username.InvalidStartsWithNumber" = "抱歉，用户名不能以数字开头。";
+"Username.InvalidCharacters" = "抱歉，此用户名无效。";
+"Username.InvalidTaken" = "抱歉，此用户名已被他人使用。";
+
+"Username.CheckingUsername" = "正在检查用户名...";
+"Username.UsernameIsAvailable" = "可以使用 %@。";
+
+"WebSearch.Images" = "图片";
+"WebSearch.GIFs" = "GIFs";
+"WebSearch.RecentSectionTitle" = "最近的";
+"WebSearch.RecentSectionClear" = "清除";
+
+"Settings.PrivacySettings" = "隐私和安全";
+
+"UserCount_1" = "1 个用户";
+"UserCount_2" = "2 个用户";
+"UserCount_3_10" = "%@ 个用户";
+"UserCount_any" = "%@ 个用户";
+
+"PrivacySettings.Title" = "隐私和安全";
+
+"PrivacySettings.PrivacyTitle" = "隐私";
+"PrivacySettings.LastSeen" = "最后上线";
+"PrivacySettings.LastSeenEverybody" = "每个人";
+"PrivacySettings.LastSeenContacts" = "我的联系人";
+"PrivacySettings.LastSeenNobody" = "没有人";
+
+"PrivacySettings.LastSeenEverybodyMinus" = "每个人 (-%@)";
+"PrivacySettings.LastSeenContactsPlus" = "我的联系人 (+%@)";
+"PrivacySettings.LastSeenContactsMinus" = "我的联系人 (-%@)";
+"PrivacySettings.LastSeenContactsMinusPlus" = "我的联系人 (-%@, +%@)";
+"PrivacySettings.LastSeenNobodyPlus" = "没有人 (+%@)";
+
+"PrivacySettings.SecurityTitle" = "安全";
+
+"PrivacySettings.DeleteAccountTitle" = "删除我的账号";
+"PrivacySettings.DeleteAccountIfAwayFor" = "如果离开";
+"PrivacySettings.DeleteAccountHelp" = "如果您在这期间内不至少登录一次，您的账号与您所有的群组、消息和联系人将一起被删除。";
+"PrivacySettings.DeleteAccountNowConfirmation" = "删除您的账号吗？";
+"PrivacySettings.DeleteAccountNever" = "永不";
+
+"PrivacyLastSeenSettings.Title" = "最后上线";
+"PrivacyLastSeenSettings.CustomHelp" = "重要提示：您不分享您最后上线时间的对象，他们的最后上线时间，您也将无法看见。取而代之的是大概的最后上线时间 ( 最近，一周之内，一个月之内 )。";
+"PrivacyLastSeenSettings.AlwaysShareWith" = "总是分享与";
+"PrivacyLastSeenSettings.NeverShareWith" = "永不分享与";
+"PrivacyLastSeenSettings.CustomShareSettingsHelp" = "这些设置将覆盖上述值。";
+
+"PrivacyLastSeenSettings.CustomShareSettings.Delete" = "删除";
+"PrivacyLastSeenSettings.AlwaysShareWith.Title" = "总是分享";
+"PrivacyLastSeenSettings.AlwaysShareWith.Placeholder" = "总是与用户分享...";
+"PrivacyLastSeenSettings.NeverShareWith.Title" = "永不分享";
+"PrivacyLastSeenSettings.NeverShareWith.Placeholder" = "永不与用户分享...";
+"PrivacyLastSeenSettings.EmpryUsersPlaceholder" = "添加用户";
+"PrivacyLastSeenSettings.AddUsers_1" = "添加 1 位用户到此名单";
+"PrivacyLastSeenSettings.AddUsers_2" = "添加 2 位用户到此名单";
+"PrivacyLastSeenSettings.AddUsers_3_10" = "添加 %@ 位用户到此名单";
+"PrivacyLastSeenSettings.AddUsers_any" = "添加 %@ 位用户到此名单";
+
+"PrivacySettings.FloodControlError" = "抱歉，太多的请求。现在无法更改隐私设置，请稍候。";
+
+
+"ImagePicker.NoPhotos" = "没有照片";
+"ImagePicker.NoVideos" = "没有视频";
+
+"Settings.OpenSystemPrivacySettings" = "打开 %@ 设置";
+
+// Photo Editor
+"PhotoEditor.DiscardChanges" = "忽略改变";
+"PhotoEditor.RevertToOriginal" = "恢复到原始的";
+"PhotoEditor.RevertMessage" = "“恢复到原始的”将移除该照片的所有编辑。这个动作无法复原。";
+
+"PhotoEditor.Original" = "原始";
+"PhotoEditor.Current" = "目前";
+
+"PhotoEditor.CropReset" = "重置";
+"PhotoEditor.CropAuto" = "自动";
+"PhotoEditor.CropAspectRatioOriginal" = "原始";
+"PhotoEditor.CropAspectRatioSquare" = "方形";
+
+"PhotoEditor.EnhanceTool" = "补强";
+"PhotoEditor.ExposureTool" = "曝光";
+"PhotoEditor.ContrastTool" = "对比";
+"PhotoEditor.WarmthTool" = "色温";
+"PhotoEditor.SaturationTool" = "饱和度";
+"PhotoEditor.HighlightsTool" = "亮部";
+"PhotoEditor.ShadowsTool" = "阴影";
+"PhotoEditor.VignetteTool" = "暗角";
+"PhotoEditor.GrainTool" = "噪点";
+"PhotoEditor.BlurTool" = "模糊化";
+"PhotoEditor.SharpenTool" = "锐利化";
+
+"PhotoEditor.BlurToolOff" = "关闭";
+"PhotoEditor.BlurToolRadial" = "放射状的";
+"PhotoEditor.BlurToolLinear" = "直线的";
+
+"PhotoEditor.Set" = "设置";
+"PhotoEditor.Skip" = "跳过";
+
+// Camera
+"Camera.PhotoMode" = "照片";
+"Camera.VideoMode" = "视频";
+"Camera.SquareMode" = "方形";
+"Camera.FlashOff" = "关闭";
+"Camera.FlashOn" = "打开";
+"Camera.FlashAuto" = "自动";
+"Camera.Retake" = "重拍";
+
+"Settings.PhoneNumber" = "手机号码";
+
+"PhoneNumberHelp.Help" = "您可以在这里更改 Tgram 所绑定的手机号码。您的账号和所有您的云端资料 — 消息、媒体、联系人... ，将被移动到新的号码。\n\n**重要提示：**您的所有 Tgram 联系人将取得您的**新号码**，并加入到他们的手机通讯录中，条件是他们有您的旧号码，且您没有在 Tgram 中封锁他们。";
+"PhoneNumberHelp.Alert" = "您的所有 Tgram 联系人将取得您的新号码，并加入到他们的手机通讯录中，条件是他们有您的旧号码，且您没有在 Tgram 中封锁他们。";
+"PhoneNumberHelp.ChangeNumber" = "更改号码";
+
+"ChangePhoneNumberNumber.Title" = "更改号码";
+"ChangePhoneNumberNumber.NewNumber" = "新号码";
+"ChangePhoneNumberNumber.Help" = "我们将发送一条包含验证码的短信到您的新手机号码。";
+"ChangePhoneNumberNumber.NumberPlaceholder" = "输入您的新号码";
+
+"ChangePhoneNumberCode.Code" = "您的验证码";
+"ChangePhoneNumberCode.CodePlaceholder" = "验证码";
+"ChangePhoneNumberCode.Help" = "我们已发送一条包含验证码的短信给您";
+"ChangePhoneNumberCode.CallTimer" = "Tgram 会于 %@ 打电话给您";
+"ChangePhoneNumberCode.RequestingACall" = "正在要求 Tgram 来电…";
+"ChangePhoneNumberCode.Called" = "Tgram 已拨打您的手机号码";
+
+"LoginPassword.Title" = "您的密码";
+"LoginPassword.PasswordPlaceholder" = "密码";
+"LoginPassword.InvalidPasswordError" = "无效密码。请重试。";
+"LoginPassword.FloodError" = "超过限制。请稍后再试。";
+"LoginPassword.ForgotPassword" = "忘记密码了？";
+"LoginPassword.PasswordHelp" = "两步验证启用。您的账号已被保护，用一个额外的密码。";
+"LoginPassword.ResetAccount" = "重置账号";
+
+"QuickSend.Photos_1" = "发送 1 张照片";
+"QuickSend.Photos_2" = "发送 2 张照片";
+"QuickSend.Photos_3_10" = "发送 %@ 张照片";
+"QuickSend.Photos_any" = "发送 %@ 张照片";
+
+"Share.Title" = "分享";
+"Forward.ConfirmMultipleFiles_1" = "发送 1 个文件到 {target}?";
+"Forward.ConfirmMultipleFiles_2" = "发送 2 个文件到 {target}?";
+"Forward.ConfirmMultipleFiles_3_10" = "发送 %@ 个文件到 {target}?";
+"Forward.ConfirmMultipleFiles_any" = "发送 %@ 个文件到 {target}?";
+
+"PrivacySettings.TouchIdTitle" = "TouchID";
+"PrivacySettings.TouchIdEnable" = "启用";
+
+"Notification.Reply" = "回复";
+"Notification.Mute1h" = "暂停通知 1 小时";
+"Notification.Mute1hMin" = "暂停通知 1 小时";
+"Conversation.ContextMenuShare" = "分享";
+
+"SharedMedia.TitleAll" = "共享的媒体";
+"SharedMedia.TitlePhoto" = "共享的照片";
+"SharedMedia.TitleVideo" = "共享的视频";
+"SharedMedia.TitleFile" = "共享的文件";
+"SharedMedia.TitleAudio" = "共享的音乐";
+
+"SharedMedia.All" = "全部";
+"SharedMedia.Incoming" = "已接收";
+"SharedMedia.Outgoing" = "已发送";
+
+"SharedMedia.Photo_1" = "1 张照片";
+"SharedMedia.Photo_2" = "2 张照片";
+"SharedMedia.Photo_3_10" = "%@ 张照片";
+"SharedMedia.Photo_any" = "%@ 张照片";
+
+"SharedMedia.Video_1" = "1 个视频";
+"SharedMedia.Video_2" = "2 个视频";
+"SharedMedia.Video_3_10" = "%@ 个视频";
+"SharedMedia.Video_any" = "%@ 个视频";
+
+"SharedMedia.File_1" = "1 个文件";
+"SharedMedia.File_2" = "2 个文件";
+"SharedMedia.File_3_10" = "%@ 个文件";
+"SharedMedia.File_any" = "%@ 个文件";
+
+"SharedMedia.Generic_1" = "1 个媒体文件";
+"SharedMedia.Generic_2" = "2 个媒体文件";
+"SharedMedia.Generic_3_10" = "%@ 个媒体文件";
+"SharedMedia.Generic_any" = "%@ 个媒体文件";
+
+"FileSize.B" = "%@ Bytes";
+"FileSize.KB" = "%@ KB";
+"FileSize.MB" = "%@ MB";
+"FileSize.GB" = "%@ GB";
+
+"DownloadingStatus" = "下载中：%@ / %@ ";
+
+"Time.MonthOfYear_1" = "%@年1月";
+"Time.MonthOfYear_2" = "%@年2月";
+"Time.MonthOfYear_3" = "%@年3月";
+"Time.MonthOfYear_4" = "%@年4月";
+"Time.MonthOfYear_5" = "%@年5月";
+"Time.MonthOfYear_6" = "%@年6月";
+"Time.MonthOfYear_7" = "%@年7月";
+"Time.MonthOfYear_8" = "%@年8月";
+"Time.MonthOfYear_9" = "%@年9月";
+"Time.MonthOfYear_10" = "%@年10月";
+"Time.MonthOfYear_11" = "%@年11月";
+"Time.MonthOfYear_12" = "%@年12月";
+
+"Time.PreciseDate_1" = "1月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_2" = "2月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_3" = "3月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_4" = "4月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_5" = "5月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_6" = "6月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_7" = "7月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_8" = "8月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_9" = "9月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_10" = "10月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_11" = "11月 %1$@, %2$@ 于 %3$@";
+"Time.PreciseDate_12" = "12月 %1$@, %2$@ 于 %3$@";
+
+"MuteFor.Minutes_1" = "暂停通知 1 分钟";
+"MuteFor.Minutes_2" = "暂停通知 2 分钟";
+"MuteFor.Minutes_3_10" = "暂停通知 %@ 分钟";
+"MuteFor.Minutes_any" = "暂停通知 %@ 分钟";
+
+"MuteFor.Hours_1" = "暂停通知 1 小时";
+"MuteFor.Hours_2" = "暂停通知 2 小时";
+"MuteFor.Hours_3_10" = "暂停通知 %@ 小时";
+"MuteFor.Hours_any" = "暂停通知 %@ 小时";
+
+"MuteFor.Days_1" = "暂停通知 1 天";
+"MuteFor.Days_2" = "暂停通知 2 天";
+"MuteFor.Days_3_10" = "暂停通知 %@ 天";
+"MuteFor.Days_any" = "暂停通知 %@ 天";
+
+"MuteFor.Weeks_1" = "暂停通知 1 周";
+"MuteFor.Weeks_2" = "暂停通知 2 周";
+"MuteFor.Weeks_3_10" = "暂停通知 %@ 周";
+"MuteFor.Weeks_any" = "暂停通知 %@ 周";
+
+"MuteExpires.Minutes_1" = "1 分钟内";
+"MuteExpires.Minutes_2" = "2 分钟内";
+"MuteExpires.Minutes_3_10" = "%@ 分钟内";
+"MuteExpires.Minutes_any" = "%@ 分钟内";
+
+"MuteExpires.Hours_1" = "1 小时内";
+"MuteExpires.Hours_2" = "2 小时内";
+"MuteExpires.Hours_3_10" = "%@ 小时内";
+"MuteExpires.Hours_any" = "%@ 小时内";
+
+"MuteExpires.Days_1" = "1 天内";
+"MuteExpires.Days_2" = "2 天内";
+"MuteExpires.Days_3_10" = "%@ 天内";
+"MuteExpires.Days_any" = "%@ 天内";
+
+"SharedMedia.EmptyTitle" = "尚无媒体文件";
+"SharedMedia.EmptyText" = "在这个聊天室内分享照片与视频\n— 或者让回纹针继续不高兴。";
+"SharedMedia.EmptyFilesText" = "您可以发送或接收任何格式的\n文件，单文件最大1.5GB，并且可\n在任何地方访问。";
+
+"ShareFileTip.Title" = "分享文件";
+"ShareFileTip.Text" = "您可以从您的相机胶卷这里分享 **无压缩** 的媒体文件。\n\n要分享任何其他类型的文件，打开它们在您的 %@ (例如在您的浏览器)，点击 **打开于...** 或动作按钮并选择 Tgram。";
+"ShareFileTip.CloseTip" = "关闭提示";
+
+"DialogList.SearchSectionDialogs" = "聊天与联系人";
+"DialogList.SearchSectionGlobal" = "全域搜索";
+"DialogList.SearchSectionMessages" = "消息";
+
+"Username.LinkHint" = "此链接在 Tgram 打开与您的聊天：[\nhttps://t.me/%@]";
+"Username.LinkCopied" = "链接已复制到剪贴板";
+
+"SharedMedia.ItemsSelected_1" = "已选 1 个";
+"SharedMedia.ItemsSelected_2" = "已选 2 个";
+"SharedMedia.ItemsSelected_3_10" = "已选 %@ 个";
+"SharedMedia.ItemsSelected_any" = "已选 %@ 个";
+
+"SharedMedia.DeleteItemsConfirmation_1" = "删除 1 个媒体文件？";
+"SharedMedia.DeleteItemsConfirmation_2" = "删除 2 个媒体文件？";
+"SharedMedia.DeleteItemsConfirmation_3_10" = "删除 %@ 个媒体文件？";
+"SharedMedia.DeleteItemsConfirmation_any" = "删除 %@ 个媒体文件？";
+
+"PrivacySettings.Passcode" = "密码锁";
+"PasscodeSettings.Title" = "密码锁";
+"PasscodeSettings.TurnPasscodeOn" = "打开密码锁";
+"PasscodeSettings.TurnPasscodeOff" = "关闭密码锁";
+"PasscodeSettings.ChangePasscode" = "更改密码";
+"PasscodeSettings.Help" = "当您设置了一个额外的密码，一个锁形图标将出现在聊天页面上。点击它来锁定和解锁您的 Tgram 程序。\n\n注意：如果您忘记了密码，您将需要删除并重新安装应用程序。而所有的秘密聊天记录都将丢失。";
+"PasscodeSettings.UnlockWithTouchId" = "用指纹识别传感器解锁";
+"PasscodeSettings.SimplePasscode" = "简单的密码";
+"PasscodeSettings.SimplePasscodeHelp" = "简单的密码是一个4位数字";
+"PasscodeSettings.EncryptData" = "加密本地数据库";
+"PasscodeSettings.EncryptDataHelp" = "实验性的功能，请谨慎使用。加密您的本地 Tgram 数据，使用您的密码衍生物作为密钥。";
+
+"EnterPasscode.EnterTitle" = "输入您的 Tgram 密码";
+"EnterPasscode.SetupTitle" = "新密码";
+"EnterPasscode.ChangeTitle" = "更改密码";
+"EnterPasscode.EnterPasscode" = "输入您的 Tgram 密码";
+"EnterPasscode.EnterNewPasscodeNew" = "输入一组密码";
+"EnterPasscode.EnterNewPasscodeChange" = "输入您的新密码";
+"EnterPasscode.RepeatNewPasscode" = "再次输入您的密码";
+"EnterPasscode.EnterCurrentPasscode" = "输入您目前的密码";
+"EnterPasscode.TouchId" = "输入您的密码";
+
+"DialogList.PasscodeLockHelp" = "点击以锁住 Tgram";
+
+"PasscodeSettings.AutoLock" = "自动锁定";
+"PasscodeSettings.AutoLock.Disabled" = "停用";
+"PasscodeSettings.AutoLock.IfAwayFor_1minute" = "如果离开 1 分钟之久";
+"PasscodeSettings.AutoLock.IfAwayFor_5minutes" = "如果离开 5 分钟之久";
+"PasscodeSettings.AutoLock.IfAwayFor_1hour" = "如果离开 1 小时之久";
+"PasscodeSettings.AutoLock.IfAwayFor_5hours" = "如果离开 5 小时之久";
+
+"PasscodeSettings.FailedAttempts_1" = "1 次失败的密码尝试";
+"PasscodeSettings.FailedAttempts_2" = "2 次失败的密码尝试";
+"PasscodeSettings.FailedAttempts_3_10" = "%@ 次失败的密码尝试";
+"PasscodeSettings.FailedAttempts_any" = "%@ 次失败的密码尝试";
+"PasscodeSettings.TryAgainIn1Minute" = "在1分钟内再试一次";
+
+"AccessDenied.Title" = "请允许访问";
+
+"AccessDenied.Contacts" = "Tgram 通讯是基于您现有的联系人列表。\n\n请到“设置”>“隐私”>“联系人”中，设置 Tgram 为打开。";
+
+"AccessDenied.VoiceMicrophone" = "Tgram 需要访问您的麦克风以发送语音消息。\n\n请到“设置”>“隐私”>“麦克风”中，并将 Tgram 设置为打开。";
+
+"AccessDenied.VideoMicrophone" = "Tgram 需要访问您的麦克风以便在录影时收录声音。\n\n请到“设置”>“隐私”>“麦克风”中，设置 Tgram 为打开。";
+
+"AccessDenied.MicrophoneRestricted" = "Tgram 的麦克风访问受到限制。\n\n请到设置 － 访问限制 － 麦克风 和设置 Tgram 为打开。";
+
+
+"AccessDenied.Camera" = "Tgram 需要访问您的相机以拍照和录影。\n\n请到“设置”>“隐私”>“相机”中，并设置 Tgram 为打开。";
+
+"AccessDenied.CameraRestricted" = "Tgram 的相机访问受到限制。\n\n请到设置 － 访问限制 － 相机 和设置 Tgram 为打开。";
+
+"AccessDenied.CameraDisabled" = "您设备上的相机访问被限制。\n\n请到“设置”>“一般”>“限制”中，并设置 Tgram 为打开。";
+
+"AccessDenied.PhotosAndVideos" = "Tgram 需要访问您的相片集以发送照片和视频。\n\n请到“设置”>“隐私”>“照片”中，并设置 Tgram 为打开。";
+
+"AccessDenied.SaveMedia" = "Tgram 需要访问您的相片集以保存照片和视频。\n\n请到“设置”>“隐私”>“照片”中，并设置 Tgram 为打开。";
+
+"AccessDenied.PhotosRestricted" = "Tgram 的照片访问受到限制。\n\n请进入设置 > 通用 > 限制 >照片并设置 Tgram 为 ON。\n";
+
+"AccessDenied.LocationDenied" = "Tgram 需要访问您的位置，让您可以与您的联系人分享它。\n\n请到“设置”>“隐私”>“定位服务”，并设置 Tgram 为打开。";
+
+"AccessDenied.LocationDisabled" = "Tgram 需要访问您的位置，让您可以与您的联系人分享它。\n\n请到“设置”>“隐私”>“定位服务”，并设置 Tgram 为打开。";
+
+"AccessDenied.LocationTracking" = "Tgram 需要访问您的位置以方便在地图上显示您。\n\n请前往“设置”>“隐私”>“位置服务”，并将其设置为 ON。";
+
+"AccessDenied.Settings" = "设置";
+
+"WebSearch.RecentClearConfirmation" = "您确定要清除最近的图片？";
+
+"FeatureDisabled.Oops" = "糟糕";
+
+"Conversation.ContextMenuReply" = "回复";
+
+"ForwardedMessages_1" = "1 条转发的消息";
+"ForwardedMessages_2" = "2 条转发的消息";
+"ForwardedMessages_3_10" = "%@ 条转发的消息";
+"ForwardedMessages_any" = "%@ 条转发的消息";
+
+"ForwardedFiles_1" = "1 个转发的文件";
+"ForwardedFiles_2" = "2 个转发的文件";
+"ForwardedFiles_3_10" = "%@ 个转发的文件";
+"ForwardedFiles_any" = "%@ 个转发的文件";
+
+"ForwardedStickers_1" = "1 张转发的贴图";
+"ForwardedStickers_2" = "2 张转发的贴图";
+"ForwardedStickers_3_10" = "%@ 张转发的贴图";
+"ForwardedStickers_any" = "%@ 张转发的贴图";
+
+"ForwardedPhotos_1" = "1 张转发的照片";
+"ForwardedPhotos_2" = "2 张转发的照片";
+"ForwardedPhotos_3_10" = "%@ 张转发的照片";
+"ForwardedPhotos_any" = "%@ 张转发的照片";
+
+"ForwardedVideos_1" = "1 个转发的视频";
+"ForwardedVideos_2" = "2 个转发的视频";
+"ForwardedVideos_3_10" = "%@ 个转发的视频";
+"ForwardedVideos_any" = "%@ 个转发的视频";
+
+"ForwardedAudios_1" = "1 条转发的音频";
+"ForwardedAudios_2" = "2 条转发的音频";
+"ForwardedAudios_3_10" = "%@ 条转发的音频";
+"ForwardedAudios_any" = "%@ 条转发的音频";
+
+"ForwardedLocations_1" = "1 条转发的位置信息";
+"ForwardedLocations_2" = "2 条转发的位置信息";
+"ForwardedLocations_3_10" = "%@ 条转发的位置信息";
+"ForwardedLocations_any" = "%@ 条转发的位置信息";
+
+"ForwardedGifs_1" = "1 张转发的 GIF";
+"ForwardedGifs_2" = "2 张转发的 GIF";
+"ForwardedGifs_3_10" = "%@ 张转发的 GIF";
+"ForwardedGifs_any" = "%@ 张转发的 GIF";
+
+"ForwardedContacts_1" = "1 个转发的联系人";
+"ForwardedContacts_2" = "2 个转发的联系人";
+"ForwardedContacts_3_10" = "%@ 个转发的联系人";
+"ForwardedContacts_any" = "%@ 个转发的联系人";
+
+"ForwardedAuthors2" = "%@, %@";
+"ForwardedAuthorsOthers_1" = "%@ 和另外 1 人 ";
+"ForwardedAuthorsOthers_2" = "%@ 和另外 2 人";
+"ForwardedAuthorsOthers_3_10" = "%@ 和另外 %@ 人";
+"ForwardedAuthorsOthers_any" = "%@ 和另外 %@ 人";
+
+"PrivacySettings.TwoStepAuth" = "两步验证";
+"TwoStepAuth.Title" = "两步验证";
+"TwoStepAuth.SetPassword" = "设置额外的密码";
+"TwoStepAuth.SetPasswordHelp" = "您可以设置当您使用一个新设备登录时，除了通过短信取得的验证码外，另外要输入的密码。";
+"TwoStepAuth.SetupPasswordTitle" = "您的密码";
+
+"TwoStepAuth.SetupHintTitle" = "密码提示";
+"TwoStepAuth.SetupHint" = "请为您的密码建立一个提示";
+
+"TwoStepAuth.ChangePassword" = "更改密码";
+"TwoStepAuth.RemovePassword" = "关闭密码";
+"TwoStepAuth.SetupEmail" = "设置复原用的电子信箱";
+"TwoStepAuth.ChangeEmail" = "更改复原用的电子信箱";
+"TwoStepAuth.PendingEmailHelp" = "您的复原用电子信箱 %@ 还没有起作用，正等候确认。";
+"TwoStepAuth.GenericHelp" = "您已启动了“两步验证”。\n您需要提供您先前设立的密码，才可以登录您的 Tgram 账号。";
+
+"TwoStepAuth.ConfirmationTitle" = "两步验证";
+"TwoStepAuth.ConfirmationText" = "请检查您的电子邮件，并点击验证链接，以完成两步验证设置。请务必检查垃圾邮件文件夹。";
+"TwoStepAuth.ConfirmationChangeEmail" = "更改电子信箱";
+"TwoStepAuth.ConfirmationAbort" = "中止两步验证设置";
+
+"TwoStepAuth.SetupPasswordEnterPasswordNew" = "输入密码：";
+"TwoStepAuth.SetupPasswordEnterPasswordChange" = "请输入您的新密码：";
+"TwoStepAuth.SetupPasswordConfirmPassword" = "请再次输入您的密码：";
+"TwoStepAuth.SetupPasswordConfirmFailed" = "密码不相符。请再试一次。";
+
+"TwoStepAuth.EnterPasswordTitle" = "密码";
+"TwoStepAuth.EnterPasswordPassword" = "密码";
+"TwoStepAuth.EnterPasswordHint" = "提示：%@";
+"TwoStepAuth.EnterPasswordHelp" = "您已经启用了“两步验证”，因此您的账号被一个额外的密码所保护。";
+"TwoStepAuth.EnterPasswordInvalid" = "无效密码。请重试。";
+"TwoStepAuth.EnterPasswordForgot" = "忘记密码了？";
+
+"TwoStepAuth.EmailTitle" = "复原用的电子信箱";
+"TwoStepAuth.EmailSkip" = "跳过";
+"TwoStepAuth.EmailSkipAlert" = "糟糕，那是很严重的。\n\n如果您忘记密码，您将无法访问您的 Tgram 账号。也就没有办法恢复它了。";
+"TwoStepAuth.Email" = "电子信箱";
+"TwoStepAuth.EmailPlaceholder" = "您的电子信箱";
+"TwoStepAuth.EmailHelp" = "请加入您的有效电子信箱。这是找回忘记的密码唯一的途径。";
+"TwoStepAuth.EmailInvalid" = "无效的电子信箱。请重试。";
+"TwoStepAuth.EmailSent" = "我们已经传给您一封电子邮件以确认您的地址。";
+"TwoStepAuth.PasswordSet" = "您用于两步验证的密码现在起作用了。";
+"TwoStepAuth.PasswordRemoveConfirmation" = "您确定要停用密码？";
+
+"TwoStepAuth.RecoveryUnavailable" = "由于您在设置密码时没有提供复原用的电子信箱，您剩余的选项就是要记住您的密码，或是重置您的账号。";
+"TwoStepAuth.RecoveryFailed" = "您剩余的选项就是要记住您的密码或重置您的账号。";
+"TwoStepAuth.ResetAccount" = "重置我的账号";
+"TwoStepAuth.ResetAccountHelp" = "如果您继续重置您的账号，您将失去所有的聊天记录和消息，连同您所分享过的任何媒体和文件。";
+"TwoStepAuth.ResetAccountConfirmation" = "如果您继续重置您的账号，您将失去所有的聊天记录和消息，连同您所分享过的任何媒体和文件。";
+
+"TwoStepAuth.RecoveryTitle" = "电子信箱验证码";
+"TwoStepAuth.RecoverySent" = "我们已经发送一组复原用的验证码到您所提供的电子信箱：\n\n%@";
+"TwoStepAuth.RecoveryCode" = "验证码";
+"TwoStepAuth.RecoveryCodeHelp" = "请检查您的电子邮件，并输入我们在这里发送的6位数验证码以撤销您的 iCloud 密码。";
+"TwoStepAuth.RecoveryCodeInvalid" = "无效验证码。请重试。";
+"TwoStepAuth.RecoveryCodeExpired" = "我们已经向您发出了新的6位数验证码。";
+"TwoStepAuth.RecoveryEmailUnavailable" = "无法访问您的电子信箱 %@？";
+
+"TwoStepAuth.FloodError" = "超过限制。请稍后再试。";
+"TwoStepAuth.GenericError" = "发生错误。请稍后再试。";
+
+"Conversation.FilePhotoOrVideo" = "照片或视频";
+"Conversation.FileICloudDrive" = "iCloud Drive";
+"Conversation.FileDropbox" = "Dropbox";
+"Conversation.FileGoogleDrive" = "Google 云端硬碟";
+
+"Conversation.FileHowTo" = "如何分享文件？";
+"Conversation.FileOpenIn" = "打开于...";
+"Conversation.FileHowToText" = "分享任何类型的文件，打开它们在您的 %@ ( 例如在您的浏览器 )，点击 **打开于...** 或是动作按钮并选择 Tgram。";
+
+"Map.LocationTitle" = "位置";
+"Map.OpenInMaps" = "在地图中打开";
+"Map.OpenInGooglePlus" = "在 Google+ 中打开";
+"Map.OpenInFoursquare" = "在 Foursquare 中打开";
+"Map.OpenInHereMaps" = "在 HERE Maps 中打开";
+"Map.OpenInYandexMaps" = "在 Yandex Maps 中打开";
+"Map.OpenInYandexNavigator" = "在 Yandex 浏览器中打开";
+"Map.OpenIn" = "打开于";
+"Map.More" = "更多...";
+
+"Map.SendThisLocation" = "发送这个位置信息";
+"Map.SendMyCurrentLocation" = "发送我目前所在位置的信息";
+"Map.Locating" = "定位中...";
+"Map.ChooseAPlace" = "或者选择一个地点";
+"Map.AccurateTo" = "精确到 %@";
+"Map.Search" = "搜索附近的地点";
+"Map.ShowPlaces" = "显示地点";
+"Map.LoadError" = "发生错误。请重试。";
+"Map.LocatingError" = "无法定位";
+"Map.Unknown" = "未知的位置";
+
+"Map.DistanceAway" = "%@ 远";
+"Map.ETAMinutes_any" = "%@ 分钟";
+"Map.ETAHours_1" = "%@ 小时";
+"Map.ETAHours_any" = "%@ 小时";
+
+"GoogleDrive.Title" = "Google 云端硬碟";
+"GoogleDrive.Logout" = "登出";
+"GoogleDrive.LogoutTitle" = "登出";
+"GoogleDrive.LogoutMessage" = "您确定要登出 Google 云端硬碟？";
+"GoogleDrive.LogoutLogout" = "登出";
+"GoogleDrive.FolderIsEmpty" = "文件夹是空的。";
+"GoogleDrive.FolderLoadError" = "无法加载文件夹";
+"GoogleDrive.LoadErrorTitle" = "无法连接";
+"GoogleDrive.LoadErrorMessage" = "请检查您的网络连接，然后再试一次。";
+
+"ChangePhone.ErrorOccupied" = "号码 %@ 已经连接到一个 Tgram 账号。迁移到新号码之前，请删除该账号。";
+
+"AccessDenied.LocationTracking" = "Tgram 需要访问您的位置以方便在地图上显示您。\n\n请前往“设置”>“隐私”>“位置服务”，并将其设置为 ON。";
+
+"PrivacySettings.AuthSessions" = "作用中的连线";
+"AuthSessions.Title" = "作用中的连线";
+"AuthSessions.CurrentSession" = "目前的连线";
+"AuthSessions.TerminateOtherSessions" = "中断所有其他连线";
+"AuthSessions.TerminateOtherSessionsHelp" = "登出所有其他设备，只保留这个。";
+"AuthSessions.TerminateSession" = "中断连线";
+"AuthSessions.OtherSessions" = "作用中的连线";
+"AuthSessions.EmptyTitle" = "没有其他连线";
+"AuthSessions.EmptyText" = "您可以使用同一个手机号码，在其他手机、平板电脑及桌面设备上登录 Tgram。您的所有数据都将立即同步。";
+"AuthSessions.AppUnofficial" = "(ID: %@)";
+
+"WebPreview.GettingLinkInfo" = "正在取得链接信息...";
+"WebPreview.LinkPreview" = "链接预览";
+
+"Preview.OpenInInstagram" = "在 Instagram 中打开";
+
+"MediaPicker.AddCaption" = "加入一说明文字...";
+
+"GroupInfo.InviteByLink" = "通过链接，邀请到群组";
+
+"GroupInfo.InviteLink.Title" = "邀请链接";
+"GroupInfo.InviteLink.LinkSection" = "链接";
+"GroupInfo.InviteLink.Help" = "任何已安装 Tgram 的人可以通过打开此链接加入到您的群组。";
+"GroupInfo.InviteLink.CopyLink" = "复制链接";
+"GroupInfo.InviteLink.RevokeLink" = "撤销链接";
+"GroupInfo.InviteLink.ShareLink" = "分享链接";
+"GroupInfo.InviteLink.RevokeAlert.Text" = "您确定要撤销此链接？一旦您这样做，没有人能够使用它加入群组。";
+"GroupInfo.InviteLink.RevokeAlert.Revoke" = "撤销";
+"GroupInfo.InviteLink.RevokeAlert.Success" = "先前的邀请链接现在已经没有作用。而一个新的链接已经产生了。";
+"GroupInfo.InviteLink.CopyAlert.Success" = "链接已复制到剪贴板";
+
+"UserInfo.ShareMyContactInfo" = "分享我的联系信息";
+
+"GroupInfo.InvitationLinkAccept" = "您想要加入“%@”聊天室吗？";
+"GroupInfo.InvitationLinkAcceptChannel" = "您想要加入“%@”频道吗？";
+"GroupInfo.InvitationLinkAlreadyAccepted" = "您已经是此群组的一个成员。";
+"GroupInfo.InvitationLinkDoesNotExist" = "抱歉，这个群组似乎并不存在。";
+"GroupInfo.InvitationLinkGroupFull" = "抱歉，此群组名额已经满了。";
+
+"Core.ServiceUserStatus" = "服务通知";
+
+"Notification.JoinedGroupByLink" = "%@ 通过邀请链接加入了群组";
+
+"ChatSettings.Other" = "其他";
+"ChatSettings.Stickers" = "贴图";
+
+"StickerPacksSettings.Title" = "贴图";
+"StickerPacksSettings.ShowStickersButton" = "显示贴图页签";
+"StickerPacksSettings.ShowStickersButtonHelp" = "一贴图图标将出现在输入栏中。";
+
+"StickerPacksSettings.StickerPacksSection" = "贴图包";
+"StickerPacksSettings.ManagingHelp" = "欢迎画家使用我们的 @Stickers 机器人来加入他们所拥有的贴图包。\n\n点击一张贴图来查看和添加整套贴图包。";
+
+"StickerPack.RemovePrompt" = "移除“%@”？";
+"StickerPack.BuiltinPackName" = "Great Minds";
+"StickerPack.StickerCount_1" = "1 张贴图";
+"StickerPack.StickerCount_2" = "2 张贴图";
+"StickerPack.StickerCount_3_10" = "%@ 张贴图";
+"StickerPack.StickerCount_any" = "%@ 张贴图";
+
+"StickerPack.AddStickerCount_1" = "添加 1 张贴图";
+"StickerPack.AddStickerCount_2" = "添加 2 张贴图";
+"StickerPack.AddStickerCount_3_10" = "添加 %@ 张贴图";
+"StickerPack.AddStickerCount_any" = "添加 %@ 张贴图";
+
+"StickerPack.ShareStickers" = "分享贴图";
+
+"Conversation.ContextMenuStickerPackAdd" = "添加贴图";
+"Conversation.ContextMenuStickerPackInfo" = "信息";
+
+"MediaPicker.Processing" = "正在处理 %@";
+"MediaPicker.Nof" = "%@ of";
+
+"UserInfo.ShareBot" = "分享";
+"UserInfo.InviteBotToGroup" = "加入到群组";
+"Profile.BotInfo" = "关于";
+"Profile.ShareBotPersonFormat" = "和 %@ 分享机器人？";
+"Profile.ShareBotGroupFormat" = "和 %@ 分享机器人？";
+
+"Target.SelectGroup" = "选择群组";
+"Target.InviteToGroupConfirmation" = "将机器人加入到“%@”？";
+"Target.InviteToGroupErrorAlreadyInvited" = "机器人已经是群组的一个成员。";
+"Bot.GenericBotStatus" = "机器人";
+"Bot.DescriptionTitle" = "这个机器人可以做什么？";
+"Bot.GroupStatusReadsHistory" = "可以访问消息";
+"Bot.GroupStatusDoesNotReadHistory" = "没有访问消息的权限";
+"Bot.Start" = "开始";
+"UserInfo.BotSettings" = "设置";
+"UserInfo.BotHelp" = "帮助";
+
+"Contacts.SearchLabel" = "搜索联系人或用户名";
+"ChatSearch.SearchPlaceholder" = "搜索";
+
+"WatchRemote.NotificationText" = "在您的手机上打开此通知以查看来自您 Apple Watch 的消息";
+"WatchRemote.AlertTitle" = "来自您 Apple Watch 的消息";
+"WatchRemote.AlertText" = "在这里打开消息？";
+"WatchRemote.AlertOpen" = "打开";
+
+"Conversation.SearchPlaceholder" = "搜索这个聊天室";
+"Conversation.SearchNoResults" = "查无结果";
+
+"GroupInfo.AddUserLeftError" = "抱歉，如果有人离开了群组，只有彼此有联系的人可以把他们带回 (他们要有您的手机号码，而您有他们的) 。";
+
+"DialogList.SearchSectionRecent" = "最近的";
+
+"DialogList.DeleteBotConfirmation" = "删除";
+"DialogList.DeleteBotConversationConfirmation" = "删除并停止";
+"Bot.Stop" = "让机器人停止";
+"Bot.Unblock" = "重启机器人";
+
+"Login.PhoneNumberHelp" = "帮助";
+"Login.EmailPhoneSubject" = "无效号码 %@";
+"Login.EmailPhoneBody" = "我试着用我的手机号码：%@\n但 Tgram 显示它是无效的。请帮忙。";
+
+"SharedMedia.TitleLink" = "共享的链接";
+"SharedMedia.EmptyLinksText" = "在这个聊天室中所分享的全部链接会出现在这里。";
+
+"SharedMedia.Link_1" = "1 个链接";
+"SharedMedia.Link_2" = "2 个链接";
+"SharedMedia.Link_3_10" = "%@ 个链接";
+"SharedMedia.Link_any" = "%@ 个链接";
+
+"Compose.NewChannelButton" = "新增频道";
+"Channels.Title" = "频道";
+
+"Compose.NewChannel" = "新增频道";
+"GroupInfo.ChannelListNamePlaceholder" = "频道名称";
+
+"Channel.MessagePhotoUpdated" = "已更新频道照片";
+"Channel.MessagePhotoRemoved" = "频道照片已移除";
+"Channel.MessageTitleUpdated" = "频道重新命名为“%@”";
+"Channel.TitleInfo" = "频道信息";
+
+"Channel.UpdatePhotoItem" = "设置频道照片";
+
+"Channel.AboutItem" = "关于";
+"Channel.LinkItem" = "分享链接";
+"Channel.Edit.AboutItem" = "简介";
+"Channel.Edit.LinkItem" = "链接";
+
+"Channel.Username.Title" = "链接";
+"Channel.Username.Help" = "您可以在 **Tgram** 上选择频道名称。如果您这样做，别人就可以藉由此名称找到您的频道。\n\n您可以使用 a-z，0-9 及底线。最小长度是 5 个字元。";
+"Channel.Username.LinkHint" = "此链接打开您在 Tgram 中的频道：[\nhttps://t.me/%@]";
+"Channel.Username.InvalidTooShort" = "频道名称必须至少有 5 个字元。";
+"Channel.Username.InvalidStartsWithNumber" = "频道名称不能以数字开头。";
+"Channel.Username.InvalidCharacters" = "抱歉，此名称无效。";
+"Channel.Username.InvalidTaken" = "抱歉，此名称已被占用。";
+"Channel.Username.CheckingUsername" = "检查用户名中...";
+"Channel.Username.UsernameIsAvailable" = "%@ 是可用的。";
+
+"Channel.Share" = "分享";
+"Channel.LeaveChannel" = "离开频道";
+
+"Channel.About.Title" = "简介";
+
+"Channel.About.Placeholder" = "简介";
+"Channel.About.Help" = "您可以为您的频道提供选择性的描述。";
+"Group.About.Help" = "您可以为您的群组提供选择性的描述。";
+"Channel.About.Error" = "发生错误。";
+"Channel.ShareNoLink" = "请选择一个链接给您的频道以便人们可以通过搜索找到它。";
+
+"Channel.Status" = "频道";
+"Group.Status" = "群组";
+
+"Compose.NewChannel.Members" = "成员";
+"Compose.NewChannel.AddMember" = "添加成员";
+"Compose.NewChannel.AddMemberHelp" = "您现在可以邀请联系人加入频道，或之后再加入他们。";
+"Channel.NotificationSelfAdded" = "%@ 将您加入到这个频道";
+
+"ChannelInfo.ConfirmLeave" = "离开频道";
+"Channel.JoinChannel" = "加入";
+"Forward.ChannelReadOnly" = "抱歉，您无法贴文到这个频道。";
+
+"Conversation.InfoChannel" = "频道";
+
+"Channel.ErrorAccessDenied" = "抱歉，此频道是非公开的。";
+"Conversation.InputTextBroadcastPlaceholder" = "广播";
+
+"Channel.NotificationCommentsEnabled" = "评论已启用";
+"Channel.NotificationCommentsDisabled" = "评论已停用";
+"Channel.Edit.EnableComments" = "评论";
+
+"Channel.TitleShowDiscussion" = "显示评论";
+"Channel.ShareChannel" = "分享";
+
+"Channel.NotificationComments_1" = "1 条评论";
+"Channel.NotificationComments_2" = "2 条评论";
+"Channel.NotificationComments_3_10" = "%@ 条评论";
+"Channel.NotificationComments_any" = "%@ 条评论";
+"Channel.NotificationLoading" = "加载中...";
+
+"Conversation.InputTextDisabledPlaceholder" = "评论已停用";
+"Compose.ChannelTokenListPlaceholder" = "搜索联系人或用户名";
+"Compose.GroupTokenListPlaceholder" = "搜索联系人或用户名";
+
+"Compose.ChannelMembers" = "成员";
+
+"Channel.Setup.TypeHeader" = "频道类型";
+"Channel.Setup.TypePrivate" = "私人";
+"Channel.Setup.TypePublic" = "公开";
+"Channel.Setup.TypePublicHelp" = "公开的频道可以用搜索找到，且任何人都可以加入它们。";
+"Channel.Setup.TypePrivateHelp" = "非公开的频道只能通过邀请链接加入。";
+
+"Channel.Setup.Title" = "频道";
+
+"Channel.Username.CreatePublicLinkHelp" = "人们可以分享这个链接给其他人，并且用 Tgram 搜索来找到您的频道。";
+"Channel.Username.CreatePrivateLinkHelp" = "人们可以通过点击此链接加入您的频道。任何时间，您都可以撤销链接。";
+
+"Channel.Username.CreateCommentsEnabled" = "评论";
+"Channel.Username.CreateCommentsHelp" = "如果启用了评论功能，成员将能够在频道中对您的贴文发表意见。";
+
+"Channel.Setup.PublicNoLink" = "请为您公开的频道选择一链接，那么人们可以通过搜索找到它，并与其他人分享。\n\n如果您不感兴趣，我们建议建一个非公开的频道。";
+
+"Channel.Edit.PrivatePublicLinkAlert" = "请注意，如果您选择一公开的链接给您的频道，任何人可以通过搜索找到它，并加入。\n\n不要建立此链接，如果您想维持您的频道为非公开的。";
+
+"Channel.Info.Description" = "简介";
+
+"Channel.Info.Management" = "管理员";
+"Channel.Info.BlackList" = "封锁名单";
+"Channel.Info.Members" = "成员";
+
+"Channel.Members.AddMembers" = "添加成员";
+"Channel.Members.AddMembersHelp" = "只有频道管理员可以看到这个列表。";
+"Channel.Members.Title" = "成员";
+"Channel.BlackList.Title" = "封锁名单";
+"Channel.Management.Title" = "管理员";
+"Channel.Management.LabelCreator" = "建立者";
+"Channel.Management.LabelModerator" = "版主";
+"Channel.Management.LabelEditor" = "管理员";
+
+"Channel.Management.AddModerator" = "添加管理员";
+"Channel.Management.AddModeratorHelp" = "您可以添加管理员来帮助您管理频道。";
+
+"Channel.Members.Kick" = "移除";
+"Channel.Management.Remove" = "移除";
+
+"Conversation.InputTextCommentPlaceholder" = "评论";
+
+"Channel.Members.InviteLink" = "通过链接来邀请";
+
+"Channel.Management.ErrorNotMember" = "%@ 目前还没有加入频道中。您想要邀请该用户吗？";
+
+"Channel.Moderator.AccessLevelHeader" = "访问级别";
+"Channel.Moderator.AccessLevelEditor" = "编辑";
+"Channel.Moderator.AccessLevelModerator" = "版主";
+
+"Channel.Moderator.AccessLevelModeratorHelp" = "版主可以移除用户的评论及管理频道的封锁名单。\n\n版主不能更改频道名称、链接、照片和简介。";
+"Channel.Moderator.AccessLevelEditorHelp" = "编辑可以在频道贴文，管理封锁名单和移除贴文。\n\n编辑不能更改频道名称、链接、照片和简介。";
+"Channel.Moderator.AccessLevelRevoke" = "开除版主";
+
+"Channel.Moderator.Title" = "版主";
+
+"Notification.ChannelInviter" = "%@ 邀请您到这个频道";
+"Notification.ChannelInviterSelf" = "您加入了这个频道";
+
+"Notification.GroupInviter" = "%@ 邀请您到这个群组";
+"Notification.GroupInviterSelf" = "您加入了这个群组";
+
+"ChannelInfo.DeleteChannel" = "删除频道";
+"ChannelInfo.DeleteChannelConfirmation" = "等一下！删除此频道将移除所有成员，并且所有的消息都将会丢失。您确定要删除频道？";
+
+"Channel.Username.InvalidTooManyUsernames" = "抱歉，您已经建立了太多公开的频道。首先，您可以选择建立一个非公开的频道，或是删除您存在频道中的一个链接。";
+
+"ChannelInfo.ChannelForbidden" = "抱歉，“ %@ ”频道无法再被访问。";
+
+"PhotoEditor.FadeTool" = "褪色";
+"PhotoEditor.TintTool" = "色调";
+"PhotoEditor.TintIntensity" = "色调强度";
+"PhotoEditor.ShadowsTint" = "阴影";
+"PhotoEditor.HighlightsTint" = "亮部";
+"PhotoEditor.CurvesTool" = "曲线";
+"PhotoEditor.CurvesAll" = "全部";
+"PhotoEditor.CurvesRed" = "红";
+"PhotoEditor.CurvesGreen" = "绿";
+"PhotoEditor.CurvesBlue" = "蓝";
+
+"Channel.ErrorAddBlocked" = "抱歉，您无法将此用户加入到频道。";
+"Channel.ErrorAddTooMuch" = "抱歉，您只能将前 200 名成员加入到一个频道。但注意，通过频道的邀请链接加入，则没有人数限制。";
+
+"ChannelIntro.Title" = "什么是频道？";
+"ChannelIntro.Text" = "频道是一个向大量\n观众广播消息的新\n工具。";
+"ChannelIntro.CreateChannel" = "建立频道";
+
+"ShareMenu.Send" = "发送";
+
+"Conversation.ReportSpam" = "举报垃圾信息";
+"Conversation.ReportSpamConfirmation" = "您确定要举报出自此用户的垃圾信息？";
+"SharedMedia.EmptyMusicText" = "在这个聊天室中所分享的全部音乐会出现在这里。";
+
+"ChatSettings.AutoPlayAnimations" = "自动播放 GIF";
+
+"GroupInfo.ChatAdmins" = "添加管理员";
+
+"ChatAdmins.Title" = "聊天室管理员";
+"ChatAdmins.AllMembersAreAdmins" = "所有成员都是管理员";
+"ChatAdmins.AllMembersAreAdminsOnHelp" = "所有成员可以添加新成员，编辑群组名称和照片。";
+"ChatAdmins.AllMembersAreAdminsOffHelp" = "只有管理员可以添加及移除成员，编辑群组名称和照片。";
+"ChatAdmins.AdminLabel" = "管理员";
+
+"Group.MessagePhotoUpdated" = "已更新群组照片";
+"Group.MessagePhotoRemoved" = "已移除群组照片";
+"Group.MessageTitleUpdated" = "群组重新命名为“%@”";
+
+"Group.UpgradeNoticeHeader" = "成员数量已达上限";
+
+"Group.UpgradeNoticeText1" = "要超越这个限制，并获得额外的功能，请升级为超级群组：";
+"Group.UpgradeNoticeText2" = "•  超级群组可以加入高达 {supergroup_member_limit} 个成员\n•  新成员可以看到完整的聊天记录\n•  管理员可以删除每个人的消息\n•  通知默认情况下是关闭的";
+"GroupInfo.UpgradeButton" = "升级为超级群组";
+"Group.UpgradeConfirmation" = "警告：这个动作是不可逆的。要将一个超级群组降级为普通群组是不可能的。";
+
+"Notification.GroupMigratedToChannel" = "群组被升级为一个超级群组";
+"Notification.GroupDeactivated" = "群组已撤销";
+"Notification.GroupDeactivated" = "群组已撤销";
+"Notification.ChannelMigratedFrom" = "这个群组被升级为一个超级群组";
+
+"Conversation.StatusGroupDeactivated" = "群组已撤销";
+"GroupInfo.DeactivatedStatus" = "群组已撤销";
+
+"Notification.RenamedGroup" = "群组已重命名";
+
+"Group.ErrorAddTooMuch" = "抱歉，此群组名额已满。";
+"Group.ErrorAddTooMuchBots" = "抱歉，您已经达到了本群组可加机器人的最大数量。";
+"Group.ErrorAddTooMuchAdmins" = "抱歉，您已经达到了本群组可加管理员的最大数量。";
+"Group.ErrorAddBlocked" = "抱歉，您无法将此用户加入到群组。";
+"Group.ErrorNotMutualContact" = "抱歉，目前您只能将互为联系人的用户加入到群组。";
+
+"Conversation.SendMessageErrorFlood" = "抱歉，目前您只能传送消息给互为联系人的用户。";
+"Generic.ErrorMoreInfo" = "更多信息";
+
+"Notification.InvitedMany" = "%@ 邀请了 %@";
+
+"ChannelMembers.Blacklist.EmptyText" = "封锁名单上的用户会从群组中被移除，只能通过管理员的邀请而回来。邀请链接对他们没作用。";
+
+"ChannelInfo.DeleteGroup" = "删除群组";
+"ChannelInfo.DeleteGroupConfirmation" = "等一下！删除此群组将移除所有成员，并且所有的消息都将会丢失。您确定要删除群组？";
+
+"ReportPeer.Report" = "举报";
+
+"ReportPeer.ReasonSpam" = "垃圾信息";
+"ReportPeer.ReasonViolence" = "暴力";
+"ReportPeer.ReasonPornography" = "色情";
+"ReportPeer.ReasonOther" = "其他";
+
+"ReportPeer.AlertSuccess" = "感谢您！\n您的举报将很快被我们的团队进行审查。";
+
+"Login.TermsOfServiceLabel" = "通过注册，\n您同意 [Terms of Service]。";
+"Login.TermsOfServiceHeader" = "服务条款";
+
+"ReportPeer.ReasonOther.Placeholder" = "描述";
+"ReportPeer.ReasonOther.Title" = "举报";
+"ReportPeer.ReasonOther.Send" = "发送";
+
+"Group.Management.AddModeratorHelp" = "您可以添加管理员来帮助您管理群组。";
+
+"Watch.AppName" = "Tgram";
+"Watch.Compose.AddContact" = "选择联系人";
+"Watch.Compose.CreateMessage" = "建立消息";
+"Watch.Compose.CurrentLocation" = "目前的位置";
+"Watch.Compose.Send" = "发送";
+"Watch.Contacts.NoResults" = "没有找到符合\n的联系人";
+"Watch.ChatList.NoConversationsTitle" = "没有对话";
+"Watch.ChatList.NoConversationsText" = "开始发消息，\n用力按下，然后点击\n新消息";
+"Watch.ChatList.Compose" = "新消息";
+
+"Watch.Conversation.Reply" = "回复";
+"Watch.Conversation.Unblock" = "解除封锁";
+"Watch.Conversation.UserInfo" = "信息";
+"Watch.Conversation.GroupInfo" = "群组信息";
+"Watch.Bot.Restart" = "重新启动";
+
+"Watch.UserInfo.Title" = "信息";
+"Watch.UserInfo.Service" = "服务通知";
+
+"Watch.UserInfo.Block" = "封锁";
+"Watch.UserInfo.Unblock" = "解除封锁";
+"Watch.UserInfo.Mute_1" = "暂停通知 1 小时";
+"Watch.UserInfo.Mute_2" = "暂停通知 2 小时";
+"Watch.UserInfo.Mute_3_10" = "暂停通知 %@ 小时";
+"Watch.UserInfo.Mute_any" = "暂停通知 %@ 小时";
+"Watch.UserInfo.Mute" = "关闭消息通知";
+"Watch.UserInfo.Unmute" = "恢复消息通知";
+
+"Watch.GroupInfo.Title" = "群组信息";
+"Watch.ChannelInfo.Title" = "频道信息";
+
+"Watch.Message.ForwardedFrom" = "转发自";
+
+"Watch.Notification.Joined" = "加入了 Tgram";
+
+"Watch.MessageView.Title" = "消息";
+"Watch.MessageView.Forward" = "转发";
+"Watch.MessageView.Reply" = "回复";
+"Watch.MessageView.ViewOnPhone" = "在手机上查看";
+
+"Watch.PhotoView.Title" = "照片";
+
+"Watch.Stickers.Recents" = "最近的";
+"Watch.Stickers.RecentPlaceholder" = "您最常使用的贴图会出现在这里";
+"Watch.Stickers.StickerPacks" = "贴图包";
+
+"Watch.Location.Current" = "目前的位置";
+"Watch.Location.Access" = "允许 Tgram 在您的手机上访问位置";
+
+"Watch.AuthRequired" = "登录到您手机上的 Tgram 以开始";
+"Watch.UnlockRequired" = "在您的手机上解锁 Tgram";
+
+"Watch.NoConnection" = "没有连接";
+"Watch.ConnectionDescription" = "您的 Watch 需要被连接才能让 App 运作";
+
+"Watch.State.Connecting" = "连接中...";
+"Watch.State.Updating" = "更新中...";
+"Watch.State.WaitingForNetwork" = "没有网络";
+
+"Watch.Time.ShortTodayAt" = "今天 %@";
+"Watch.Time.ShortYesterdayAt" = "昨天 %@";
+"Watch.Time.ShortWeekdayAt" = "%1$@ %2$@";
+"Watch.Time.ShortFullAt" = "%1$@ %2$@";
+
+"Watch.LastSeen.JustNow" = "就在刚才";
+"Watch.LastSeen.MinutesAgo_1" = "1 分钟以前";
+"Watch.LastSeen.MinutesAgo_2" = "2 分钟以前";
+"Watch.LastSeen.MinutesAgo_3_10" = "%@ 分钟以前";
+"Watch.LastSeen.MinutesAgo_any" = "%@ 分钟以前";
+"Watch.LastSeen.HoursAgo_1" = "1 小时以前";
+"Watch.LastSeen.HoursAgo_2" = "2 小时以前";
+"Watch.LastSeen.HoursAgo_3_10" = "%@ 小时以前";
+"Watch.LastSeen.HoursAgo_any" = "%@ 小时以前";
+"Watch.LastSeen.TodayAt" = "于今天 %@";
+"Watch.LastSeen.YesterdayAt" = "于昨天 %@";
+"Watch.LastSeen.AtWeekday" = "%@";
+"Watch.LastSeen.AtDate" = "%@";
+"Watch.LastSeen.Lately" = "不久前";
+"Watch.LastSeen.WithinAWeek" = "一周内";
+"Watch.LastSeen.WithinAMonth" = "一个月内";
+"Watch.LastSeen.ALongTimeAgo" = "很久以前";
+
+"Watch.Suggestion.OK" = "好";
+"Watch.Suggestion.ThankYou" = "感谢您。";
+"Watch.Suggestion.Thanks" = "感谢！";
+"Watch.Suggestion.WhatsUp" = "您好吗？";
+"Watch.Suggestion.Yes" = "是";
+"Watch.Suggestion.No" = "否";
+"Watch.Suggestion.Absolutely" = "显然地";
+"Watch.Suggestion.Nope" = "不太好耶";
+"Watch.Suggestion.TalkLater" = "待会儿再聊？";
+"Watch.Suggestion.CantTalk" = "现在无法聊天...";
+"Watch.Suggestion.HoldOn" = "等我一下...";
+"Watch.Suggestion.CallSoon" = "很快就打电话给您。";
+"Watch.Suggestion.TextInABit" = "再联系。";
+"Watch.Suggestion.BRB" = "马上回来";
+"Watch.Suggestion.OnMyWay" = "我在路上了。";
+"Cache.Photos" = "照片";
+"Cache.Videos" = "视频";
+"Cache.Music" = "音乐";
+"Cache.Files" = "文件";
+"Cache.Clear" = "清除 (%@)";
+"Cache.ClearNone" = "清除";
+"Cache.ClearProgress" = "请稍候...";
+"Cache.ClearEmpty" = "空的";
+"Cache.ByPeerHeader" = "聊天";
+"Cache.Indexing" = "Tgram 正在计算目前缓存大小。\n这可能需要几分钟的时间。";
+
+"ExplicitContent.AlertTitle" = "抱歉";
+"ExplicitContent.AlertChannel" = "您不能访问这个频道，因为它违反了 App Store 的规则。";
+"ExplicitContent.AlertUser" = "您不能访问这个机器人，因为它违反了 App Store 的规则。";
+
+"StickerSettings.ContextHide" = "封存";
+"StickerSettings.ContextShow" = "显示";
+
+"Conversation.LinkDialogSave" = "保存";
+"Conversation.GifTooltip" = "点击这里访问已保存的 GIF 图";
+
+"AttachmentMenu.PhotoOrVideo" = "照片或视频";
+"AttachmentMenu.ImageSearch" = "图片搜索";
+"AttachmentMenu.File" = "文件";
+
+"AttachmentMenu.SendPhoto_1" = "发送 1 张照片";
+"AttachmentMenu.SendPhoto_2" = "发送 2 张照片";
+"AttachmentMenu.SendPhoto_3_10" = "发送 %@ 张照片";
+"AttachmentMenu.SendPhoto_any" = "发送 %@ 张照片";
+
+"AttachmentMenu.SendVideo_1" = "发送 1 个视频";
+"AttachmentMenu.SendVideo_2" = "发送 2 个视频";
+"AttachmentMenu.SendVideo_3_10" = "发送 %@ 个视频";
+"AttachmentMenu.SendVideo_any" = "发送 %@ 个视频";
+
+"AttachmentMenu.SendGif_1" = "发送 1 张 GIF";
+"AttachmentMenu.SendGif_2" = "发送 2 张 GIF";
+"AttachmentMenu.SendGif_3_10" = "发送 %@ 张 GIF";
+"AttachmentMenu.SendGif_any" = "发送 %@ 张 GIF";
+
+"AttachmentMenu.SendItem_1" = "发送 1 个项目";
+"AttachmentMenu.SendItem_2" = "发送 2 个项目";
+"AttachmentMenu.SendItem_3_10" = "发送 %@ 个项目";
+"AttachmentMenu.SendItem_any" = "发送 %@ 个项目";
+
+"AttachmentMenu.SendAsFile" = "作为文件发送";
+"AttachmentMenu.SendAsFiles" = "作为文件发送";
+
+"Conversation.Processing" = "正在处理...";
+
+"Conversation.MessageViaUser" = "通过 %@";
+
+"CreateGroup.SoftUserLimitAlert" = "在完成建立群组并转换成一个超级群组之后，您将能够加入更多的用户。";
+"ChannelMembers.AllMembersMayInvite" = "所有成员可以邀请";
+"ChannelMembers.AllMembersMayInviteOnHelp" = "每个人都可以添加新成员。";
+"ChannelMembers.AllMembersMayInviteOffHelp" = "只有管理员可以添加新成员。";
+
+"Privacy.GroupsAndChannels" = "群组";
+"Privacy.GroupsAndChannels.WhoCanAddMe" = "谁可以将我加入到群组聊天室";
+"Privacy.GroupsAndChannels.CustomHelp" = "您可以精确地限制谁可以邀请您加入到群组和频道。";
+"Privacy.GroupsAndChannels.AlwaysAllow" = "总是允许";
+"Privacy.GroupsAndChannels.NeverAllow" = "永不允许";
+"Privacy.GroupsAndChannels.CustomShareHelp" = "这些用户将能够或不能够把您加入到群组和频道，不论上述设置为何。";
+
+"Privacy.GroupsAndChannels.AlwaysAllow.Title" = "总是允许";
+"Privacy.GroupsAndChannels.AlwaysAllow.Placeholder" = "总是允许...";
+"Privacy.GroupsAndChannels.NeverAllow.Title" = "永不允许...";
+"Privacy.GroupsAndChannels.NeverAllow.Placeholder" = "永不允许...";
+
+"Privacy.GroupsAndChannels.InviteToGroupError" = "抱歉，您无法将 %@ 加入到群组，因为 %@ 的隐私设置。";
+"Privacy.GroupsAndChannels.InviteToChannelError" = "抱歉，您无法将 %@ 加入到频道，因为 %@ 的隐私设置。";
+"Privacy.GroupsAndChannels.InviteToChannelMultipleError" = "抱歉，您无法建立包含这些用户的群组，由于他们隐私设置的关系。";
+
+"ChannelMembers.WhoCanAddMembers" = "谁可以加入成员";
+"ChannelMembers.WhoCanAddMembers.AllMembers" = "所有成员";
+"ChannelMembers.WhoCanAddMembers.Admins" = "仅管理员";
+"ChannelMembers.WhoCanAddMembersAllHelp" = "每个人都可以添加新成员。";
+"ChannelMembers.WhoCanAddMembersAdminsHelp" = "只有管理员可以添加新成员。";
+
+"ChannelMembers.GroupAdminsTitle" = "群组管理员";
+"ChannelMembers.ChannelAdminsTitle" = "频道管理员";
+"MusicPlayer.VoiceNote" = "语音消息";
+
+"PrivacyLastSeenSettings.WhoCanSeeMyTimestamp" = "谁可以看到我的时间戳记";
+
+"PrivacyLastSeenSettings.GroupsAndChannelsHelp" = "更改谁可以将您加入到群组和频道。";
+"MusicPlayer.VoiceNote" = "语音消息";
+
+"Watch.Microphone.Access" = "允许 Tgram 在您的手机上访问麦克风";
+
+"Settings.AppleWatch" = "Apple Watch";
+"AppleWatch.Title" = "Apple Watch";
+"AppleWatch.ReplyPresets" = "回复预设";
+"AppleWatch.ReplyPresetsHelp" = "当您撰写或回复一条消息，您可以选择这些默认回复中的一个，也可以将其更改为您喜欢的任何内容。";
+
+"KeyCommand.FocusOnInputField" = "撰写消息";
+"KeyCommand.Find" = "搜索";
+"KeyCommand.ScrollUp" = "向上卷动";
+"KeyCommand.ScrollDown" = "向下卷动";
+"KeyCommand.NewMessage" = "新消息";
+"KeyCommand.JumpToPreviousChat" = "跳转到上一个聊天室";
+"KeyCommand.JumpToNextChat" = "跳转到下一个聊天室";
+"KeyCommand.JumpToPreviousUnreadChat" = "跳转到上一个未读聊天室";
+"KeyCommand.JumpToNextUnreadChat" = "跳转到下一个未读聊天室";
+"KeyCommand.SendMessage" = "发送消息";
+"KeyCommand.ChatInfo" = "聊天室信息";
+
+"Conversation.SecretLinkPreviewAlert" = "您想要在秘密聊天中启用延伸的链接预览吗？请注意，链接预览是在 Tgram 伺服器上产生的。";
+"Conversation.SecretChatContextBotAlert" = "请注意，行内机器人是由第三方开发者所提供的。要让机器人工作，您在机器人名称后输入的符号会被发送给各自的开发商。";
+
+"Map.OpenInWaze" = "在 Waze 中打开";
+
+"ShareMenu.CopyShareLink" = "复制链接";
+
+"Channel.SignMessages" = "消息附上签名";
+"Channel.SignMessages.Help" = "将管理员的名称加入到他们发布的消息中。";
+
+"Channel.EditMessageErrorGeneric" = "抱歉，您无法编辑这个消息。";
+
+"ChannelInfo.InvitationLinkDoesNotExist" = "抱歉，这个频道似乎并不存在。";
+
+"Conversation.InputTextSilentBroadcastPlaceholder" = "无声广播";
+"Conversation.SilentBroadcastTooltipOn" = "当您发布时，成员将会收到通知";
+"Conversation.SilentBroadcastTooltipOff" = "当您发布时，成员将不会收到通知";
+
+"Settings.About" = "自我介绍";
+"GroupInfo.LabelAdmin" = "管理员";
+
+"Conversation.Pin" = "置顶";
+"Conversation.Unpin" = "取消置顶";
+"Conversation.Report" = "举报垃圾信息";
+"Conversation.PinnedMessage" = "置顶消息";
+
+"Conversation.Moderate.Delete" = "删除消息";
+"Conversation.Moderate.Ban" = "封锁用户";
+"Conversation.Moderate.Report" = "举报垃圾信息";
+"Conversation.Moderate.DeleteAllMessages" = "删除 %@ 的所有消息";
+
+"Group.Username.Help" = "您可以在 **Tgram** 上选择一群组名称。如果您这样做，别人就可以藉由此名称找到您的群组。\n\n您可以使用 a-z，0-9 及底线。最小长度是 5 个字元。";
+
+"Group.Username.InvalidTooShort" = "群组名称必须至少有 5 个字元。";
+"Group.Username.InvalidStartsWithNumber" = "群组名称不能以数字开头。";
+
+"Group.Username.LinkHint" = "此链接打开您在 Tgram 中的群组：[\nhttps://t.me/%@]";
+
+"Notification.PinnedTextMessage" = "%@ 置顶了“%@”";
+"Notification.PinnedPhotoMessage" = "%@ 置顶了一张照片";
+"Notification.PinnedVideoMessage" = "%@ 置顶了一个视频";
+"Notification.PinnedAudioMessage" = "%@ 置顶了一条语音消息";
+"Notification.PinnedDocumentMessage" = "%@ 置顶了一个文件";
+"Notification.PinnedAnimationMessage" = "%@ 置顶了一张 GIF";
+"Notification.PinnedStickerMessage" = "%@ 置顶了一张贴图";
+"Notification.PinnedLocationMessage" = "%@ 置顶了一张地图";
+"Notification.PinnedContactMessage" = "%@ 置顶了一个联系人";
+"Notification.PinnedDeletedMessage" = "%@ 置顶了已删除的消息";
+
+"Message.PinnedTextMessage" = "置顶了“%@”";
+"Message.PinnedPhotoMessage" = "置顶了照片";
+"Message.PinnedVideoMessage" = "置顶了视频";
+"Message.PinnedAudioMessage" = "置顶了语音消息";
+"Message.PinnedDocumentMessage" = "置顶了文件";
+"Message.PinnedAnimationMessage" = "置顶了 GIF";
+"Message.PinnedStickerMessage" = "置顶了贴图";
+"Message.PinnedLocationMessage" = "置顶了位置信息";
+"Message.PinnedContactMessage" = "置顶了联系人";
+"Message.PinnedDeletedMessage" = "置顶了已删除的消息";
+
+"Notification.PinnedMessage" = "置顶了消息";
+
+"GroupInfo.ConvertToSupergroup" = "转换为超级群组";
+
+"ConvertToSupergroup.Title" = "超级群组";
+"ConvertToSupergroup.HelpTitle" = "**在超级群组中：**";
+"ConvertToSupergroup.HelpText" = "• 新成员可以看到完整的消息记录\n• 删除的消息将从所有成员的设备中消失\n• 管理员可以置顶重要消息\n• 建立者可以为群组设定一个公开的链接";
+
+"ConvertToSupergroup.Note" = "**请注意**：这个动作无法复原！";
+
+"GroupInfo.GroupType" = "群组类型";
+
+"Group.Setup.TypeHeader" = "群组类型";
+"Group.Setup.TypePublicHelp" = "公开的群组可以通过搜索找到，聊天记录每个人都看得见，且任何人都可以加入。";
+"Group.Setup.TypePrivateHelp" = "非公开的群组只有当您被邀请或有一个邀请链接的情况才能加入。";
+
+"Group.Username.CreatePublicLinkHelp" = "人们可以分享这个链接给其他人，并且用 Tgram 搜索来找到您的群组。";
+"Group.Username.CreatePrivateLinkHelp" = "人们可以通过点击此链接加入您的群组。任何时间，您都可以撤销链接。";
+
+"Conversation.PinMessageAlertGroup" = "要置顶这条消息并且通知所有群组成员？";
+"Conversation.PinMessageAlertChannel" = "要置顶这条消息并且通知所有频道成员？";
+"Conversation.PinMessageAlert.OnlyPin" = "仅置顶";
+
+"Conversation.UnpinMessageAlert" = "您想要取消置顶这条消息吗？";
+
+"Settings.About.Title" = "自我介绍";
+"Settings.About.Help" = "您可以添加几行关于您自己的描述。任何人打开您的个人资料会看到这份文字。";
+
+"Profile.About" = "自我介绍";
+
+"Group.Management.ErrorNotMember" = "%@ 目前还没有加入群组中。您想要邀请该用户吗？";
+
+"Conversation.ReportSpamAndLeave" = "举报垃圾信息并离开";
+
+"Conversation.StatusKickedFromChannel" = "您从频道中被移除了";
+
+"Generic.OpenHiddenLinkAlert" = "打开 %@？";
+
+"Resolve.ErrorNotFound" = "抱歉，这个用户似乎并不存在。";
+
+"StickerPack.AddStickers" = "添加贴图";
+"StickerPack.Share" = "分享";
+"StickerPack.Send" = "发送贴图";
+
+"StickerPack.RemoveStickers" = "移除贴图";
+"StickerPack.RemoveStickerCount_1" = "移除 1 张贴图";
+"StickerPack.RemoveStickerCount_2" = "移除 2 张贴图";
+"StickerPack.RemoveStickerCount_3_10" = "移除 %@ 张贴图";
+"StickerPack.RemoveStickerCount_any" = "移除 %@ 张贴图";
+
+"StickerPack.HideStickers" = "隐藏贴图";
+"StickerPack.ShowStickers" = "显示贴图";
+
+"ShareMenu.ShareTo" = "分享给";
+"ShareMenu.SelectChats" = "选择聊天室";
+"ShareMenu.Comment" = "写一条评论...";
+
+"MediaPicker.Videos" = "视频";
+
+"Coub.TapForSound" = "点击声音";
+
+"Preview.SaveGif" = "保存 GIF 图";
+"Preview.DeleteGif" = "删除 GIF 图";
+"Preview.CopyAddress" = "复制地址";
+"Preview.ViewStickerPack" = "查看贴图包";
+
+"Conversation.ShareBotLocationConfirmationTitle" = "分享您的位置信息？";
+"Conversation.ShareBotLocationConfirmation" = "这将会发送您目前的位置信息给机器人。";
+
+"Conversation.ShareBotContactConfirmationTitle" = "分享您的手机号码？";
+"Conversation.ShareBotContactConfirmation" = "机器人将会知道您的手机号码。这对于整合其他的服务可能有帮助。";
+
+"Conversation.ShareInlineBotLocationConfirmation" = "每次您发送一个请求时，这个机器人会想知道您的位置。 这可用于提供特定位置的结果。";
+
+"Activity.UploadingAudio" = "正在发送音频";
+
+"Preview.Tooltip" = "长按以预览项目";
+
+"StickerPack.ErrorNotFound" = "抱歉，这个贴图包似乎并不存在。";
+
+"Camera.TapAndHoldForVideo" = "长按视频";
+
+"Conversation.TapAndHoldToRecord" = "长按以录制";
+
+"DialogList.RecentTitlePeople" = "人们";
+"DialogList.RecentTitleGroups" = "群组";
+"DialogList.RecentTitleBots" = "机器人";
+
+"Conversation.MessageEditedLabel" = "已编辑";
+"Conversation.EditingMessagePanelTitle" = "编辑消息";
+
+"DialogList.Draft" = "草稿";
+"Embed.PlayingInPIP" = "这视频正播放于浮动小窗口中";
+
+"MediaPicker.Moments" = "片刻";
+"MediaPicker.MomentsDateFormat" = "{month} {day}"; // 1 - day, 2 - month
+"MediaPicker.MomentsDateYearFormat" = "{month} {day}, {year}"; // 1 - day, 2 - month, 3 - year
+
+"MediaPicker.MomentsDateRangeFormat" = "{date1} – {date2}";
+"MediaPicker.MomentsDateRangeYearFormat" = "{date1} – {date2} {year}";
+"MediaPicker.MomentsDateRangeSameMonthFormat" = "{month} {day1} – {day2}";
+"MediaPicker.MomentsDateRangeSameMonthYearFormat" = "{month} {day1} – {day2}, {year}";
+
+"StickerPacksSettings.FeaturedPacks" = "热门的贴图";
+"FeaturedStickerPacks.Title" = "热门的贴图";
+
+"Invitation.JoinGroup" = "加入群组";
+"Invitation.Members_1" = "1 位成员：";
+"Invitation.Members_2" = "2 位成员：";
+"Invitation.Members_3_10" = "%@ 位成员：";
+"Invitation.Members_any" = "%@ 位成员：";
+
+"StickerPacksSettings.ArchivedPacks" = "封存的贴图";
+"StickerPacksSettings.ArchivedPacks.Info" = "您最多可以有200套已安装的贴图包。\n当您添加更多时，未使用的贴图会被封存。";
+
+"Conversation.CloudStorageInfo.Title" = "您的云存储";
+"Conversation.ClousStorageInfo.Description1" = "• 转发消息到这里以保存它们";
+"Conversation.ClousStorageInfo.Description2" = "• 发送媒体和文件以存储它们";
+"Conversation.ClousStorageInfo.Description3" = "• 从任何设备访问此聊天";
+"Conversation.ClousStorageInfo.Description4" = "• 使用搜索功能以快速查找东西";
+
+"Conversation.CloudStorage.ChatStatus" = "与自己聊天";
+
+"ArchivedPacksAlert.Title" = "一些较旧的贴图包已经被封存。您可以在贴图设置里重新激活它们。";
+
+"StickerSettings.ContextInfo" = "如果您封存了一套贴图，之后您还是可以快速地从封存的贴图中恢复。";
+
+"Contacts.TopSection" = "联系人";
+
+"Login.ResetAccountProtected.Title" = "重置账号";
+"Login.ResetAccountProtected.Text" = "由于账号 %@ 是活跃并且受密码保护的，为安全起见，我们将在 1 周内删除它。\n\n您可以随时取消此一过程。";
+"Login.ResetAccountProtected.TimerTitle" = "您可以重置您的账号在：";
+"Login.ResetAccountProtected.Reset" = "重置";
+"Login.ResetAccountProtected.LimitExceeded" = "您最近重置此账号的尝试已被其活跃用户取消。请在7天内再试一次。";
+
+"Login.CodeSentCall" = "我们正拨打您的手机，语音告知一组验证码。";
+
+"Login.SmsRequestState1" = "Tgram 将在 %d:%.2d 之内发送给您一短信";
+"Login.SmsRequestState2" = "正在请求来自 Tgram 的短信…";
+"Login.SmsRequestState3" = "Tgram 传给您一短信\n[没有收到验证码？]";
+
+"CancelResetAccount.Title" = "取消账号重置";
+"CancelResetAccount.TextSMS" = "有访问您手机号码 %@ 的人请求删除您的 Tgram 账号及重置您的 2 步验证密码。\n\n如果这不是您，请输入我们刚刚通过短信发送到您手机号码的验证码。";
+
+"CancelResetAccount.Success" = "您账号 %@ 的删除过程被取消了。";
+"MediaPicker.MomentsDateRangeSameMonthYearFormat" = "{month} {day1} – {day2}, {year}";
+
+"Paint.Clear" = "全部清除";
+"Paint.ClearConfirm" = "清除绘画";
+"Paint.Delete" = "删除";
+"Paint.Edit" = "编辑";
+"Paint.Duplicate" = "复制";
+"Paint.Stickers" = "贴图";
+"Paint.RecentStickers" = "最近的";
+"Paint.Masks" = "面具";
+
+"Paint.Outlined" = "轮廓";
+"Paint.Regular" = "规则的";
+
+"MediaPicker.VideoMuteDescription" = "声音现在被关闭，因此视频会自动播放和循环如同一 GIF 动图。";
+
+
+"Group.Username.RemoveExistingUsernamesInfo" = "抱歉，您已经建立了太多公开的链接。\n您可以撤销其中一个旧群组或频道的链接，或是改为创建非公开的。";
+
+"ServiceMessage.GameScoreExtended_1" = "{name} 在 {game} 中得到了 {score} 分";
+"ServiceMessage.GameScoreExtended_2" = "{name} 在 {game} 中得到了 {score} 分";
+"ServiceMessage.GameScoreExtended_3_10" = "{name} 在 {game} 中得到了 {score} 分";
+"ServiceMessage.GameScoreExtended_any" = "{name} 在 {game} 中得到了 {score} 分";
+
+"ServiceMessage.GameScoreSelfExtended_1" = "您在 {game} 中得到了 {score} 分";
+"ServiceMessage.GameScoreSelfExtended_2" = "您在 {game} 中得到了 {score} 分";
+"ServiceMessage.GameScoreSelfExtended_3_10" = "您在 {game} 中得到了 {score} 分";
+"ServiceMessage.GameScoreSelfExtended_any" = "您在 {game} 中得到了 {score} 分";
+
+"ServiceMessage.GameScoreSimple_1" = "{name} 得到 {score} 分";
+"ServiceMessage.GameScoreSimple_2" = "{name} 得到 {score} 分";
+"ServiceMessage.GameScoreSimple_3_10" = "{name} 得到 {score} 分";
+"ServiceMessage.GameScoreSimple_any" = "{name} 得到 {score} 分";
+
+"ServiceMessage.GameScoreSelfSimple_1" = "您得到 {score} 分";
+"ServiceMessage.GameScoreSelfSimple_2" = "您得到 {score} 分";
+"ServiceMessage.GameScoreSelfSimple_3_10" = "您得到 {score} 分";
+"ServiceMessage.GameScoreSelfSimple_any" = "您得到 {score} 分";
+
+"Notification.GameScoreExtended_1" = "在 {game} 中得到 {score} 分";
+"Notification.GameScoreExtended_2" = "在 {game} 中得到 {score} 分";
+"Notification.GameScoreExtended_3_10" = "在 {game} 中得到 {score} 分";
+"Notification.GameScoreExtended_any" = "在 {game} 中得到 {score} 分";
+
+"Notification.GameScoreSelfExtended_1" = "在 {game} 中得到 {score} 分";
+"Notification.GameScoreSelfExtended_2" = "在 {game} 中得到 {score} 分";
+"Notification.GameScoreSelfExtended_3_10" = "在 {game} 中得到 {score} 分";
+"Notification.GameScoreSelfExtended_any" = "在 {game} 中得到 {score} 分";
+
+"Notification.GameScoreSimple_1" = "得到 {score} 分";
+"Notification.GameScoreSimple_2" = "得到 {score} 分";
+"Notification.GameScoreSimple_3_10" = "得到 {score} 分";
+"Notification.GameScoreSimple_any" = "得到 {score} 分";
+
+"Notification.GameScoreSelfSimple_1" = "得到 {score} 分";
+"Notification.GameScoreSelfSimple_2" = "得到 {score} 分";
+"Notification.GameScoreSelfSimple_3_10" = "得到 {score} 分";
+"Notification.GameScoreSelfSimple_any" = "得到 {score} 分";
+
+"Stickers.Install" = "添加";
+
+"MaskStickerSettings.Title" = "面具";
+"MaskStickerSettings.Info" = "您可以将面具添加到您要传送的照片和视频。要做到这一点，请在传送照片或视频前，开启照片编辑器。";
+
+"StickerPack.MaskCount_1" = "1 个面具";
+"StickerPack.MaskCount_2" = "2 个面具";
+"StickerPack.MaskCount_3_10" = "%@ 个面具";
+"StickerPack.MaskCount_any" = "%@ 个面具";
+
+"StickerPack.Add" = "添加";
+"StickerPack.AddMaskCount_1" = "添加 1 个面具";
+"StickerPack.AddMaskCount_2" = "添加 2 个面具";
+"StickerPack.AddMaskCount_3_10" = "添加 %@ 个面具";
+"StickerPack.AddMaskCount_any" = "添加 %@ 个面具";
+
+"StickerPack.Remove" = "移除";
+"StickerPack.RemoveMaskCount_1" = "移除 1 个面具";
+"StickerPack.RemoveMaskCount_2" = "移除 2 个面具";
+"StickerPack.RemoveMaskCount_3_10" = "移除 %@ 个面具";
+"StickerPack.RemoveMaskCount_any" = "移除 %@ 个面具";
+
+"Conversation.BotInteractiveUrlAlert" = "是否允许通过这个 %@ 机器人传递您的 Tgram 名称和 id (并非您的手机号码) 到您要打开的网页？";
+"StickerPacksSettings.ArchivedMasks" = "封存的面具";
+"StickerSettings.MaskContextInfo" = "如果您封存了一套面具，之后您还是可以快速地从封存的面具中恢复。";
+"StickerPacksSettings.ArchivedMasks.Info" = "您最多可以有200套面具。\n当您添加更多时，未使用的面具会被封存。";
+
+"CloudStorage.Title" = "云存储";
+
+"Widget.AuthRequired" = "登录到 Tgram";
+"Widget.NoUsers" = "开始发消息以求在这里看到您的朋友";
+
+"Message.GamePreviewLabel" = "游戏";
+
+"ShareMenu.CopyShareLinkGame" = "将链接复制到游戏";
+
+"Message.PinnedGame" = "置顶了一个游戏";
+
+"Target.ShareGameConfirmationPrivate" = "和 %@ 分享游戏？";
+"Target.ShareGameConfirmationGroup" = "和 \"%@\" 分享游戏？";
+
+"Activity.PlayingGame" = "正在玩游戏";
+
+"DialogList.SinglePlayingGameSuffix" = "%@ 正在玩一个游戏";
+
+"UserInfo.GroupsInCommon" = "共同的群组";
+"Conversation.InstantPagePreview" = "立即查看";
+
+"StickerPack.ViewPack" = "查看贴图包";
+"InstantPage.AuthorAndDateTitle" = "作者 %1$@ • %2$@";
+"InstantPage.FeedbackButton" = "留下您对于此预览的反应";
+"Conversation.JumpToDate" = "跳到该日期";
+"Conversation.AddToReadingList" = "添加到阅读列表";
+
+"AccessDenied.CallMicrophone" = "Tgram 需要访问您的麦克风以进行语音通话。\n\n请到“设置”>“隐私权”>“麦克风”中，然后将 Tgram 设置为打开。";
+
+"Call.EncryptionKey.Title" = "加密密钥";
+"Call.EncryptionKey.Description" = "这张图片和文字是产生自与 %1$@ 的语音通话之加密密钥。\n\n如果它们看起来和 %2$@ 设备的一样，则端到端加密会得到保证。";
+
+"Application.Name" = "Tgram";
+"DialogList.Pin" = "置顶";
+"DialogList.Unpin" = "取消置顶";
+"DialogList.PinLimitError" = "抱歉，您无法置顶超过 %@ 个聊天室。";
+
+"Conversation.DeleteMessagesForMe" = "为自己删除";
+"Conversation.DeleteMessagesFor" = "为我和 %@ 删除";
+"Conversation.DeleteMessagesForEveryone" = "为所有人删除";
+
+"NetworkUsageSettings.Title" = "网络使用量";
+"NetworkUsageSettings.Cellular" = "移动数据";
+"NetworkUsageSettings.Wifi" = "Wi-Fi";
+
+"NetworkUsageSettings.GeneralDataSection" = "消息";
+"NetworkUsageSettings.MediaImageDataSection" = "照片";
+"NetworkUsageSettings.MediaVideoDataSection" = "视频";
+"NetworkUsageSettings.MediaAudioDataSection" = "音频";
+"NetworkUsageSettings.MediaDocumentDataSection" = "文件";
+"NetworkUsageSettings.TotalSection" = "总字节数";
+"NetworkUsageSettings.BytesSent" = "已发送字节数";
+"NetworkUsageSettings.BytesReceived" = "已接收字节数";
+
+"NetworkUsageSettings.ResetStats" = "重置统计信息";
+"NetworkUsageSettings.ResetStatsConfirmation" = "您想重置您的使用量统计信息吗？";
+"NetworkUsageSettings.CellularUsageSince" = "自从 %@ 以来的移动数据使用量";
+"NetworkUsageSettings.WifiUsageSince" = "自从 %@ 以来的 Wi-Fi 使用量";
+
+"Settings.CallSettings" = "语音通话";
+
+"Calls.TabTitle" = "通话";
+"Calls.All" = "全部";
+"Calls.Missed" = "未接来电";
+"Calls.Clear" = "清除";
+
+"CallSettings.Title" = "语音通话";
+"CallSettings.RecentCalls" = "最近的通话";
+"CallSettings.TabIcon" = "显示通话页签";
+"CallSettings.TabIconDescription" = "一个通话图标将显示在页签栏中。";
+"CallSettings.UseLessData" = "使用较少的数据";
+"CallSettings.Never" = "永不";
+"CallSettings.OnMobile" = "在移动网络上";
+"CallSettings.Always" = "总是";
+"CallSettings.UseLessDataLongDescription" = "使用较少的数据可能会改善您在不良网络上的体验，但会稍微降低音频质量。";
+
+"Calls.CallTabTitle" = "通话页签";
+"Calls.CallTabDescription" = "您可以在页签栏中添加通话页签。";
+"Calls.NotNow" = "不是现在";
+"Calls.AddTab" = "添加页签";
+"Calls.Search" = "搜索通话";
+"Calls.NewCall" = "新的通话";
+
+"Calls.RatingTitle" = "请评价您的 Tgram \n通话质量";
+"Calls.SubmitRating" = "提交";
+
+"Call.Seconds_1" = "%@ 秒钟";
+"Call.Seconds_2" = "%@ 秒钟";
+"Call.Seconds_3_10" = "%@ 秒钟";
+"Call.Seconds_any" = "%@ 秒钟";
+"Call.Minutes_1" = "%@ 分钟";
+"Call.Minutes_2" = "%@ 分钟";
+"Call.Minutes_3_10" = "%@ 分钟";
+"Call.Minutes_any" = "%@ 分钟";
+
+"Call.ShortSeconds_1" = "%@ 秒";
+"Call.ShortSeconds_2" = "%@ 秒";
+"Call.ShortSeconds_3_10" = "%@ 秒";
+"Call.ShortSeconds_any" = "%@ 秒";
+"Call.ShortMinutes_1" = "%@ 分";
+"Call.ShortMinutes_2" = "%@ 分";
+"Call.ShortMinutes_3_10" = "%@ 分";
+"Call.ShortMinutes_any" = "%@ 分";
+
+"Notification.CallTimeFormat" = "%1$@ (%2$@)"; // 1 - type, 2 - duration
+"Notification.CallOutgoing" = "拨出电话";
+"Notification.CallIncoming" = "拨入电话";
+"Notification.CallMissed" = "未接来电";
+"Notification.CallCanceled" = "取消的通话";
+"Notification.CallOutgoingShort" = "拨出";
+"Notification.CallIncomingShort" = "拨入";
+"Notification.CallMissedShort" = "未接来电";
+"Notification.CallCanceledShort" = "已取消通话";
+"Notification.CallFormat" = "%1$@, %2$@"; // 1 - time, 2 - duration
+
+
+
+"Call.ConnectionErrorTitle" = "无法通话";
+"Call.ConnectionErrorMessage" = "请检查您的互联网连接，然后重试。";
+
+"Call.CallBack" = "回电话";
+"Call.CallAgain" = "重拨";
+
+"Login.PhoneFloodError" = "很抱歉，您最近删除并重新创建账号的次数过多。 请等待几天再重新注册。";
+
+"Checkout.Title" = "结账";
+"Checkout.TotalAmount" = "总计";
+"Checkout.TotalPaidAmount" = "付款总额";
+"Checkout.PaymentMethod" = "付款方法";
+"Checkout.ShippingMethod" = "送货方式";
+"Checkout.ShippingAddress" = "送货信息";
+"Checkout.Name" = "名称";
+"Checkout.Email" = "电子信箱";
+"Checkout.Phone" = "电话";
+"Checkout.PayPrice" = "支付 %@";
+"Checkout.PayNone" = "付款";
+
+"Checkout.PaymentMethod.Title" = "付款方法";
+"Checkout.PaymentMethod.New" = "新卡...";
+
+"Checkout.NewCard.Title" = "新卡";
+"Checkout.NewCard.PaymentCard" = "支付卡";
+"Checkout.NewCard.SaveInfo" = "保存付款信息";
+"Checkout.NewCard.SaveInfoEnableHelp" = "您可以保存付款信息以备将来使用。\n请 [打开两步验证] 以启用此功能。";
+"Checkout.NewCard.SaveInfoHelp" = "您可以保存付款信息以备将来使用。";
+"Checkout.NewCard.CardholderNameTitle" = "持卡人";
+"Checkout.NewCard.CardholderNamePlaceholder" = "持卡人姓名";
+"Checkout.NewCard.PostcodeTitle" = "账单地址";
+"Checkout.NewCard.PostcodePlaceholder" = "邮政编码";
+
+"Checkout.ShippingOption.Title" = "送货方式";
+"Checkout.ShippingOption.Header" = "选择送货方式";
+
+"Checkout.ErrorProviderAccountInvalid" = "此机器人目前无法接受付款。请稍后再试。";
+"Checkout.ErrorProviderAccountTimeout" = "此机器人目前无法处理付款。请稍后再试。";
+"Checkout.ErrorInvoiceAlreadyPaid" = "此品项您已经付款。";
+
+"Checkout.ErrorGeneric" = "处理您的付款时出错。 您的卡尚未付款。";
+"Checkout.ErrorPaymentFailed" = "支付失败。您的卡尚未付款。";
+"Checkout.ErrorPrecheckoutFailed" = "机器人无法处理您的付款。您的卡尚未付款。";
+
+"CheckoutInfo.Title" = "送货信息";
+"CheckoutInfo.ShippingInfoTitle" = "送货地址";
+"CheckoutInfo.ShippingInfoAddress1" = "地址1";
+"CheckoutInfo.ShippingInfoAddress1Placeholder" = "地址";
+"CheckoutInfo.ShippingInfoAddress2" = "地址 2";
+"CheckoutInfo.ShippingInfoAddress2Placeholder" = "地址";
+"CheckoutInfo.ShippingInfoState" = "州 / 省";
+"CheckoutInfo.ShippingInfoStatePlaceholder" = "州 / 省";
+"CheckoutInfo.ShippingInfoCity" = "城市";
+"CheckoutInfo.ShippingInfoCityPlaceholder" = "城市";
+"CheckoutInfo.ShippingInfoCountry" = "国家";
+"CheckoutInfo.ShippingInfoCountryPlaceholder" = "国家";
+"CheckoutInfo.ShippingInfoPostcode" = "邮政编码";
+"CheckoutInfo.ShippingInfoPostcodePlaceholder" = "邮政编码";
+"CheckoutInfo.ReceiverInfoTitle" = "收件人";
+"CheckoutInfo.ReceiverInfoName" = "名称";
+"CheckoutInfo.ReceiverInfoNamePlaceholder" = "姓名";
+"CheckoutInfo.ReceiverInfoEmail" = "电子邮件";
+"CheckoutInfo.ReceiverInfoEmailPlaceholder" = "电子邮件";
+"CheckoutInfo.ReceiverInfoPhone" = "电话";
+"CheckoutInfo.SaveInfo" = "保存信息";
+"CheckoutInfo.SaveInfoHelp" = "您可以保存送货信息以备将来使用。";
+"CheckoutInfo.Pay" = "支付";
+
+"Checkout.Receipt.Title" = "收据";
+
+"Message.ReplyActionButtonShowReceipt" = "显示收据";
+"Message.InvoiceShipmentLabel" = "配送";
+"Message.InvoiceLabel" = "发货单";
+
+"CheckoutInfo.ErrorShippingNotAvailable" = "无法运送到选定的国家。";
+"CheckoutInfo.ErrorPostcodeInvalid" = "请输入有效的邮政编码。";
+"CheckoutInfo.ErrorStateInvalid" = "请输入有效的州 / 省。";
+"CheckoutInfo.ErrorCityInvalid" = "请输入有效的城市。";
+"CheckoutInfo.ErrorNameInvalid" = "请输入有效的名称。";
+"CheckoutInfo.ErrorEmailInvalid" = "请输入有效的电子邮件地址。";
+"CheckoutInfo.ErrorPhoneInvalid" = "请输入有效的电话号码。";
+
+"Checkout.WebConfirmation.Title" = "完成付款";
+"Checkout.PasswordEntry.Title" = "付款确认";
+"Checkout.PasswordEntry.Pay" = "支付";
+"Checkout.PasswordEntry.Text" = "您的卡 %@ 已存档。 要使用此卡付款，请输入您的 2 步验证密码。";
+
+"Checkout.SavePasswordTimeout" = "您要保存 %@ 的密码吗？";
+"Checkout.SavePasswordTimeoutAndTouchId" = "您要保存 %@ 的密码并改用Touch ID吗？";
+"Checkout.PayWithTouchId" = "用 Touch ID 支付";
+"Checkout.EnterPassword" = "输入密码";
+
+"Your card has expired" = "您的卡已过期。";
+
+/* Error when the card was declined by the credit card networks */
+"Your card was declined" = "您的卡被拒绝了。";
+
+/* Error when the card's expiration month is not valid */
+"Your card's expiration month is invalid" = "您输入的到期月份无效。";
+
+/* Error when the card's expiration year is not valid */
+"Your card's expiration year is invalid" = "您输入的到期年份无效。";
+
+/* Error when the card number is not valid */
+"Your card's number is invalid" = "您输入的卡号无效。";
+
+/* Error when the card's CVC is not valid */
+"Your card's security code is invalid" = "您输入的安全码无效。";
+
+"MESSAGE_INVOICE" = "%1$@ 发送给您一张 %2$@ 的收据";
+"CHAT_MESSAGE_INVOICE" = "%1$@ 发送一张收据到 %2$@ 群组给 %3$@";
+"PINNED_INVOICE" = "%1$@ 置顶了一张收据";
+
+"Message.PinnedInvoice" = "置顶了一张收据";
+
+"User.DeletedAccount" = "已删的账号";
+
+"Settings.SaveEditedPhotos" = "保存已编辑的照片";
+
+"Message.PaymentSent" = "付款：%@";
+"Notification.PaymentSent" = "您刚刚成功为 {title} 而将 {amount} 转账给 {name}";
+
+"Common.NotNow" = "不是现在";
+
+"Calls.RatingFeedback" = "写一条评论...";
+
+"Call.StatusIncoming" = "Tgram 音频...";
+"Call.StatusRequesting" = "联系中...";
+"Call.StatusWaiting" = "等待中...";
+"Call.StatusRinging" = "响铃中...";
+"Call.StatusConnecting" = "连接中...";
+"Call.StatusOngoing" = "Tgram 音频 %@";
+"Call.StatusEnded" = "通话已结束";
+"Call.StatusFailed" = "通话失败";
+"Call.StatusBusy" = "忙线";
+"Call.Accept" = "接受";
+"Call.Decline" = "拒绝";
+
+"Call.StatusBar" = "触摸即可返回通话 %@";
+
+"UserInfo.Call" = "语音通话";
+
+"Call.ParticipantVersionOutdatedError" = "%@ 的应用程序不支持通话。他需要更新应用程序，然后您才能打电话给他。";
+
+"Privacy.Calls" = "语音通话";
+
+"Privacy.Calls.WhoCanCallMe" = "谁可以打电话给我";
+"Privacy.Calls.CustomHelp" = "您可以精确地限制谁可以打电话给您。";
+"Privacy.Calls.AlwaysAllow" = "总是允许";
+"Privacy.Calls.NeverAllow" = "永不允许";
+"Privacy.Calls.CustomShareHelp" = "无论上述设置如何，这些用户将能或不能打电话给您。";
+
+"Privacy.Calls.AlwaysAllow.Title" = "总是允许";
+"Privacy.Calls.AlwaysAllow.Placeholder" = "总是允许...";
+"Privacy.Calls.NeverAllow.Title" = "永不允许";
+"Privacy.Calls.NeverAllow.Placeholder" = "永不允许...";
+
+"PhotoEditor.QualityTool" = "质量";
+"PhotoEditor.QualityVeryLow" = "很低";
+"PhotoEditor.QualityLow" = "低";
+"PhotoEditor.QualityMedium" = "中等";
+"PhotoEditor.QualityHigh" = "高";
+"PhotoEditor.QualityVeryHigh" = "很高";
+
+"Settings.SaveEditedPhotos" = "保存编辑过的照片";
+
+"Calls.NoCallsPlaceholder" = "您最近的通话会显示在这里";
+"Calls.NoMissedCallsPlacehoder" = "您没有未接的来电";
+
+"Call.CallInProgressTitle" = "通话中";
+"Call.CallInProgressMessage" = "与 %1$@ 结束通话，并和 %2$@ 开始一新的通话吗？";
+
+"Call.Message" = "讯息";
+
+"UserInfo.TapToCall" = "点击以进行端到端加密通话";
+"Call.GroupFormat" = "%1$@ (%2$@)";
+
+"NetworkUsageSettings.CallDataSection" = "通话";
+
+"Call.PrivacyErrorMessage" = "很抱歉，%@ 不接受来电通话。";
+
+"Notification.CallBack" = "回拨";
+
+"CallSettings.PrivacyDescription" = "在 [隐私设置] 中，选择谁可以打电话给您。";
+
+"Call.AudioRouteSpeaker" = "喇叭";
+"Call.AudioRouteHeadphones" = "耳机";
+"Call.AudioRouteHide" = "隐藏";
+
+"EncryptionKey.TapToEmojify" = "点击以进行表情符号化";
+
+"Call.PhoneCallInProgressMessage" = "如果您已经在接电话，则无法拨打 Tgram 电话。";
+"Call.RecordingDisabledMessage" = "请在录制语音消息前结束通话。";
+
+"Call.EmojiDescription" = "如果这些表情符号与 %@ 屏幕上的相同，则此通话为 100%% 安全。";

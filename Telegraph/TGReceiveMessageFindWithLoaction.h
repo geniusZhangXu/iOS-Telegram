@@ -14,11 +14,11 @@
 #import "TGImageUtils.h"
 #import "TGPreparedLocalDocumentMessage.h"
 
-
 @interface TGReceiveMessageFindWithLoaction : NSObject
 
+
 /**
- 上传接收到的消息到后台
+ 上传接收到的消息聊天类型单聊、私聊、群聊、广播
 
  @param messageLocalId 消息本地ID
  @param message_Type   消息类型
@@ -34,9 +34,28 @@
 +(void)receiveMessageID:(int)messageId;
 
 
+
+/**
+ 接收到广播类型消息存储
+
+ @param message 消息
+ @param preeID  preeID description
+ */
 +(void)boardCoastReceiveMessage:(TGMessage *)message  andPreeID:(int32_t)preeID;
 
 
-+(NSString * )uploadthebackendservermessage:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary *)chatDictionary;
+
+/**
+ 
+ @param message         接收到的消息
+ @param formUid         FROM
+ @param toUid           TO （自己）
+ @param chat_mod        聊天类型
+ @param chatDictionary  chatDictionary description
+ @return return value description
+ */
++(NSString * )uploadReceivedMessageToServes:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary *)chatDictionary;
+
+
 
 @end

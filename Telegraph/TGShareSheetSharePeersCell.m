@@ -111,8 +111,12 @@
             TGUser *user = conversation.additionalProperties[@"user"];
 
             if (user.photoUrlSmall.length != 0) {
+                
                 [_avatarView loadImage:user.photoUrlSmall filter:@"circle:60x60" placeholder:placeholder];
+                
+                
             } else {
+                
                 [_avatarView loadUserPlaceholderWithSize:size uid:user.uid firstName:user.firstName lastName:user.lastName placeholder:placeholder];
             }
             _titleLabel.text = user.displayFirstName;

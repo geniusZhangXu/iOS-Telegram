@@ -877,6 +877,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = EC19120D162FB53A00E0CC76;
 			productRefGroup = EC191219162FB53A00E0CC76 /* Products */;

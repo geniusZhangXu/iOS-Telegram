@@ -254,6 +254,7 @@ static TGCache *sharedCache = nil;
     UIImage *image = [cache cachedImage:cacheUrl availability:TGCacheMemory];
     
     if (image == nil)
+        
         image = [[TGImageManager instance] loadImageSyncWithUri:url canWait:false decode:true acceptPartialData:false asyncTaskId:NULL progress:nil partialCompletion:nil completion:nil];
     
     if (image == nil && (_contentHints & TGRemoteImageContentHintLoadFromDiskSynchronously))

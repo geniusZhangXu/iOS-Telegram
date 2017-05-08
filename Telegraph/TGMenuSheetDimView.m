@@ -16,6 +16,7 @@
         static UIImage *image;
         dispatch_once(&onceToken, ^
         {
+            
             CGRect rect = CGRectMake(0, 0, TGMenuSheetCornerRadius * 2, TGMenuSheetCornerRadius * 2);
             
             UIGraphicsBeginImageContextWithOptions(rect.size, false, 0);

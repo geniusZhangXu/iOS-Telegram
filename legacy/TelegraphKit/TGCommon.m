@@ -243,6 +243,7 @@ void TGResetLocalization()
     TGLocalizedStaticVersion++;
 }
 
+#pragma mark -- 自定义本地化TGLocalized
 NSString *TGLocalized(NSString *s)
 {
     static NSString *untranslatedString = nil;
@@ -283,14 +284,26 @@ NSString *TGLocalized(NSString *s)
             
             if ([language rangeOfString:@"-"].location != NSNotFound)
             {
-                NSString *languageWithoutRegion = [language substringToIndex:[language rangeOfString:@"-"].location];
+                //******  通过下面的判断，让它支持中文 ************/
+                //*******************************************/
+                NSString *languageWithoutRegion;
+                if ([language isEqualToString:@"zh-Hans-CN"]) {
+                    
+                 languageWithoutRegion = @"zh-Hans";
+                    
+                }else{
                 
-                for (NSString *localization in [[NSBundle mainBundle] localizations])
+                 languageWithoutRegion = [language substringToIndex:[language rangeOfString:@"-"].location];
+
+                }
+                for (NSString * localization in [[NSBundle mainBundle] localizations])
                 {
-                    if ([languageWithoutRegion isEqualToString:localization])
-                    {
+                    if ([languageWithoutRegion isEqualToString:localization]){
+                        
                         NSBundle *candidateBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:localization ofType:@"lproj"]];
+                        
                         if (candidateBundle != nil)
+                            
                             localizationBundle = candidateBundle;
                         
                         break;

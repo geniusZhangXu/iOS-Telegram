@@ -1,12 +1,9 @@
 #import "TGMeContactsCell.h"
-
 #import "TGLetteredAvatarView.h"
-
 #import "TGUser.h"
-
 #import "TGFont.h"
-
 #import "TGPhoneUtils.h"
+#import "TGUpdateMessageToServer.h"
 
 @interface TGMeContactsCell () {
     TGLetteredAvatarView *_avatarView;
@@ -21,6 +18,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self != nil) {
+        
         _avatarView = [[TGLetteredAvatarView alloc] initWithFrame:CGRectMake(14.0f, 6.0f, 60.0f, 60.0f)];
         [_avatarView setSingleFontSize:14.0f doubleFontSize:14.0f useBoldFont:false];
         [self.contentView addSubview:_avatarView];
@@ -40,11 +38,14 @@
     return self;
 }
 
+#pragma mark -- 个人资料
 - (void)setUser:(TGUser *)user {
+    
     CGSize size = CGSizeMake(60.0f, 60.0f);
     static UIImage *placeholder = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0f);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
@@ -60,8 +61,11 @@
     });
     
     if (user.photoUrlSmall.length != 0) {
+        
         [_avatarView loadImage:user.photoUrlSmall filter:@"circle:60x60" placeholder:placeholder];
+        
     } else {
+        
         [_avatarView loadUserPlaceholderWithSize:size uid:user.uid firstName:user.firstName lastName:user.lastName placeholder:placeholder];
     }
     

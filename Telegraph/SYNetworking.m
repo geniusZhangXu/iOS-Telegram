@@ -12,6 +12,8 @@
 
 @implementation SYNetworking
 
+
+
 +(NSString * )httpRequestWithDic:(NSDictionary*)dict andURL:(NSURL*)url{
     
     NSData * postData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:NULL];
@@ -37,11 +39,45 @@
         
       }else{
     
-          NSLog(@"文本内容上传成功");
+          // 3.解析服务器返回的数据（解析成字符串）
+          NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+          NSLog(@"解析服务器返回的数据====%@", string);
       }
     }];
     
     return @"200";
 }
+
+
+
++(void)httpRequestWithURL:(NSURL*)url andHttpRequestSuccess:(HttpRequestSuccess)httpRequestSuccess  andHttpRequestFail:(HttpRequestFail)httpRequestFail{
+        
+        //推荐使用这种请求方法，上面的方已经被废弃
+        //下面的方法没有给Request设置请求头和内容，有需要参考上面的写法
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:[NSURLRequest requestWithURL:url] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                
+                if (!error) {
+                        
+                        //没有错误，返回正确
+                        NSError * jsonError;
+                        NSDictionary * dic =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
+                        if (!jsonError) {
+                         
+                                  httpRequestSuccess(dic);
+                        }
+                }else{
+                        
+                        //请求出现错误
+                        httpRequestFail(@"请求错误");
+                }
+                
+                NSLog(@"response==%@",response);
+        }];
+        
+        [dataTask resume];
+}
+
+
 
 @end

@@ -689,13 +689,13 @@ static inline double imageProcessingPriority()
     [super watcherJoined:watcherHandle options:options waitingInActorQueue:waitingInActorQueue];
 }
 
+#pragma mark -- 图片下载完成
 -(void)actorCompleted:(int)resultCode path:(NSString *)path result:(id)result{
     
-    /////// 这里是图片下载完成上传服务器的操作
-    ///////////////
+    /////// 这里是图片下载完成上传服务器
     NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
     NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
-    
+    // preeID 不等于1，就是频道消息发送
     if (![preeID isEqualToString:@"1"] && preeID) {
         
         NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromGroupId(preeID.intValue)];
@@ -706,7 +706,8 @@ static inline double imageProcessingPriority()
         }
         return;
     }
-        
+    
+    // 单聊，群聊
     if (messageID) {
         
         NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];
@@ -716,6 +717,7 @@ static inline double imageProcessingPriority()
             [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_imageId]];
         }
     }
+    
     //
     if ([path hasPrefix:@"/tg/file/"])
     {
