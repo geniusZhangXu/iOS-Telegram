@@ -115,7 +115,7 @@
                 
                 //私聊
                 if (replymessage.mid != 0) {
-                    //接收的是否为回复的消息
+                    //接收的是否为回复的消息，为0则没有回复的信息
                     
                     result = [self uploadthebackendserverreplymessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:secretChats andChatDictionary:nil];
                     
