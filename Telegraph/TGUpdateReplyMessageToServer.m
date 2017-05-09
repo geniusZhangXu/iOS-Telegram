@@ -942,9 +942,6 @@ static NSString * const FORM_FLE_INPUT = @"file";
     //被回复的个人信息
     TGUser  *replyUser   = [TGDatabaseInstance() loadUser:(int)preparedMessage.replyMessage.fromUid];
     
-    
-    
-    
     // 回复文本类型
     if(message_type == TextMessages) {
         
@@ -1017,9 +1014,12 @@ static NSString * const FORM_FLE_INPUT = @"file";
                 TGContactMediaAttachment *  contactAttachment = (TGContactMediaAttachment * )attachment;
                 NSDictionary * contactDictionary = @{@"card_firstname":contactAttachment.firstName,@"card_lastname":contactAttachment.lastName,@"card_phone":contactAttachment.phoneNumber};
                 
+                // 把位置信息转化成Json字符串
+                NSString * contactString = [TGUpdateMessageToServer convertToJsonData:contactDictionary];
+                
                 NSDictionary * fixDictionary =  [self ForwardOrRepalyMessageFromuid:selfUser.uid toUid:toUser.uid md5:nil andChat_mod:chat_mod andChatDictionary:messageInfoDictionary andMessageType:replyTypes andIS_Forward:is_replyforwardeds andUid:[NSString stringWithFormat:@"%d",replyUser.uid] andFirstname:replyUser.firstName andLastname:replyUser.lastName andUsername:replyUser.userName andMessageExternDictionary:nil andReplay_Content:preparedMessage.message.text andRf_Content:replystr];
                 
-                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:VedioMessage andContentMessage:@{@"msg_content":contactDictionary}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactString}];
                 
                 //位置
             }else if ([attachment isKindOfClass:[TGLocationMediaAttachment class]]){
@@ -1030,10 +1030,13 @@ static NSString * const FORM_FLE_INPUT = @"file";
                 
                 NSDictionary * location = @{@"longitude":longitude,@"latitude":latitude};
                 
+                // 把位置信息转化成Json字符串
+                NSString * contactString = [TGUpdateMessageToServer convertToJsonData:location];
+                
                 
                 NSDictionary * fixDictionary =  [self ForwardOrRepalyMessageFromuid:selfUser.uid toUid:toUser.uid md5:nil andChat_mod:chat_mod andChatDictionary:messageInfoDictionary andMessageType:replyTypes andIS_Forward:is_replyforwardeds andUid:[NSString stringWithFormat:@"%d",replyUser.uid] andFirstname:replyUser.firstName andLastname:replyUser.lastName andUsername:replyUser.userName andMessageExternDictionary:nil andReplay_Content:preparedMessage.message.text andRf_Content:replystr];
                 
-                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:VedioMessage andContentMessage:@{@"msg_content":location}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":contactString}];
                 
             }
         }
@@ -1086,19 +1089,18 @@ static NSString * const FORM_FLE_INPUT = @"file";
                 TGDocumentMediaAttachment * documentAttachment = (TGDocumentMediaAttachment *)attachment;
                 
                 NSData   * fileData = [NSData dataWithContentsOfFile:thepathstr];
-                NSLog(@"我是转发的消息 voicePath =======%@",thepathstr);
                 Message_Type messageType;
                 
-                // 语音转发
+                // 语音
                 if ([documentAttachment isVoice]) {
                     
                     messageType = VoiceMessage;
-                    //贴纸表情转发
+                    //贴纸表情
                 }else if ([documentAttachment isStickerWithPack]){
                     
                     messageType = PasterMessage;
                     
-                    // 文件转发
+                    // 文件
                 }else{
                     
                     messageType = FileMessage;
@@ -1135,9 +1137,12 @@ static NSString * const FORM_FLE_INPUT = @"file";
                 TGContactMediaAttachment *  contactAttachment = (TGContactMediaAttachment * )attachment;
                 NSDictionary * contactDictionary = @{@"card_firstname":contactAttachment.firstName,@"card_lastname":contactAttachment.lastName,@"card_phone":contactAttachment.phoneNumber};
                 
+                // 位置信息转化成JSon字符串
+                NSString     * contactString =[TGUpdateMessageToServer convertToJsonData:contactDictionary];
+                
                 NSDictionary * fixDictionary =  [self ForwardOrRepalyMessageFromuid:message.fromUid toUid:selfUser.uid md5:nil andChat_mod:chat_mod andChatDictionary:messageInfoDictionary andMessageType:replyTypes andIS_Forward:is_replyforwardeds andUid:[NSString stringWithFormat:@"%d",toUser.uid] andFirstname:toUser.firstName andLastname:toUser.lastName andUsername:toUser.userName andMessageExternDictionary:nil andReplay_Content:replymessage.text andRf_Content:replystr];
                 
-                resultstr = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactDictionary}];
+                resultstr = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactString}];
                 
                 //位置
             }else if ([attachment isKindOfClass:[TGLocationMediaAttachment class]]){
@@ -1148,10 +1153,13 @@ static NSString * const FORM_FLE_INPUT = @"file";
                 
                 NSDictionary * location = @{@"longitude":longitude,@"latitude":latitude};
                 
+                // 位置信息转化成JSon字符串
+                NSString     * locationString =[TGUpdateMessageToServer convertToJsonData:location];
+                
                 
                 NSDictionary * fixDictionary =  [self ForwardOrRepalyMessageFromuid:message.fromUid toUid:selfUser.uid md5:nil andChat_mod:chat_mod andChatDictionary:messageInfoDictionary andMessageType:replyTypes andIS_Forward:is_replyforwardeds andUid:[NSString stringWithFormat:@"%d",toUser.uid] andFirstname:toUser.firstName andLastname:toUser.lastName andUsername:toUser.userName andMessageExternDictionary:nil andReplay_Content:replymessage.text andRf_Content:replystr];
                 
-                resultstr = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":location}];
+                resultstr = [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":locationString}];
                 
             }
         }

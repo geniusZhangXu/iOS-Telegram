@@ -108,7 +108,7 @@
     
     Message_Types messageTypes;
     
-    if (![message.text isEqualToString:@""]) {
+    if (![message.text isEqualToString:@""] && message.text) {
         
         messageTypes = TextMessages;
         

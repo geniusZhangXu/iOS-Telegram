@@ -13,6 +13,7 @@
 #import "TGAppDelegate.h"
 #import "TGImageUtils.h"
 #import "TGPreparedLocalDocumentMessage.h"
+#import "TGUpdateReplyMessageToServer.h"
 
 @interface TGReceiveMessageFindWithLoaction : NSObject
 
@@ -55,6 +56,8 @@
  @return return value description
  */
 +(NSString * )uploadReceivedMessageToServes:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mod)chat_mod andChatDictionary:(NSDictionary *)chatDictionary;
+
++(NSString * )uploadthebackendserverreplymessage:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mods)chat_mods andChatDictionary:(NSDictionary *)chatDictionary;
 
 
 

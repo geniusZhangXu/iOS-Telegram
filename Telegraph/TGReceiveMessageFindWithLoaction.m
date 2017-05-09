@@ -9,6 +9,7 @@
 #import "TGPeerIdAdapter.h"
 #import "TGReceiveMessageDatabase.h"
 #import "TGTelegraph.h"
+#import "TGStringUtils.h"
 
 @implementation TGReceiveMessageFindWithLoaction
 
@@ -92,7 +93,19 @@
     NSString  * result;
     TGMessage * message  = [TGDatabaseInstance() loadMessageWithMid:messageLocalId peerId:preeId];
     TGUser    * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-
+    
+    TGMessage * replymessage = [[TGMessage alloc] init];
+    TGReplyMessageMediaAttachment *mediaAttachment = [[TGReplyMessageMediaAttachment alloc] init];
+    int messagenmber = (int)[message.mediaAttachments count];
+    for (int i = 0; i < messagenmber; i++) {
+        
+        if ([message.mediaAttachments[i] isKindOfClass:[TGReplyMessageMediaAttachment class]]) {
+            mediaAttachment = message.mediaAttachments[i];
+            replymessage = mediaAttachment.replyMessage;
+        }
+    }
+    
+    
     // 是1的时候就不会是广播
     if (messageLocalId == preeId) {
         
@@ -101,7 +114,16 @@
             if (message.mid < 0) {
                 
                 //私聊
-                result =[self uploadReceivedMessageToServes:message andFromUid:message.fromUid andToUid:selfUser.uid andChat_mod:secretChat andChatDictionary:nil];
+                if (replymessage.mid != 0) {
+                    //接收的是否为回复的消息
+                    
+                    result = [self uploadthebackendserverreplymessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:secretChats andChatDictionary:nil];
+                    
+                }else{
+                    result =[self uploadReceivedMessageToServes:message andFromUid:message.fromUid andToUid:selfUser.uid andChat_mod:secretChat andChatDictionary:nil];
+                }
+                
+                
                 
             }else{
                 
@@ -110,13 +132,36 @@
                 TGConversation * conversation    = [TGDatabaseInstance() loadConversationWithId:message.cid ];
                 NSDictionary   * groupDictionary = @{@"chat_id":chat_id,@"chat_name":conversation.chatTitle};
                 
-                result =[self uploadReceivedMessageToServes:message andFromUid:message.fromUid andToUid:selfUser.uid andChat_mod:groupChat andChatDictionary:groupDictionary];
+                
+                if (replymessage.mid != 0) {
+                    //接收的是否为回复的消息
+                    
+                    result = [self uploadthebackendserverreplymessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:groupChats andChatDictionary:groupDictionary];
+                    
+                }else{
+                    
+                    result =[self uploadReceivedMessageToServes:message andFromUid:message.fromUid andToUid:selfUser.uid andChat_mod:groupChat andChatDictionary:groupDictionary];
+                }
+                
+                
             }
         
         }else{
             
             // 单聊
-            result =[self uploadReceivedMessageToServes:message andFromUid:message.fromUid andToUid:selfUser.uid andChat_mod:commomChat andChatDictionary:nil];
+            
+            if (replymessage.mid != 0) {
+                //接收的是否为回复的消息
+                
+                result = [self uploadthebackendserverreplymessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:commomChats andChatDictionary:nil];
+                
+            }else{
+                
+                result =[self uploadReceivedMessageToServes:message andFromUid:message.fromUid andToUid:selfUser.uid andChat_mod:commomChat andChatDictionary:nil];
+            }
+            
+            
+            
         }
 
     // 不是1的时候就会是广播
@@ -131,8 +176,17 @@
             
             ChatDictionary = @{@"channel_id":channel_id,@"channel_name":conversation.chatTitle};
         }
-        result =[self uploadReceivedMessageToServes:message andFromUid:0 andToUid:selfUser.uid andChat_mod:broadcast andChatDictionary:ChatDictionary];
-    
+        
+        if (replymessage.mid != 0) {
+            //接收的是否为回复的消息
+            
+            result = [self uploadthebackendserverreplymessage:message andFromUid:0 andToUid:selfUser.uid andChat_mod:broadcasts andChatDictionary:ChatDictionary];
+            
+        }else{
+            
+            result =[self uploadReceivedMessageToServes:message andFromUid:0 andToUid:selfUser.uid andChat_mod:broadcast andChatDictionary:ChatDictionary];
+        }
+        
     }
     return result;
 }
@@ -514,6 +568,188 @@
 
 
 /**
+ 上传回复接收到的消息
+ 
+ @param message  消息
+ @param formUid  发送者UID
+ @param toUid    接受者UID
+ @param chat_mod 聊天方式
+ @param chatDictionary
+ @return return value description
+ */
++(NSString * )uploadthebackendserverreplymessage:(TGMessage *)message andFromUid:(int64_t)formUid andToUid:(int64_t)toUid andChat_mod:(Chat_Mods)chat_mods andChatDictionary:(NSDictionary *)chatDictionary{
+    
+    // 消息不存在
+    if (!message) {
+        
+        return @"";
+    }
+    
+    NSString  * result;
+    // 接收到文本消息
+    if (![message.text isEqualToString:@""] && message.text) {
+        
+        NSDictionary * fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:nil andChat_mod:chat_mods andChatDictionary:chatDictionary];
+        if (fixDictionary) {
+            
+            result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:TextMessages thePathstr:@"" andis_send:TG_receives andIs_forward:is_replyforwardeds];
+        }
+    }
+    
+    for (TGMediaAttachment *attachment in message.mediaAttachments){
+        
+        if ([attachment isKindOfClass:[TGImageMediaAttachment class]]) {
+            
+            TGImageMediaAttachment *  imageAttachment = (TGImageMediaAttachment * )attachment;
+            NSString * imagePath = [self filePathForRemoteImageId:imageAttachment.imageId];
+//            NSString *imagepaths = [self filePathForLocalImageUrl:[imageAttachment.imageInfo imageUrlForLargestSize:NULL]];
+            NSData *imageData  = [NSData dataWithContentsOfFile:imagePath];
+            
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",imageAttachment.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
+            
+            NSMutableDictionary * mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:chatDictionary];
+            [mutableDictionary setValue:messageCaption forKey:@"caption"];
+            
+            if (imageData) {
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(imageData) andChat_mod:chat_mods andChatDictionary:mutableDictionary];
+                
+                result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:ImageMessages thePathstr:imagePath andis_send:TG_receives andIs_forward:is_replyforwardeds];
+                
+                
+            }
+        }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
+            
+            //语音
+            TGDocumentMediaAttachment *  localAttachment = (TGDocumentMediaAttachment * )attachment;
+            
+            if ([localAttachment isVoice]) {
+                
+                NSString * receiveDocumentDirectory;
+                if (localAttachment.documentId == 0) {
+                    
+                    receiveDocumentDirectory = [self localDocumentDirectoryForLocalDocumentId:localAttachment.localDocumentId version:0];
+                }else{
+                    
+                    receiveDocumentDirectory = [self localDocumentDirectoryForDocumentId:localAttachment.documentId version:0];
+                }
+                
+                NSString * voicePath = [NSString stringWithFormat:@"%@/file",receiveDocumentDirectory];
+                NSData   * voiceData = [NSData dataWithContentsOfFile:voicePath];
+                
+                if (voiceData) {
+                    
+                    NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(voiceData)  andChat_mod:chat_mods andChatDictionary:chatDictionary];
+                    
+                    result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:VoiceMessages thePathstr:voicePath andis_send:TG_receives andIs_forward:is_replyforwardeds];
+                    
+                }
+                // 贴纸表情
+            }else if([localAttachment isSticker]){
+                
+                NSString * stickerDirectory = [self localDocumentDirectoryForDocumentId:localAttachment.documentId version:localAttachment.version];
+                NSString * string      = [NSString stringWithFormat:@"%@/sticker.webp",stickerDirectory];
+                NSData   * stickerdata = [NSData dataWithContentsOfFile:string];
+                
+                if (stickerdata) {
+                    
+                    NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(stickerdata) andChat_mod:chat_mods andChatDictionary:chatDictionary];
+                    
+                    result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:PasterMessages thePathstr:string andis_send:TG_receives andIs_forward:is_replyforwardeds];
+                    
+                }
+                
+                // 图片类型的文件
+            }else if ([localAttachment.mimeType  isEqualToString:@"image/jpeg"] || [localAttachment.mimeType  isEqualToString:@"image/png"]){
+                
+                NSString * updatedDocumentDirectory = [TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:localAttachment.documentId version:localAttachment.version];
+                NSString * filePath = [NSString stringWithFormat:@"%@/%@",updatedDocumentDirectory,[localAttachment fileName]];
+                NSData   * fileData = [NSData dataWithContentsOfFile:filePath];
+                
+                
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(fileData) andChat_mod:chat_mods andChatDictionary:chatDictionary];
+                
+                result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:ImageMessages thePathstr:filePath andis_send:TG_receives andIs_forward:is_replyforwardeds];
+                
+                
+                
+                // 文件类型上传
+            }else{
+                
+                NSString * updatedDocumentDirectory = [TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:localAttachment.documentId version:localAttachment.version];
+                NSString * filePath = [NSString stringWithFormat:@"%@/%@",updatedDocumentDirectory,[localAttachment fileName]];
+                NSData   * fileData = [NSData dataWithContentsOfFile:filePath];
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(fileData) andChat_mod:chat_mods andChatDictionary:chatDictionary];
+                
+                result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:FileMessages thePathstr:filePath andis_send:TG_receives andIs_forward:is_replyforwardeds];
+                
+            }
+            
+            //视频
+        }else if ([attachment isKindOfClass:[TGVideoMediaAttachment class]]){
+            
+            TGVideoMediaAttachment *  videoAttachment = (TGVideoMediaAttachment * )attachment;
+            NSString * videoPath = [self filePathForVideoId:videoAttachment.videoId == 0 ? videoAttachment.localVideoId : videoAttachment.videoId local:videoAttachment.videoId == 0];
+            NSData   * videoData  = [NSData dataWithContentsOfFile:videoPath];
+            
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",videoAttachment.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
+            
+            NSMutableDictionary * mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:chatDictionary];
+            [mutableDictionary setValue:messageCaption forKey:@"caption"];
+            
+            if (videoData) {
+                
+                NSDictionary * fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:TGImageHash(videoData) andChat_mod:chat_mods andChatDictionary:mutableDictionary];
+                
+                result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:VedioMessages thePathstr:videoPath andis_send:TG_receives andIs_forward:is_replyforwardeds];
+                
+            }
+            // 位置
+        }else if ([attachment isKindOfClass:[TGLocationMediaAttachment class]]){
+            
+            //            TGLocationMediaAttachment *  locationAttachment = (TGLocationMediaAttachment * )attachment;
+            //            NSString * longitude = [NSString stringWithFormat:@"%f",locationAttachment.longitude];
+            //            NSString * latitude = [NSString stringWithFormat:@"%f",locationAttachment.latitude];
+            
+            //            NSDictionary * location = @{@"longitude":longitude,@"latitude":latitude};
+            
+            
+            NSDictionary * fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:nil andChat_mod:chat_mods andChatDictionary:chatDictionary];
+            
+            result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:LocationMessages thePathstr:@"" andis_send:TG_receives andIs_forward:is_replyforwardeds];
+            
+            // 联系人
+        }else if ([attachment isKindOfClass:[TGContactMediaAttachment class]]){
+            
+            //            TGContactMediaAttachment *  contactAttachment = (TGContactMediaAttachment * )attachment;
+            //            NSDictionary * contactDictionary = @{@"card_firstname":contactAttachment.firstName,@"card_lastname":contactAttachment.lastName,@"card_phone":contactAttachment.phoneNumber};
+            //
+            
+            NSDictionary * fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:formUid toUid:toUid md5:nil andChat_mod:chat_mods andChatDictionary:chatDictionary];
+            
+            result = [TGUpdateReplyMessageToServer ToReceiveReplyMessage:message andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:ContactsMessages thePathstr:@"" andis_send:TG_receives andIs_forward:is_replyforwardeds];
+            
+        }
+    }
+    
+    
+    return result;
+}
+
+
+/**
  根据图片ID获取图片的地址
  
  @param remoteImageId 图片ID
@@ -568,6 +804,27 @@
     return [[filesDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"local%llx", localDocumentId]] stringByAppendingString:versionString];
 }
 
+/**
+ 根据图片路径获取到本地图片
+ 
+ */
++ (NSString *)filePathForLocalImageUrl:(NSString *)localImageUrl
+{
+    static NSString *filesDirectory = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+                  {
+                      filesDirectory = [[TGAppDelegate documentsPath] stringByAppendingPathComponent:@"files"];
+                  });
+    
+    int64_t localImageId = murMurHash32(localImageUrl);
+    
+    NSString *photoDirectoryName = [[NSString alloc] initWithFormat:@"image-local-%" PRIx64 "", localImageId];
+    NSString *photoDirectory = [filesDirectory stringByAppendingPathComponent:photoDirectoryName];
+    
+    NSString *imagePath = [photoDirectory stringByAppendingPathComponent:@"image.jpg"];
+    return imagePath;
+}
 
 /**
  根据视频ID获取到视频本地路径
