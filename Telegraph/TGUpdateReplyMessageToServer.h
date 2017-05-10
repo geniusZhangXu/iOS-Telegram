@@ -126,8 +126,6 @@ typedef void(^UpdataToServeFaile)();
 
 
 
-+(NSDictionary * _Nonnull)sentMediaToServerWithFromUid:(int64_t)fromUid toUid:(int64_t)toUid md5:(NSString * _Nonnull)md5;
-
 
 +(void)UploadForwardMessageToServeWithMessage:(TGPreparedMessage * _Nonnull)preparedMessage andToUid:(int32_t)toUid  andGroupMessageInfo:(NSDictionary * _Nonnull)messageInfoDictionary  andChatMod:(Chat_Mods)chat_mod andMessageType:(Message_Types)message_type thePathstr:(NSString * _Nonnull)thepathstr andis_send:(IS_Sends)is_send andIs_forward:(IS_Forwards)is_forward;
 
