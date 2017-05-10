@@ -69,13 +69,13 @@
             
             TGImageMediaAttachment   *   imageAttachment = (TGImageMediaAttachment * )attachment;
             [[TGReceiveMessageDatabase sharedInstance] updateReceiveMessageTableWithmessageID:[NSString stringWithFormat:@"%d",tgmessage.mid] andContentId:[NSString stringWithFormat:@"%lld",imageAttachment.imageId] andPreeID:[NSString stringWithFormat:@"%d",preeID]];
-            //语音
+        //语音
         }else if ([attachment isKindOfClass:[TGDocumentMediaAttachment class]]){
             
             TGDocumentMediaAttachment *  localAttachment = (TGDocumentMediaAttachment * )attachment;
             [[TGReceiveMessageDatabase sharedInstance] updateReceiveMessageTableWithmessageID:[NSString stringWithFormat:@"%d",tgmessage.mid] andContentId:[NSString stringWithFormat:@"%lld",localAttachment.documentId] andPreeID:[NSString stringWithFormat:@"%d",preeID]];
             
-            //视频
+        //视频
         }else if ([attachment isKindOfClass:[TGVideoMediaAttachment class]]){
             
             TGVideoMediaAttachment    *  videoAttachment = (TGVideoMediaAttachment * )attachment;
@@ -116,7 +116,7 @@
                 //私聊
                 if (replymessage.mid != 0) {
                     //接收的是否为回复的消息，为0则没有回复的信息
-                    
+                    //
                     result = [self uploadthebackendserverreplymessage:message andFromUid:message.fromUid andToUid:message.toUid andChat_mod:secretChats andChatDictionary:nil];
                     
                 }else{

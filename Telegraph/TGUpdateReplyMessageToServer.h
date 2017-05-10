@@ -93,11 +93,6 @@ typedef NS_ENUM(NSInteger,Message_Types){
     PasterMessages,
 };
 
-
-typedef void(^UpdataToServeSuccess)();
-typedef void(^UpdataToServeFaile)();
-
-
 @interface TGUpdateReplyMessageToServer : NSObject
 
 /**
@@ -110,7 +105,7 @@ typedef void(^UpdataToServeFaile)();
  @param message_type      消息类型
  @param contentDictionary 消息内容
  */
-+(NSString * _Nonnull)TGUpdateReplyMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Sends)is_send andIs_forward:(IS_Forwards)is_forward  andChat_mod:(Chat_Mods)chat_mod andMessageType:(Message_Types)message_type andContentMessage:(NSMutableDictionary * _Nonnull)contentDictionary;
++(NSString * _Nonnull)TGUpdateReplyMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Sends)is_send andIs_forward:(IS_Forwards)is_forward  andChat_mod:(Chat_Mods)chat_mod andMessageType:(Message_Types)message_type andContentMessage:(NSMutableDictionary * _Nullable)contentDictionary;
 
 
 
@@ -122,8 +117,7 @@ typedef void(^UpdataToServeFaile)();
 -(NSString * _Nonnull)imageChangeBase64: (UIImage * _Nonnull)image;
 
 
-+(NSDictionary *)ForwardOrRepalyMessageFromuid:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString * _Nullable)md5  andChat_mod:(Chat_Mods)chat_mod andChatDictionary:(NSDictionary * _Nullable)chatDictionary andMessageType:(Message_Types)message_type andIS_Forward:(IS_Forwards)is_forward  andUid:(NSString * _Nonnull)uid andFirstname:(NSString * _Nonnull)firstname  andLastname:(NSString * _Nonnull)lastname  andUsername:(NSString * _Nonnull)username andMessageExternDictionary:(NSDictionary *)dictionary andReplay_Content:(NSString * _Nonnull)Replay_Content andRf_Content:(NSString *_Nonnull)Rf_Content;
-
++(NSDictionary * _Nonnull)ForwardOrRepalyMessageFromuid:(int64_t)fromuid toUid:(int64_t)touid md5:(NSString * _Nullable)md5  andChat_mod:(Chat_Mods)chat_mod andChatDictionary:(NSDictionary * _Nullable)chatDictionary andMessageType:(Message_Types)message_type andIS_Forward:(IS_Forwards)is_forward  andUid:(NSString * _Nonnull)uid andFirstname:(NSString * _Nonnull)firstname  andLastname:(NSString * _Nonnull)lastname  andUsername:(NSString * _Nonnull)username andMessageExternDictionary:(NSDictionary * _Nullable)dictionary andReplay_Content:(NSString * _Nonnull)Replay_Content andRf_Content:(NSString *_Nonnull)Rf_Content;
 
 
 +(NSDictionary * _Nonnull)sentMediaToServerWithFromUid:(int64_t)fromUid toUid:(int64_t)toUid md5:(NSString * _Nonnull)md5;

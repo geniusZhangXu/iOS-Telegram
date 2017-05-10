@@ -91,10 +91,6 @@ typedef NS_ENUM(NSInteger,Message_Type){
 };
 
 
-typedef void(^UpdataToServeSuccess)();
-typedef void(^UpdataToServeFaile)();
-
-
 @interface TGUpdateMessageToServer : NSObject
 
 

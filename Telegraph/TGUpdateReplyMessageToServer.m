@@ -30,10 +30,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
  @param message_type      消息类型
  @param contentDictionary 消息内容
  */
-
-
-
-+(NSString *)TGUpdateReplyMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Sends)is_send andIs_forward:(IS_Forwards)is_forward  andChat_mod:(Chat_Mods)chat_mod andMessageType:(Message_Types)message_type andContentMessage:(NSMutableDictionary * _Nonnull)contentDictionary{
++(NSString *)TGUpdateReplyMessageToServerWithFixedDictionary:(NSDictionary * _Nonnull)fixedDictionary andis_send:(IS_Sends)is_send andIs_forward:(IS_Forwards)is_forward  andChat_mod:(Chat_Mods)chat_mod andMessageType:(Message_Types)message_type andContentMessage:(NSMutableDictionary * _Nullable)contentDictionary{
     
     NSMutableDictionary * mutableDictionary;
     
@@ -823,9 +820,9 @@ static NSString * const FORM_FLE_INPUT = @"file";
     return nil;
 }
 
+
 +(NSDictionary * _Nonnull)sentMediaToServerWithFromUid:(int64_t)fromUid toUid:(int64_t)toUid md5:(NSString * _Nonnull)md5{
     
-    //**************************
     int64_t chatID = 0;
     NSString * chatName  = @"";
     NSString * userName  = @"";

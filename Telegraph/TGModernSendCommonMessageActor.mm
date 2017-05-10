@@ -341,7 +341,7 @@
             
             
             // ******上传文本消息到服务器
-            // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+            // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
             if (_conversationId < 0) {
                 
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -374,9 +374,8 @@
                     
                     NSDictionary * fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:@"" andChat_mod:chat_mods andChatDictionary:ChatDictionary];
                     
-                    
-                    
                     [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:chat_mods andMessageType:TextMessages thePathstr:@"" andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                        
                 }else{
                     
                     NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil andChat_mod:chat_mod andChatDictionary:ChatDictionary];
@@ -384,10 +383,7 @@
                     [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:chat_mod andMessageType:TextMessage andContentMessage:@{@"msg_content":textMessage.text}];
                 }
                 
-                
-                
-                
-        
+            // 单聊
             }else{
                
                 //文本消息
@@ -403,7 +399,7 @@
                     
                 }else{
                     
-                    NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
+                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:@"" andChat_mod:commomChat andChatDictionary:nil];
                     [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:TextMessage andContentMessage:@{@"msg_content":textMessage.text}];
                     
                 }
@@ -429,7 +425,7 @@
             // 把位置信息转化成Json字符串
             NSString * contactString = [TGUpdateMessageToServer convertToJsonData:locationDic];
             
-            // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+            // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
             if (_conversationId < 0) {
                 
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -487,7 +483,7 @@
                     
                 }else{
                     
-                    NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
+                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:@"" andChat_mod:commomChat andChatDictionary:nil];
                     [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":contactString}];
                 }
                 
@@ -709,7 +705,7 @@
             // 判断上传转发发送的消息到后台
             if(_conversationId < 0) {
                 
-                // 能进这个判断的，当会话ID小于0的时候，只能是群聊
+                // 能进这个判断的，当会话ID小于0的时候，只能是群聊或者广播消息
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
                 TGUser *user     = [TGDatabaseInstance() loadUser:uid];
                 TGConversation * conversation = [TGDatabaseInstance() loadConversationWithId:_conversationId];
@@ -762,7 +758,7 @@
             
             if (_conversationId < 0) {
                 
-                // 能进这个判断的，当会话ID小于0的时候，只能是群聊
+                // 能进这个判断的，当会话ID小于0的时候，只能是群聊或者广播消息
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
                 TGUser *user     = [TGDatabaseInstance()loadUser:uid];
                 TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
@@ -820,7 +816,7 @@
                     
                 }else{
                     
-                    NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil];
+                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:@"" andChat_mod:commomChat andChatDictionary:nil];
                     [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:ContactsMessage andContentMessage:@{@"msg_content":contactString}];
                     
                 }
@@ -1964,7 +1960,7 @@
                 messageCaption = @"";
             }
             
-            // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+            // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
             if (_conversationId < 0) {
                 
                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -2640,7 +2636,7 @@
                             messageTypes = FileMessages;
                         }
 
-                       // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                       // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
                        if (_conversationId < 0) {
 
                            int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -2697,7 +2693,8 @@
                                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:messageTypes thePathstr:filePath andis_send:TG_sends andIs_forward:is_replyforwardeds];
                                
                            }else{
-                               NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(fileData)];
+                                
+                               NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(fileData) andChat_mod:commomChat andChatDictionary:nil];
                                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:messageType andContentMessage:@{@"msg_content":filePath,@"filename":documentAttachment.fileName}];
                            }
                        }
@@ -2806,7 +2803,7 @@
                                 
                                 messageCaption = @"";
                             }
-                            // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                            // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
                             if (_conversationId < 0) {
                                 
                                 int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -2994,7 +2991,7 @@
                             }
                             if (updatedVideoPath) {
                                 
-                                // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                                // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
                                 if (_conversationId < 0) {
                                     
                                     int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -3116,7 +3113,7 @@
                             NSData   * vedioData = [NSData dataWithContentsOfFile:mediaAttachmentPath];
                             if (vedioData) {
                                 
-                                // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                                // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息
                                 if (_conversationId < 0) {
                                     
                                     int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -3343,7 +3340,7 @@
                         NSString * string = [NSString stringWithFormat:@"%@/thumbnail-high",updatedDocumentDirectory];
                         NSData   * data = [NSData dataWithContentsOfFile:string];
                       
-                        // 能进这个方法的，当会话ID小于0的时候，只能是群聊
+                        // 能进这个方法的，当会话ID小于0的时候，只能是群聊或者广播消息或者广播消息
                         if (_conversationId < 0) {
                             
                             int32_t  uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
@@ -3363,7 +3360,7 @@
                                 chat_mod = broadcast;
                                 chat_mods = broadcasts;
                                 
-                                // 群聊
+                            // 群聊
                             }else {
                                 
                                 NSString  * chat_id =[NSString stringWithFormat:@"%d",TGGroupIdFromPeerId(_conversationId)];
@@ -3398,7 +3395,8 @@
                                 NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)];
                                 [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:PasterMessages thePathstr:string andis_send:TG_sends andIs_forward:is_replyforwardeds];
                             }else{
-                                NSDictionary * fixDictionary =  [self sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) ];
+                        
+                                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:commomChat andChatDictionary:nil];
                                 [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:commomChat andMessageType:PasterMessage andContentMessage:@{@"msg_content":string}];
                             }
                             

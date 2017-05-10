@@ -51,14 +51,6 @@
 - (int64_t)peerId;
 
 
-
-#pragma mark -- 向自己服务器发送媒体消息
--(NSDictionary * )sentMediaToServerWithFromUid:(int64_t)fromUid toUid:(int64_t)toUid md5:(NSString *)md5;
-
--(NSString *)MIMEType:(NSURL *)url;
-
--(void)sentFileToServerWithType:(int)msgType fromUid:(int64_t)fromUid toUid:(int64_t)toUid md5:(NSString *)md5 contentURL:(NSString *)contentURL chatMode:(int)chatMode channelID:(int)channelID;
-
 @end
 
 #ifdef __cplusplus
