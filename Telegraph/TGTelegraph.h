@@ -18,6 +18,7 @@
 #import "TGDialogListRemoteOffset.h"
 #import "TGCallManager.h"
 #import "MediaBox.h"
+#import "TGReceiveMessageFindWithLoaction.h"
 
 #ifdef __cplusplus
 #include <map>

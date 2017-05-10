@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <SSignalKit/SSignalKit.h>
+#import "TGReceiveMessageFindWithLoaction.h"
+#import "TGReceiveMessageDatabase.h"
 
 @interface TGChannelStateSignals : NSObject
 

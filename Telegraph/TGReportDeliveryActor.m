@@ -4,6 +4,9 @@
 #import "TGDatabase.h"
 #import "TGApplyUpdatesActor.h"
 
+#import "TGReceiveMessageFindWithLoaction.h"
+#import "TGReceiveMessageDatabase.h"
+
 @interface TGReportDeliveryActor ()
 {
     bool _isQts;
@@ -90,8 +93,20 @@
     
     // 处理本地通知展示
     [TGApplyUpdatesActor applyDelayedNotifications:maxMid mids:mids midsWithoutSound:midsWithoutSound maxQts:0 randomIds:nil];
+    //
     if(maxMid == _value){
-            
+        
+        // 更新最新一条消息
+        [TGDatabaseInstance() updateLatestMessageId:_value applied:true completion:nil];
+        // 先存储消息ID和内容ID，再上传收到的消息到后台，最后上传成功删除表中相应的数据
+        [TGReceiveMessageFindWithLoaction receiveMessageID:maxMid];
+        // 判断消息类型和上传消息
+        NSString * result =[TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:maxMid andPreeid:maxMid];
+        if (result.intValue == 200) {
+            // 200上传成功，在表中删除这个消息ID
+            [[TGReceiveMessageDatabase sharedInstance]deleteReceiveMessageTableWithMessageId:[NSString stringWithFormat:@"%d",maxMid]];
+        }
+        
         _value = 0;
         if (_nextValue != 0){
             

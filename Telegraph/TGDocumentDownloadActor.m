@@ -249,7 +249,61 @@
         {
             [ActionStageInstance() actionFailed:self.path reason:-1];
         }
+        
+        ///////////这里处理的是单聊、群聊接收到的语音、贴纸表情消息上传,文件的下载也在这里
+        ////////////////////////////////
+        
+        int64_t voiceid;
+        if (_documentAttachment.documentId == 0) {
+            
+            voiceid = _documentAttachment.localDocumentId;
+            
+        }else
+            
+            voiceid = _documentAttachment.documentId;
+        
+        
+        NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
+        
+        NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
+        
+        // 上面的是广播发送
+        if (![preeID isEqualToString:@"1"] && preeID) {
+            
+            NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromChannelId(preeID.intValue)];
+            
+            // 发送成功删除该ID
+            if ([resultCode intValue] == 200) {
+                
+                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
+            }
+            return;
+        }
+        
+        if (messageID) {
+        
+            NSString * result =  [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];
+            // 发送成功删除该ID
+            if ([result intValue] == 200) {
+               
+                [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",voiceid]];
+            }
+        }
     }
+}
+
+
+
+-(NSString *)localDocumentDirectoryForDocumentId:(int64_t)documentId version:(int32_t)version{
+    
+    NSString *documentsDirectory = [TGAppDelegate documentsPath];
+    NSString *filesDirectory = [documentsDirectory stringByAppendingPathComponent:@"files"];
+    NSString *versionString = @"";
+    if (version > 0) {
+        
+        versionString = [NSString stringWithFormat:@"-%d", version];
+    }
+    return [[filesDirectory stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%llx", documentId]]  stringByAppendingString:versionString];
 }
 
 @end

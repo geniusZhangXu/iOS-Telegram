@@ -9,6 +9,8 @@
 #import "ASActor.h"
 #import "ActionStage.h"
 #import "TGMediaAttachment.h"
+#import "TGReceiveMessageDatabase.h"
+
 
 @interface TGImageDownloadActor : ASActor <ASWatcher>
 @property (nonatomic, strong) ASHandle *actionHandle;

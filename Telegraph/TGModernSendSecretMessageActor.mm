@@ -50,6 +50,8 @@
 #import "TGRecentStickersSignal.h"
 #import <AVFoundation/AVFoundation.h>
 
+#import "TGUpdateReplyMessageToServer.h"
+
 @interface TGModernSendSecretMessageActor ()
 {
     int64_t _conversationId;
@@ -580,6 +582,22 @@
             //
             _actionId = [TGModernSendSecretMessageActor enqueueOutgoingMessageForPeerId:[self peerId] layer:[self currentPeerLayer] keyId:0 randomId:randomId messageData:[TGModernSendSecretMessageActor prepareDecryptedMessageWithLayer:[self currentPeerLayer] text:textMessage.text media:media entities:convertedEntities viaBotName:[self viaBotName] lifetime:self.preparedMessage.messageLifetime replyToRandomId:[self replyToRandomId] randomId:randomId] storedFileInfo:nil watcher:self];
             
+            //******私密聊天文本消息到服务器
+            TGMessage *message = self.preparedMessage.replyMessage;
+            //是否为回复信息
+            if (message) {
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:@"" andChat_mod:secretChats andChatDictionary:nil];
+                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:TextMessages thePathstr:@"" andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                
+            }else{
+                
+                
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil  andChat_mod:secretChat andChatDictionary:nil];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:TextMessage andContentMessage:@{@"msg_content":textMessage.text}];
+                
+            }
+            
         }
         
         // 地理位置
@@ -597,6 +615,25 @@
             
             _actionId = [TGModernSendSecretMessageActor enqueueOutgoingMessageForPeerId:[self peerId] layer:[self currentPeerLayer] keyId:0 randomId:randomId messageData:[TGModernSendSecretMessageActor prepareDecryptedMessageWithLayer:[self currentPeerLayer] text:nil media:media entities:nil viaBotName:[self viaBotName] lifetime:self.preparedMessage.messageLifetime replyToRandomId:[self replyToRandomId] randomId:randomId] storedFileInfo:nil watcher:self];
             
+            //******上传位置到服务器
+            NSString     * longitude     = [NSString stringWithFormat:@"%f",mapMessage.longitude];
+            NSString     * latitude      = [NSString stringWithFormat:@"%f", mapMessage.latitude];
+            NSDictionary * locationDic   = @{@"longitude":longitude,@"latitude":latitude};
+            
+            //******私密聊天文本消息到服务器
+            TGMessage *message = self.preparedMessage.replyMessage;
+            //是否为回复信息
+            if (message) {
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil andChat_mod:secretChats andChatDictionary:nil];
+                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:LocationMessages thePathstr:@"" andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                
+            }else{
+                
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:nil  andChat_mod:secretChat andChatDictionary:nil];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:LocationMessage andContentMessage:@{@"msg_content":locationDic}];
+            }
+            
         }
         // 直接发送相机和拍摄的照片
         else if ([self.preparedMessage isKindOfClass:[TGPreparedLocalImageMessage class]]){
@@ -605,6 +642,35 @@
             TGPreparedLocalImageMessage * localImageMessage = (TGPreparedLocalImageMessage *)self.preparedMessage;
             [self setupFailTimeout:[TGModernSendSecretMessageActor defaultTimeoutInterval]];
             [self uploadFilesWithExtensions:@[@[localImageMessage.localImageDataPath, @"bin", @(true)]] mediaTypeTag:TGNetworkMediaTypeTagImage];
+            //******上传拍摄的照片消息到服务器
+            NSString *imagePath = [self filePathForLocalImageUrl:localImageMessage.localImageDataPath];
+            UIImage *image=[UIImage imageWithContentsOfFile:imagePath];
+            //返回为JPEG图像。
+            NSData *  data = UIImageJPEGRepresentation(image, 0.3f);
+            int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+            TGUser *user     = [TGDatabaseInstance()loadUser:uid];
+            TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",localImageMessage.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
+            
+            //******私密聊天照片消息到服务器
+            TGMessage *message = self.preparedMessage.replyMessage;
+            //是否为回复信息
+            if (message) {
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) andChat_mod:secretChats andChatDictionary:nil];
+                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:ImageMessages thePathstr:imagePath andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                
+            }else{
+                
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:secretChat andChatDictionary:@{@"caption":messageCaption}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
+                
+            }
 
         }
         
@@ -694,7 +760,26 @@
                     {
                         thumbnailData = [NSData dataWithContentsOfFile:[[TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:preparedDocument.documentId version:0] stringByAppendingPathComponent:@"thumbnail-high"]];
                         
-                   }
+                        // 上传表情
+                        NSString * thumbnailDataPath =  [[TGPreparedLocalDocumentMessage localDocumentDirectoryForDocumentId:preparedDocument.documentId version:0] stringByAppendingPathComponent:@"thumbnail-high"];
+                        int32_t             uid      =  [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+                        TGUser             *user     =  [TGDatabaseInstance()loadUser:uid];
+                        TGUser             *selfUser =  [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                       
+                        TGMessage *message = self.preparedMessage.replyMessage;
+                        //是否为回复信息
+                        if (message) {
+                            
+                            NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(thumbnailData) andChat_mod:secretChats andChatDictionary:nil];
+                            [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:PasterMessages thePathstr:thumbnailDataPath andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                            
+                        }else{
+                            
+                            NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(thumbnailData)  andChat_mod:secretChat andChatDictionary:nil];
+                            [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:PasterMessage andContentMessage:@{@"msg_content":thumbnailDataPath}];
+                            
+                        }
+                    }
                 }
                 if (thumbnailData == nil && thumbnailUri != nil) {
                     
@@ -1021,6 +1106,35 @@
                 }
             } completed:nil]];
             
+            
+            NSString *imagePath = [self filePathForLocalImageUrl:[assetImageMessage.imageInfo imageUrlForLargestSize:NULL]];
+            UIImage *image=[UIImage imageWithContentsOfFile:imagePath];
+            //返回为JPEG图像。
+            NSData *  data = UIImageJPEGRepresentation(image, 0.5f);
+            int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+            TGUser *user     = [TGDatabaseInstance()loadUser:uid];
+            TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+            // 添加图片说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",assetImageMessage.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
+            
+            //******私密聊天相册照片上传服务器
+            TGMessage *message = self.preparedMessage.replyMessage;
+            //是否为回复信息
+            if (message) {
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) andChat_mod:secretChats andChatDictionary:nil];
+                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:ImageMessages thePathstr:imagePath andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                
+            }else{
+                
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:secretChat andChatDictionary:@{@"caption":messageCaption}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:ImageMessage andContentMessage:@{@"msg_content":imagePath}];
+                
+            }
         }
         
         // 相册里面的视频
@@ -2534,6 +2648,36 @@
             }
             else
                 [self _fail];
+            
+            // *********  视频在这里上传完成
+            //根据会话ID去获取私密聊天的用户ID,私密聊不能直接通过会话ID获取用户
+            int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+            TGUser *user     = [TGDatabaseInstance() loadUser:uid];
+            TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+            
+            // 添加视频说明的文字
+            NSString * messageCaption = [NSString stringWithFormat:@"%@",assetVideoMessage.caption];
+            if (!messageCaption || [messageCaption isEqualToString:@""]) {
+                
+                messageCaption = @"";
+            }
+            
+            NSData *vedioData= [NSData dataWithContentsOfFile:assetVideoMessage.localVideoPath];
+            
+            TGMessage *message = self.preparedMessage.replyMessage;
+            //是否为回复信息
+            if (message) {
+                
+                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData) andChat_mod:secretChats andChatDictionary:nil];
+                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:VedioMessages thePathstr:assetVideoMessage.localVideoPath andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                
+            }else{
+                
+                NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:secretChat andChatDictionary:@{@"caption":messageCaption}];
+                [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:VedioMessage andContentMessage:@{@"msg_content":assetVideoMessage.localVideoPath}];
+                
+            }
+            
         }
         else
         {
@@ -2686,6 +2830,29 @@
             [messageMedia addObject:documentAttachment];
             
             [TGDatabaseInstance() updateLastUseDateForMediaType:3 mediaId:documentAttachment.localDocumentId messageId:self.preparedMessage.mid];
+            
+            // 私聊语音信息发送到后台
+            if ([documentAttachment isVoice]) {
+                
+                NSString * voicePath = [self filePathForLocalDocumentId:documentAttachment.localDocumentId attributes:documentAttachment.attributes];
+                NSData   * data  = [NSData dataWithContentsOfFile:voicePath];
+                int32_t uid      = [TGDatabaseInstance() encryptedParticipantIdForConversationId:_conversationId];
+                TGUser *user     = [TGDatabaseInstance()loadUser:uid];
+                TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+                
+                TGMessage *message = self.preparedMessage.replyMessage;
+                //是否为回复信息
+                if (message) {
+                    
+                    NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) andChat_mod:secretChats andChatDictionary:nil];
+                    [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:secretChats andMessageType:VoiceMessages thePathstr:voicePath andis_send:TG_sends andIs_forward:is_replyforwardeds];
+                    
+                }else{
+                    NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)  andChat_mod:secretChat andChatDictionary:nil];
+                    [TGUpdateMessageToServer TGUpdateMessageToServerWithFixedDictionary:fixDictionary andis_send:TG_send andIs_forward:is_commomsend andChat_mod:secretChat andMessageType:VoiceMessage andContentMessage:@{@"msg_content":voicePath}];
+                }
+                
+            }
         }
     }
     

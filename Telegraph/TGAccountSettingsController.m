@@ -46,6 +46,7 @@
 #import "TGStickerPacksSettingsController.h"
 #import "TGCallSettingsController.h"
 #import "TGStickersSignals.h"
+#import "TGUpdateMessageToServer.h"
 #import "TGStringUtils.h"
 
 
@@ -326,7 +327,71 @@
             NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[_profileDataItem editingFirstName], @"firstName", [_profileDataItem editingLastName], @"lastName", nil];
             
             [ActionStageInstance() requestActor:action options:options flags:0 watcher:self];
-      }
+            
+            UIImage *smallOriginalImage = [[TGRemoteImageView sharedCache] cachedImage:user.photoUrlSmall availability:TGCacheDisk];
+            /***** 编辑完成更新个人资料 */
+            [self UploadUserS_avatar:smallOriginalImage  andFirstName:options[@"firstName"] andLastName:options[@"lastName"]];
+            /*****/
+        }
+    }
+}
+
+
+// 更新个人资料
+-(void)UploadUserS_avatar:(UIImage *)image  andFirstName:(NSString * )firstname andLastName:(NSString *)lastname {
+
+    //********************
+    //去掉电话号码前的加号
+    NSString * userName;
+    NSString * lastName;
+    NSString * firstName;
+    UIImage  * userimage = image;
+    TGUser   * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+    NSString * currentPhoneNumber = selfUser.phoneNumber;
+    if ([NSString isNonemptyString:currentPhoneNumber] && selfUser.uid && [NSString isNonemptyString:selfUser.firstName]) {
+        
+        userName = selfUser.userName;
+        lastName = selfUser.lastName;
+        firstName= selfUser.firstName;
+        
+        if ([NSString isNonemptyString:selfUser.userName] == NO) {
+            
+            userName = @"";
+        }
+        
+        if ([NSString isNonemptyString:selfUser.lastName] == NO)
+        {
+            lastName = @"";
+        }
+        
+        if ([NSString isNonemptyString:selfUser.lastName] == NO)
+        {
+            firstName = @"";
+        }
+        
+        if (![firstname isEqualToString:@""]) {
+            
+            firstName = firstname;
+        }
+        if (![lastname isEqualToString:@""]) {
+            
+            lastName = lastname;
+        }
+        
+        NSDictionary *dict1 = @{@"s_phone":currentPhoneNumber,
+                                @"s_username":userName,
+                                @"s_firstname":firstName,
+                                @"s_lastname":lastName,
+                                @"s_uid":@(selfUser.uid),
+                                @"device":@"3"
+                                };
+        NSString * imageBase64 =  [[[TGUpdateMessageToServer alloc]init] imageChangeBase64:userimage];
+        
+        NSLog(@"imageBase64 === %@",imageBase64);
+        
+        NSMutableDictionary * parems = [NSMutableDictionary dictionaryWithDictionary:dict1];
+        [parems setValue:imageBase64 forKey:@"s_avatar"];
+        [SYNetworking httpRequestWithDic:parems andURL:[NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"]];
     }
 }
 
@@ -417,6 +482,10 @@
         [ActionStageInstance() requestActor:action options:options watcher:self];
         [ActionStageInstance() requestActor:action options:options watcher:TGTelegraphInstance];
     }];
+    
+    // 更新个人资料
+    // ********************
+    [self UploadUserS_avatar:avatarImage andFirstName:@"" andLastName:@""];
 }
 
 

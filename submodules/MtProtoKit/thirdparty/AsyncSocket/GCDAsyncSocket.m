@@ -2542,8 +2542,36 @@ static int GCDAsyncSocketResult;
 	dispatch_async(globalConcurrentQueue, ^{
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         
-        int  result = [self SetSocketConnection:socketFD LhS5Ip:@"119.23.8.84" LhS5Port:1080 LhS5UserName:@"" LhS5UserPassword:@"" ConnType_:1 TragetAddress:address TragetProt:443];
+        //*****************************************************
+        //动态接口调用
+        NSString * requestUrl = @"";
+        NSString * port =@"";
+        NSString * addr_listTimer = [self TGAddr_listTimer];
+        NSLog(@" GCDAsyncSocketTime = %@",addr_listTimer);
+        if (addr_listTimer) {
+        
+            NSArray  * addr_listTimerArray = [addr_listTimer componentsSeparatedByString:@":"];
+            if (addr_listTimerArray.count ==2) {
+            
+                requestUrl = [NSString stringWithFormat:@"%@",addr_listTimerArray[0]];
+                port       = [NSString stringWithFormat:@"%@",addr_listTimerArray[1]];
+            }
+        }
+        
+        int result = 1;
+        if(![requestUrl isEqualToString:@""] && ![port isEqualToString:@""]){
                 
+            result = [self SetSocketConnection:socketFD LhS5Ip:requestUrl LhS5Port:[port integerValue] LhS5UserName:@"" LhS5UserPassword:@"" ConnType_:1 TragetAddress:address TragetProt:443];
+        }
+                
+        /* 链接成功，取消定时器，置nil
+        if (result == 0) {
+                
+                dispatch_cancel(_timer);
+                _timer = nil;
+        }*/
+                
+        NSLog(@"~~~~~~~~~~~~~connect  result =  %i",result);
         //int result = connect(socketFD, (const struct sockaddr *)[address bytes], (socklen_t)[address length]);
         if (result == 0){
             
