@@ -112,7 +112,7 @@
             
             _value = _nextValue;
             _nextValue = 0;
-            self.cancelToken = [TGTelegraphInstance doReportDelivery:_value actor:self];      //暂时注掉
+//            self.cancelToken = [TGTelegraphInstance doReportDelivery:_value actor:self];      //暂时注掉
             
         }else{
             
