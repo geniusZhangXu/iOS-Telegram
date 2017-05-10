@@ -12,8 +12,6 @@
 #import "TGTelegraph.h"
 #import "TGAppDelegate.h"
 #import "NSString+SYisBlankString.h"
-#import "SYNetworking.h"
-
 
 @interface TGModernSendMessageActor ()
 {

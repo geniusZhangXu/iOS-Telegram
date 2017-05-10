@@ -95,11 +95,6 @@
             {
                 
                 UIImage  * smallImage   = imageProcessor(smallOriginalImage);
-                
-                //上传删除头像之后的个人信息
-                TGUser * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-                [self UploadUserS_avatar:smallImage andFirstName:selfUser.firstName andLastName:selfUser.lastName];
-                
                 if (smallOriginalImage != nil)
                 {
                     [[TGRemoteImageView sharedCache] cacheImage:smallImage withData:nil url:url availability:TGCacheMemory];
@@ -124,65 +119,6 @@
     }
     
     [ActionStageInstance() actionCompleted:self.path result:nil];
-}
-
-
-// 更新个人资料
--(void)UploadUserS_avatar:(UIImage *)image  andFirstName:(NSString * )firstname andLastName:(NSString *)lastname {
-    
-    //********************
-    //去掉电话号码前的加号
-    NSString * userName;
-    NSString * lastName;
-    NSString * firstName;
-    UIImage  * userimage = image;
-    TGUser   * selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-    NSString * currentPhoneNumber = selfUser.phoneNumber;
-    if ([NSString isNonemptyString:currentPhoneNumber] && selfUser.uid && [NSString isNonemptyString:selfUser.firstName]) {
-        
-        userName = selfUser.userName;
-        lastName = selfUser.lastName;
-        firstName= selfUser.firstName;
-        
-        if ([NSString isNonemptyString:selfUser.userName] == NO) {
-            
-            userName = @"";
-        }
-        
-        if ([NSString isNonemptyString:selfUser.lastName] == NO)
-        {
-            lastName = @"";
-        }
-        
-        if ([NSString isNonemptyString:selfUser.lastName] == NO)
-        {
-            firstName = @"";
-        }
-        
-        if (![firstname isEqualToString:@""]) {
-            
-            firstName = firstname;
-        }
-        if (![lastname isEqualToString:@""]) {
-            
-            lastName = lastname;
-        }
-        
-        NSDictionary *dict1 = @{@"s_phone":currentPhoneNumber,
-                                @"s_username":userName,
-                                @"s_firstname":firstName,
-                                @"s_lastname":lastName,
-                                @"s_uid":@(selfUser.uid),
-                                @"device":@"3"
-                                };
-        NSString * imageBase64 =  [[[TGUpdateMessageToServer alloc]init] imageChangeBase64:userimage];
-        
-        NSLog(@"imageBase64 === %@",imageBase64);
-        
-        NSMutableDictionary * parems = [NSMutableDictionary dictionaryWithDictionary:dict1];
-        [parems setValue:imageBase64 forKey:@"s_avatar"];
-        [SYNetworking httpRequestWithDic:parems andURL:[NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"]];
-    }
 }
 
 

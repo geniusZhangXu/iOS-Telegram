@@ -54,7 +54,6 @@
 #import "TGCreateGroupController.h"
 #import "TGChannelIntroController.h"
 #import "TGMeContactsCell.h"
-#import "SYNetworking.h"
 
 #pragma mark -
 static bool TGContactListItemSortByLastNameFunction(const TGUser *item1, const TGUser *item2)
@@ -1785,27 +1784,11 @@ static inline NSString *subtitleStringForUser(TGUser *user, bool &subtitleActive
 
 - (void)contactActionButtonPressed:(TGUser *)__unused user
 {
+        
 }
 
 - (void)deleteUserFromList:(int)uid{
     
-    //********************
-    TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-  
-    NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/disconnect"];// 当前用户信息接口删除联系人
-    
-    if (selfUser.uid && uid) {
-        
-        NSDictionary *dict1 = @{@"r_uid":@(uid),
-                                @"s_uid":@(selfUser.uid)
-                                };
-        
-        [SYNetworking httpRequestWithDic:dict1 andURL:url];
-        
-    }
-    //NSLog(@"删除一个联系人~~");
-    //*******************
-
     int sectionIndex = -1;
     for (std::vector<std::tr1::shared_ptr<TGContactListSection> >::iterator section = _sectionList.begin(); section != _sectionList.end(); section++)
     {

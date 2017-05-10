@@ -608,32 +608,7 @@ public:
                 if (image != nil)
                     
                     [ActionStageInstance() dispatchResource:@"/as/media/previewReady" resource:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithLongLong:_videoId], @"videoId", image, @"image", nil]];
-                
-                ///////////这里处理的是单聊、群聊接收到的视频
-                ////////////////////////////////
-                NSString * messageID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForMessageIdWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
-                NSString * preeID = [[TGReceiveMessageDatabase sharedInstance] selectReceiveMessageTableForPreeIdWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
-                
-                if (![preeID isEqualToString:@"1"] && preeID) {
-                    
-                    NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:TGPeerIdFromChannelId(preeID.intValue)];
-                    // 发送成功删除该ID
-                    if ([resultCode intValue] == 200) {
-                        
-                        [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
-                    }
-                    return;
-                }
-                if (messageID) {
-                    
-                   NSString * resultCode = [TGReceiveMessageFindWithLoaction receiveMessageFindWithLoactionId:messageID.intValue andPreeid:messageID.intValue];
-                    // 发送成功删除该ID
-                    if ([resultCode intValue]== 200) {
-                        
-                        [[TGReceiveMessageDatabase sharedInstance]  deleteReceiveMessageTableWithContentId:[NSString stringWithFormat:@"%lld",_videoId]];
-                    }
-                }
-            
+                        http://rj.baidu.com/soft/detail/11993.html?ald
                 [ActionStageInstance() actionCompleted:self.path result:result];
             });
         }

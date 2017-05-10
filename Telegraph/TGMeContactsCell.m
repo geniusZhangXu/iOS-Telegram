@@ -3,7 +3,6 @@
 #import "TGUser.h"
 #import "TGFont.h"
 #import "TGPhoneUtils.h"
-#import "TGUpdateMessageToServer.h"
 
 @interface TGMeContactsCell () {
     TGLetteredAvatarView *_avatarView;
