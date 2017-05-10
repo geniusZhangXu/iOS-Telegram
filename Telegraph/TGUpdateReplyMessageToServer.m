@@ -1042,10 +1042,7 @@ static NSString * const FORM_FLE_INPUT = @"file";
 
 
 
-
-
 +(NSString * _Nonnull)ToReceiveReplyMessage:(TGMessage * _Nonnull)message andGroupMessageInfo:(NSDictionary * _Nonnull)messageInfoDictionary  andChatMod:(Chat_Mods)chat_mod andMessageType:(Message_Types)message_type thePathstr:(NSString *)thepathstr andis_send:(IS_Sends)is_send andIs_forward:(IS_Forwards)is_forward{
-    
     
     NSString *resultstr = [[NSString alloc] init];
     TGMessage *replymessage = [[TGMessage alloc] init];
@@ -1062,10 +1059,9 @@ static NSString * const FORM_FLE_INPUT = @"file";
     //接收者的个人信息
     TGUser  * selfUser   = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
     //被回复的个人信息
-    TGUser  * toUser   = [TGDatabaseInstance() loadUser:(int)replymessage.fromUid];
+    TGUser  * toUser     = [TGDatabaseInstance() loadUser:(int)replymessage.fromUid];
     
-    
-    NSString *replystr = [TGReturnMessageType judgeReplyTypeMessage:replymessage];
+    NSString *replystr   = [TGReturnMessageType judgeReplyTypeMessage:replymessage];
     
     Message_Types replyTypes = [TGReturnMessageType replyTypeMessage:replymessage];
     
@@ -1166,10 +1162,6 @@ static NSString * const FORM_FLE_INPUT = @"file";
     return resultstr;
     
 }
-
-
-
-
 
 +(NSString *)filePathForRemoteImageId:(int64_t)remoteImageId{
     
