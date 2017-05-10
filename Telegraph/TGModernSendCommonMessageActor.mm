@@ -2688,7 +2688,7 @@
                            //是否为回复信息
                            if (message) {
                                
-                               NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(fileData)];
+                               NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(fileData) andChat_mod:commomChats andChatDictionary:nil];
                                
                                [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:messageTypes thePathstr:filePath andis_send:TG_sends andIs_forward:is_replyforwardeds];
                                
@@ -2860,7 +2860,7 @@
                                 //是否为回复信息
                                 if (message) {
                                     
-                                    NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)];
+                                    NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) andChat_mod:commomChats andChatDictionary:nil];
                                     [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:ImageMessages thePathstr:imagePath andis_send:TG_sends andIs_forward:is_replyforwardeds];
                                     
                                 }else{
@@ -3046,7 +3046,7 @@
                                     //是否为回复信息
                                     if (message) {
                                         
-                                        NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)];
+                                        NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData) andChat_mod:commomChats andChatDictionary:nil];
                                         [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:VedioMessages thePathstr:updatedVideoPath andis_send:TG_sends andIs_forward:is_replyforwardeds];
                                     }else{
                                         NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:commomChat andChatDictionary:@{@"caption":messageCaption}];
@@ -3167,7 +3167,7 @@
                                     //是否为回复信息
                                     if (message) {
                                         
-                                        NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)];
+                                        NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData) andChat_mod:commomChats andChatDictionary:nil];
                                         [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:FileMessages thePathstr:mediaAttachmentPath andis_send:TG_sends andIs_forward:is_replyforwardeds];
                                     }else{
                                         NSDictionary * fixDictionary =  [TGUpdateMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(vedioData)  andChat_mod:commomChat andChatDictionary:nil];
@@ -3392,7 +3392,7 @@
                             TGMessage *message = self.preparedMessage.replyMessage;
                             //是否为回复信息
                             if (message) {
-                                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data)];
+                                NSDictionary *fixDictionary = [TGUpdateReplyMessageToServer sentMediaToServerWithFromUid:selfUser.uid toUid:user.uid md5:TGImageHash(data) andChat_mod:commomChats andChatDictionary:nil];
                                 [TGUpdateReplyMessageToServer UploadForwardMessageToServeWithMessage:self.preparedMessage andToUid:user.uid andGroupMessageInfo:fixDictionary andChatMod:commomChats andMessageType:PasterMessages thePathstr:string andis_send:TG_sends andIs_forward:is_replyforwardeds];
                             }else{
                         
