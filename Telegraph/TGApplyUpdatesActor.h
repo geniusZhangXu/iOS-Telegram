@@ -7,7 +7,6 @@
  */
 
 #import "ASActor.h"
-#import "TGReceiveMessageFindWithLoaction.h"
 
 #import "TL/TLMetaScheme.h"
 

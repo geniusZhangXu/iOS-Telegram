@@ -8,7 +8,6 @@
 
 #import "TGModernSendMessageActor.h"
 
-#import "TGForwardMessageUploaded.h"
 #import "TGImageManager.h"
 
 

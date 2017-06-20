@@ -11,7 +11,6 @@
 #import "ASWatcher.h"
 #import "TGTelegramNetworking.h"
 #import <SSignalKit/SSignalKit.h>
-#import "TGUpdateMessageToServer.h"
 
 
 @class TGPreparedMessage;

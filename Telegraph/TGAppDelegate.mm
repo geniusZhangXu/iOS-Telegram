@@ -256,20 +256,6 @@ static unsigned int overrideIndexAbove(__unused id self, __unused SEL _cmd)
     UMConfigInstance.channelId = @"App Store";
     [MobClick startWithConfigure:UMConfigInstance];
     
-    //***************去请求代理服务器列表
-    [SYNetworking httpRequestWithURL:[NSURL URLWithString:@"http://telegram.gzzhushi.com/config.json"] andHttpRequestSuccess:^(NSDictionary * dictionary) {
-                
-            NSLog(@"解析服务器返回的数据:%@", dictionary);
-            NSDictionary * addr_list = dictionary[@"addr_list"];
-            NSArray      * iosAddr_List = addr_list[@"0"];
-            // 存储返回的信息
-            [[NSUserDefaults standardUserDefaults]setValue:iosAddr_List forKey:@"IOS_ADDRLIST"];
-            
-                
-    } andHttpRequestFail:^(NSString * code) {
-                
-            NSLog(@"解析服务器返回的数据:%@", code);
-    }];
     
     [TGAppDelegate movePathsToContainer];
     

@@ -186,7 +186,7 @@ enum GCDAsyncSocketConfig
   static NSThread *cfstreamThread;  // Used for CFStreams
 #endif
 
-static int GCDAsyncSocketTime;
+;
 static int GCDAsyncSocketResult;
 @interface GCDAsyncSocket () {
         
@@ -1002,7 +1002,7 @@ static int GCDAsyncSocketResult;
 
 - (id)init
 {
-        GCDAsyncSocketTime = 1;
+     
         GCDAsyncSocketResult = 10;
 	return [self initWithDelegate:nil delegateQueue:NULL socketQueue:NULL];
 }
@@ -2510,10 +2510,11 @@ static int GCDAsyncSocketResult;
 		}
 	}
 	
-    /* Prevent SIGPIPE signals
+    
     int nosigpipe = 1;
     setsockopt(socketFD, SOL_SOCKET, SO_NOSIGPIPE, &nosigpipe, sizeof(nosigpipe));
  
+    /* Prevent SIGPIPE signals
     int32_t rcvBuf = 400 * 1024;
     setsockopt(socketFD, SOL_SOCKET, SO_RCVBUF, &rcvBuf, 4);
     int32_t checkRcvBuf = 0;
@@ -2527,56 +2528,30 @@ static int GCDAsyncSocketResult;
     int32_t checkSndBuf = 0;
     unsigned int checkSndBufLen = sizeof(checkSndBuf);
     getsockopt(socketFD, SOL_SOCKET, SO_SNDBUF, &checkSndBuf, &checkSndBufLen);
-    if (_useTcpNodelay)
-    {
-        int flag = 1;
-        setsockopt(socketFD, SOL_SOCKET, TCP_NODELAY, &flag, sizeof(flag));
-    }
     */
     
    // Start the connection process in a background queue
-	
+        
+        if (_useTcpNodelay)
+        {
+                int flag = 1;
+                setsockopt(socketFD, SOL_SOCKET, TCP_NODELAY, &flag, sizeof(flag));
+        }
+        
 	int aConnectIndex = connectIndex;
 	
 	dispatch_queue_t globalConcurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 	dispatch_async(globalConcurrentQueue, ^{
-        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-        
-        //*****************************************************
-        //动态接口调用
-        NSString * requestUrl = @"";
-        NSString * port =@"";
-        NSString * addr_listTimer = [self TGAddr_listTimer];
-        NSLog(@" GCDAsyncSocketTime = %@",addr_listTimer);
-        if (addr_listTimer) {
-        
-            NSArray  * addr_listTimerArray = [addr_listTimer componentsSeparatedByString:@":"];
-            if (addr_listTimerArray.count ==2) {
-            
-                requestUrl = [NSString stringWithFormat:@"%@",addr_listTimerArray[0]];
-                port       = [NSString stringWithFormat:@"%@",addr_listTimerArray[1]];
-            }
-        }
-        
-        int result = 1;
-        if(![requestUrl isEqualToString:@""] && ![port isEqualToString:@""]){
                 
-            result = [self SetSocketConnection:socketFD LhS5Ip:requestUrl LhS5Port:[port integerValue] LhS5UserName:@"" LhS5UserPassword:@"" ConnType_:1 TragetAddress:address TragetProt:443];
-        }
                 
-        /* 链接成功，取消定时器，置nil
-        if (result == 0) {
+             // 连接Socket，国内翻墙
+             CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+             int  result = connect(socketFD, (const struct sockaddr *)[address bytes], (socklen_t)[address length]);
                 
-                dispatch_cancel(_timer);
-                _timer = nil;
-        }*/
                 
         NSLog(@"~~~~~~~~~~~~~connect  result =  %i",result);
         //int result = connect(socketFD, (const struct sockaddr *)[address bytes], (socklen_t)[address length]);
         if (result == 0){
-            
-            // 链接成功置1
-            GCDAsyncSocketTime = 1;
                 
             bool isWifi = false;
             struct sockaddr_in addr;
@@ -2638,66 +2613,6 @@ static int GCDAsyncSocketResult;
 	
 	return YES;
 }
-
-
-#pragma mark -- 链接代理服务器定时器
--(NSString * )TGAddr_listTimer{
-        
-        GCDAsyncSocketTime+=1;
-        NSArray  * addr_list =[[NSUserDefaults standardUserDefaults]valueForKey:@"IOS_ADDRLIST"];
-        NSInteger  addr_listCount = addr_list.count;
-        NSString * addr_listString;
-        if (GCDAsyncSocketTime<(10 * addr_listCount)) {
-                
-            int index = (int)(GCDAsyncSocketTime/10);
-            addr_listString = [NSString stringWithFormat:@"%@",addr_list[index]];
-                
-        }else{
-        
-             GCDAsyncSocketTime = 1;
-        }
-        return addr_listString;
-}
-
-
--(NSString * )addr_listTimer{
-        
-        NSArray  * addr_list =[[NSUserDefaults standardUserDefaults]valueForKey:@"IOS_ADDRLIST"];
-        NSInteger  addr_listCount = addr_list.count;
-        if (GCDAsyncSocketTime > addr_listCount * 30) {
-                
-                GCDAsyncSocketTime = 1;
-                return @"";
-        }
-        __block NSString * addr_listString;
-        if (!_timer) {
-                
-                dispatch_queue_t queue  = dispatch_get_main_queue();
-                _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-                dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 1 * NSEC_PER_SEC);
-                dispatch_source_set_event_handler(_timer, ^{
-                        
-                        GCDAsyncSocketTime+=1;
-                        
-                        NSLog(@" GCDAsyncSocketTime = %d",GCDAsyncSocketTime);
-                        
-                        if (GCDAsyncSocketTime<(30*addr_listCount)) {
-                                
-                                int index = (int)(GCDAsyncSocketTime/30);
-                                addr_listString = [NSString stringWithFormat:@"%@",addr_list[index]];
-                                
-                        }else{
-                                
-                                dispatch_cancel(_timer);
-                                _timer = nil;
-                        }
-                });
-                dispatch_resume(_timer);
-        }
-        
-        return addr_listString;
-}
-
 
 
 - (void)didConnect:(int)aConnectIndex{

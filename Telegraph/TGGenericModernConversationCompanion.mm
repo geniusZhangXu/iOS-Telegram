@@ -107,9 +107,6 @@
 #import "TGApplication.h"
 
 
-#import "SYNetworking.h"
-#import "NSString+SYisBlankString.h"
-
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000 // iOS 6.0 or later
 #define NEEDS_DISPATCH_RETAIN_RELEASE 0
 #else                                         // iOS 5.X or earlier
@@ -4006,28 +4003,6 @@ static NSString *addGameShareHash(NSString *url, NSString *addHash) {
     TGModernConversationController *controller = self.controller;
     [controller presentViewController:navigationController animated:true completion:nil];
     
-    //去掉电话号码前的加号
-    //NSString * currentPhoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
-    NSURL *url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/add"];// 当前用户信息接口添加联系人
-    TGUser *selfUser = [TGDatabaseInstance() loadUser:TGTelegraphInstance.clientUserId];
-    if (uid > 0) {
-        
-      if ([NSString isNonemptyString:firstName] && [NSString isNonemptyString:phoneNumber] && selfUser.uid ) {
-      
-        if ([NSString isNonemptyString:lastName] == NO) {
-            
-            lastName = @"";
-        }
-        
-        NSDictionary *dict1 = @{@"r_phone":phoneNumber,
-                                @"r_uid":@(uid),
-                                @"r_firstname":firstName,
-                                @"r_lastname":lastName,
-                                @"s_uid":@(selfUser.uid)
-                                };
-        [SYNetworking httpRequestWithDic:dict1 andURL:url];
-      }
-    }
 }
 
 - (void)controllerWantsToAddContactToExisting:(int32_t)uid phoneNumber:(NSString *)phoneNumber

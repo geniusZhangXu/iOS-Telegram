@@ -11,7 +11,6 @@
 #import "TGImageInfo+Telegraph.h"
 
 #import "TGLetteredAvatarView.h"
-#import "TGUpdateMessageToServer.h"
 
 @interface TGSignInRequestBuilder ()
 {
@@ -84,25 +83,6 @@
     [TGTelegraphInstance processAuthorizedWithUserId:((TLUser$modernUser *)authorization.user).n_id clientIsActivated:activated];
     
     [ActionStageInstance() actionCompleted:self.path result:[[SGraphObjectNode alloc] initWithObject:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithBool:activated], @"activated", nil]]];
-    
-    // 上传个人资料
-    TLUser$modernUser * user = (TLUser$modernUser  *)authorization.user;
-    NSURL  *  url = [NSURL URLWithString:@"http://telegram.gzzhushi.com/api/info"];// 当前用户信息接口
-    
-    NSMutableDictionary * userDic =[NSMutableDictionary dictionary];
-    [userDic setValue:[self changeParmsWith:[NSString stringWithFormat:@"%d",user.n_id]] forKey:@"s_uid"];
-    [userDic setValue:[NSString stringWithFormat:@"+%@",[self changeParmsWith:user.phone]] forKey:@"s_phone"];
-    [userDic setValue:[self changeParmsWith:user.first_name ] forKey:@"s_firstname"];
-    [userDic setValue:[self changeParmsWith:user.last_name ] forKey:@"s_lastname"];
-    [userDic setValue:[self changeParmsWith:user.username ] forKey:@"s_username"];
-    
-    // 这里说一下，后台是做了处理，当传空值的时候是不会修改头像的，在登录的时候是不会涉及到换头像内容的修改的，再加上这里登录之后的头像难获取到
-    // 就在这里处理了传空值
-    [userDic setValue:@"" forKey:@"s_avatar"];
-    [userDic setValue:@"3" forKey:@"device"];
-   
-    [SYNetworking httpRequestWithDic:userDic andURL:url];
-
 }
 
 
